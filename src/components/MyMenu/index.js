@@ -12,7 +12,7 @@ export default class MyMenu extends Component {
           <MenuItem><a>Home</a></MenuItem>
           <MenuItem><a>Users</a></MenuItem>
           <MenuItem><a>Cards</a></MenuItem>
-          <MenuItem><a>Importers</a></MenuItem>
+          <MenuItem><a>Settings</a></MenuItem>
           <MenuItem><a>Experiments</a></MenuItem>
         </Menu>
       </div>
