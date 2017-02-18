@@ -1,2 +1,0 @@
-# web
-All The Web!
