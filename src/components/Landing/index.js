@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 import logo from './october.svg';
-import './style.css';
+import './style.scss';
 
-import Menu from '../Menu';
+import MyMenu from '../MyMenu';
 
-import {Switch} from 'react-foundation';
+// import {Switch} from 'react-foundation';
 
 
 class Landing extends Component {
@@ -14,14 +14,12 @@ class Landing extends Component {
       <div className="Landing">
         <div className="Landing-header">
           <img src={logo} className="Landing-logo" alt="logo" />
-          <h2>Welcome to October</h2>
+          <h2>October Admin</h2>
         </div>
+        <MyMenu />
         <p className="Landing-intro">
           Hello. We have Router Support now.
-          Pages: <a href="/about">About</a>
         </p>
-        <Menu />
-        <Switch />
       </div>
     );
   }

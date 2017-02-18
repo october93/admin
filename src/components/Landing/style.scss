@@ -4,21 +4,33 @@
 
 .Landing-logo {
   animation: Landing-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 40px;
 }
+
+
 
 .Landing-header {
   background-color: #222;
-  height: 150px;
+  height: 100px;
   padding: 20px;
   color: white;
 }
 
 .Landing-intro {
+  margin-top: 20px;
   font-size: large;
 }
 
 @keyframes Landing-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@media print, screen and (min-width: 40em) {
+  .Landing-logo {
+    height: 80px;
+  }
+  .Landing-header {
+    height: 150px;
+  }
 }
