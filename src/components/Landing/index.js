@@ -19,7 +19,8 @@ class Landing extends Component {
           <h2>Welcome to October</h2>
         </div>
         <p className="Landing-intro">
-          Welcome
+          <p>Hello. We have Router Support now.</p>
+          <p>Pages: <a href="/about">About</a></p>
         </p>
       </div>
     );
