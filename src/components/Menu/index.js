@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-export default class About extends Component {
+export default class Menu extends Component {
   render() {
     return (
-      <div className="About">
+      <div className="Menu">
         <h1>
-          About
+          Admin Menu
         </h1>
       </div>
     );
