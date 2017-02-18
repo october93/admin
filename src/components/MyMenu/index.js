@@ -9,11 +9,11 @@ export default class MyMenu extends Component {
     return (
       <div className="MyMenu">
         <Menu alignment={Alignments.CENTER} isExpanded>
-          <MenuItem><a>Home</a></MenuItem>
-          <MenuItem><a>Users</a></MenuItem>
-          <MenuItem><a>Cards</a></MenuItem>
-          <MenuItem><a>Settings</a></MenuItem>
-          <MenuItem><a>Experiments</a></MenuItem>
+          <MenuItem><a href="/">Home</a></MenuItem>
+          <MenuItem><a href="/users/">Users</a></MenuItem>
+          <MenuItem><a href="/cards/">Cards</a></MenuItem>
+          <MenuItem><a href="/settings/">Settings</a></MenuItem>
+          <MenuItem><a href="/experiments/">Experiments</a></MenuItem>
         </Menu>
       </div>
     );
