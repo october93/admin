@@ -6,22 +6,23 @@ import './style.scss';
 
 import logo from './october.svg';
 
-class MainLayout extends Component {
+import classnames from 'classnames';
+
+class AdminLayout extends Component {
   render() {
+    const { className, ...props } = this.props;
     return (
-    	<div>
-			<div className="AdminLayout">
-			  <div className="AdminLayout-header">
+		<div className={classnames("AdminLayout", className)} {...props}>
+			<div className="AdminLayout-header">
 			    <img src={logo} className="AdminLayout-logo" alt="logo" />
 			    <h2>October Admin</h2>
-			  </div>
-			  <MyMenu />
 			</div>
+			<MyMenu />
 			<p className="AdminLayout-custom">
-			  {this.props.children}
+				{this.props.children}
 			</p>
-      </div>
+		</div>
     );
   }
 }
-export default MainLayout;
+export default AdminLayout;
