@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
-class LandingPage extends Component {
+class DashPage extends Component {
   render() {
     return (
         <div>
-        Hello
+        This is the October Dashboard. We display important things here.
         </div>
     );
   }
 }
 
-export default LandingPage;
+export default DashPage;

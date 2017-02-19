@@ -9,7 +9,7 @@ export default class MyMenu extends Component {
     return (
       <div className="MyMenu">
         <Menu alignment={Alignments.CENTER} isExpanded>
-          <MenuItem><a href="/">Home</a></MenuItem>
+          <MenuItem><a href="/">Dashboard</a></MenuItem>
           <MenuItem><a href="/users/">Users</a></MenuItem>
           <MenuItem><a href="/cards/">Cards</a></MenuItem>
           <MenuItem><a href="/settings/">Settings</a></MenuItem>
