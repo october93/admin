@@ -1,0 +1,35 @@
+.AdminLayout {
+  text-align: center;
+}
+
+.AdminLayout-logo {
+  animation: Landing-logo-spin infinite 20s linear;
+  height: 40px;
+}
+
+.AdminLayout-header {
+  background-color: #222;
+  height: 90px;
+  padding: 20px;
+  color: white;
+}
+
+.AdminLayout-custom {
+  margin-top: 20px;
+  font-size: large;
+  margin-left: 10px;
+}
+
+@keyframes AdminLayout-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media print, screen and (min-width: 40em) {
+  .AdminLayout-logo {
+    height: 80px;
+  }
+  .AdminLayout-header {
+    height: 150px;
+  }
+}
