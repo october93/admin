@@ -14,6 +14,7 @@ export default class MyMenu extends Component {
           <MenuItem><a href="/cards/">Cards</a></MenuItem>
           <MenuItem><a href="/settings/">Settings</a></MenuItem>
           <MenuItem><a href="/experiments/">Experiments</a></MenuItem>
+          <MenuItem><a href="/graph/">Graph</a></MenuItem>
         </Menu>
       </div>
     );
