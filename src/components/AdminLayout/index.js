@@ -8,6 +8,15 @@ import logo from './october.svg';
 
 import classnames from 'classnames';
 
+const menuItems = [
+    {name: "Dashboard", path: "/"},
+    {name: "Users", path: "/users/"},
+    {name: "Cards", path: "/cards/"},
+    {name: "Settings", path: "/settings/"},
+    {name: "Experiments", path: "/experiments/"},
+    {name: "Graph", path: "/graph/"}
+]
+
 class AdminLayout extends Component {
   render() {
     const { className, ...props } = this.props;
@@ -18,7 +27,7 @@ class AdminLayout extends Component {
 			    <img src={logo} className="AdminLayout-logo" alt="logo" />
 			    <h2>October Admin</h2>
 			</div>
-			<MyMenu />
+			<MyMenu menuItems={menuItems} />
 			<p className="AdminLayout-custom">
 				{this.props.children}
 			</p>

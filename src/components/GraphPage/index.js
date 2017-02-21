@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import {Sigma, RandomizeNodePositions, RelativeSize, EdgeShapes, NodeShapes} from 'react-sigma'
+import {Sigma, RandomizeNodePositions, RelativeSize, EdgeShapes} from 'react-sigma'
 
 import ForceLink from 'react-sigma/lib/ForceLink'
 

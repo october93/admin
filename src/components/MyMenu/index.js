@@ -10,14 +10,7 @@ export default class MyMenu extends Component {
   constructor(props) {
     super(props)
     this.state = { 
-      menuItems: [
-        {name: "Dashboard", path: "/"},
-        {name: "Users", path: "/users/"},
-        {name: "Cards", path: "/cards/"},
-        {name: "Settings", path: "/settings/"},
-        {name: "Experiments", path: "/experiments/"},
-        {name: "Graph", path: "/graph/"}
-      ]
+      menuItems: props.menuItems
     };
   }
   renderMenuItems() {
