@@ -6,6 +6,9 @@ import classnames from 'classnames';
 
 import {Menu, MenuItem, Alignments} from 'react-foundation';
 
+import { Link } from 'react-router'
+
+
 export default class MyMenu extends Component {
   constructor(props) {
     super(props)
@@ -15,7 +18,7 @@ export default class MyMenu extends Component {
   }
   renderMenuItems() {
     return this.state.menuItems.map(item => (
-        <MenuItem><a href={item.path}>{item.name}</a></MenuItem>
+        <MenuItem><Link to={item.path}>{item.name}</Link></MenuItem>
       )
     )
   }
