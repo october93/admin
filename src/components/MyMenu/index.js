@@ -12,20 +12,20 @@ import { Link } from 'react-router'
 export default class MyMenu extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
+    this.state = {
       menuItems: props.menuItems
     };
   }
   renderMenuItems() {
     return this.state.menuItems.map(item => (
-        <MenuItem><Link to={item.path}>{item.name}</Link></MenuItem>
+        <MenuItem key={item.path} ><Link to={item.path}>{item.name}</Link></MenuItem>
       )
     )
   }
   render() {
     const { className, ...props } = this.props;
     return (
-      <div className={classnames("MyMenu", className)} {...props}>
+      <div className={classnames("MyMenu", className)}>
         <Menu alignment={Alignments.CENTER} isExpanded>
           {this.renderMenuItems()}
         </Menu>

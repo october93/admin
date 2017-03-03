@@ -20,9 +20,9 @@ const menuItems = [
 class AdminLayout extends Component {
   render() {
     const { className, ...props } = this.props;
-    return (
 
-		<div className={classnames("AdminLayout", className)} {...props}>
+    return (
+		<div className={classnames("AdminLayout", className)}>
 			<div className="AdminLayout-header">
 			    <img src={logo} className="AdminLayout-logo" alt="logo" />
 			    <h2>October Admin</h2>

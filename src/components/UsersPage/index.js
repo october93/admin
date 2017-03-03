@@ -7,7 +7,7 @@ export default class UsersPage extends Component {
   render() {
     const { className, ...props } = this.props;
     return (
-      <div className={classnames("UsersPage", className)} {...props}>
+      <div className={classnames("UsersPage", className)}>
         <h1>
           About
         </h1>
