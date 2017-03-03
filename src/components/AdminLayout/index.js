@@ -12,9 +12,9 @@ const menuItems = [
     {name: "Dashboard", path: "/"},
     {name: "Users", path: "/users/"},
     {name: "Cards", path: "/newCard/"},
-    {name: "Settings", path: "/settings/"},
-    {name: "Experiments", path: "/experiments/"},
-    {name: "Graph", path: "/graph/"}
+    {name: "Invites", path: "/invites/"},
+    {name: "Importers", path: "/importers/"},
+    {name: "Graph", path: "/graph/"},
 ]
 
 class AdminLayout extends Component {

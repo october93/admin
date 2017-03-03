@@ -11,6 +11,9 @@ import NotFoundPage from './components/NotFoundPage';
 import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
 import NewCardPage from './components/NewCardPage'
+import ImportersPage from './components/ImportersPage'
+import InvitesPage from './components/InvitesPage'
+
 
 
 import AdminStore from "./store/AdminStore"
@@ -24,6 +27,8 @@ const Routes = (props) => (
         <Route path="/newCard" component={NewCardPage} />
         <Route path="/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
         <Route path="/newUser" component={NewUserPage} />
+        <Route path="/importers" onEnter={() => AdminStore.hnStatusRequest()} component={ImportersPage} />
+        <Route path="/invites" component={InvitesPage} />
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>

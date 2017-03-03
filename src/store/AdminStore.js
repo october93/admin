@@ -23,6 +23,10 @@ class AdminStore {
 
   @observable newCardStatus = null
 
+  @observable hnStatus = null
+
+  @observable inviteStatus = null
+
 
 	socket
   queuedMessages
@@ -190,6 +194,55 @@ class AdminStore {
       this.newCardStatus = "success"
     } else {
       this.newCardStatus = "failure"
+    }
+  }
+
+  hnStatusRequest(){
+    const reqID = this.registerRequest(this.hnStatusResponse.bind(this))
+
+    const msg = { cmd: "hnStatus", requestID: reqID }
+    this.sendMsg(msg)
+  }
+
+  hnStatusResponse(type, data){
+    if(type === MSG_SUCCESS && data.Running) {
+      this.hnStatus = "up"
+    } else {
+      this.hnStatus = "down"
+    }
+  }
+
+  changeHNStatusRequest(status){
+    const reqID = this.registerRequest(this.changeHNStatusResponse.bind(this))
+    let msg = {requestID: reqID}
+
+    if (status === "up"){
+      msg.cmd = "startHN"
+    } else if (status === "down"){
+      msg.cmd = "stopHN"
+    }
+
+    this.sendMsg(msg)
+    this.hnStatus = null
+  }
+
+  changeHNStatusResponse(type, data) {
+    this.hnStatusRequest()
+  }
+
+  inviteRequest(inviter, invitee){
+    const reqID = this.registerRequest(this.inviteResponse.bind(this))
+
+    const msg = { cmd: "invite", requestID: reqID, inviter: inviter, invitee: invitee}
+    this.sendMsg(msg)
+    this.inviteStatus = "waiting"
+  }
+
+  inviteResponse(type, data){
+    if(type === MSG_SUCCESS) {
+      this.inviteStatus = "success"
+    } else {
+      this.inviteStatus = "failure"
     }
   }
 

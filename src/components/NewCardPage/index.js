@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-import {FaSpinner}  from 'react-icons/lib/fa';
+import { FaSpinner }  from 'react-icons/lib/fa';
 import { Callout, Colors, Sizes } from "react-foundation"
 
 import './style.scss';

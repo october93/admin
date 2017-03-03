@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import Graph from "react-graph-vis"
 import { observer, inject } from 'mobx-react';
 
+import { Button, Colors, Sizes} from 'react-foundation';
+
 
 import './style.scss';
 
@@ -65,18 +67,18 @@ export default class GraphPage extends Component {
       graphElement = (<Graph graph={graph} options={options} events={events} />)
     }
 
-
-
-
     return (
-    	<div className="row">
-        <div className="small-4 columns">
-          <p>ID: {this.state.selectedNodeID}</p>
-          <p>Name: {this.state.selectedNodeLabel}</p>
+      <div>
+      	<div className="row">
+          <div className="small-4 columns">
+            <p>ID: {this.state.selectedNodeID}</p>
+            <p>Name: {this.state.selectedNodeLabel}</p>
+          </div>
+          <div className="columns">
+            {graphElement}
+          </div>
         </div>
-        <div className="columns">
-          {graphElement}
-        </div>
+
       </div>
     )
   }
