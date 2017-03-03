@@ -18,8 +18,6 @@ export default class GraphPage extends Component {
 
     this.nodeClicked = this.nodeClicked.bind(this)
     this.edgeClicked = this.edgeClicked.bind(this)
-
-    this.props.store.getGraphData()
   }
 
   nodeClicked(clickedNode) {

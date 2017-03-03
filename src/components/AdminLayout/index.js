@@ -11,7 +11,7 @@ import classnames from 'classnames';
 const menuItems = [
     {name: "Dashboard", path: "/"},
     {name: "Users", path: "/users/"},
-    {name: "Cards", path: "/cards/"},
+    {name: "Cards", path: "/newCard/"},
     {name: "Settings", path: "/settings/"},
     {name: "Experiments", path: "/experiments/"},
     {name: "Graph", path: "/graph/"}
@@ -28,9 +28,9 @@ class AdminLayout extends Component {
 			    <h2>October Admin</h2>
 			</div>
 			<MyMenu menuItems={menuItems} />
-			<p className="AdminLayout-custom">
+			<div className="AdminLayout-custom">
 				{this.props.children}
-			</p>
+			</div>
 		</div>
     );
   }

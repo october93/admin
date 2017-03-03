@@ -9,6 +9,10 @@ import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
 import GraphPage from './components/GraphPage';
+import NewUserPage from './components/NewUserPage'
+import NewCardPage from './components/NewCardPage'
+
+
 import AdminStore from "./store/AdminStore"
 
 const Routes = (props) => (
@@ -17,7 +21,9 @@ const Routes = (props) => (
       <Route component={AdminLayout}>
         <Route path="/" component={DashPage} />
         <Route path="/users" component={UsersPage} />
-        <Route path="/graph" component={GraphPage} />
+        <Route path="/newCard" component={NewCardPage} />
+        <Route path="/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
+        <Route path="/newUser" component={NewUserPage} />
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>
