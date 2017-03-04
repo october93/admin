@@ -5,7 +5,7 @@ import { observable } from 'mobx';
 import uuid from "uuid"
 
 
-const serverURL = "ws://localhost:8080"
+const defaultServerURL = "ws://localhost:8080"
 
 const MSG_SUCCESS = "success"
 const MSG_FAIL = "failure"
@@ -32,13 +32,17 @@ class AdminStore {
   @observable newCardID = ""
 
 
+
+  serverURL
 	socket
   queuedMessages
   requests
 
 	constructor() {
 		// setup SockJS
-		const sockURL = `${serverURL}/deck_endpoint/`
+    this.serverURL = defaultServerURL
+
+		const sockURL = `${this.serverURL}/deck_endpoint/`
 		this.socket = new WebSocket(sockURL)
 
 
@@ -62,7 +66,7 @@ class AdminStore {
 	onSocketClose() {
 		console.log("lost connection, reconnecting")
 		this.socketConnected = false
-		this.openSocket(`${serverURL}/deck_endpoint/`)
+		this.openSocket(`${this.serverURL}/deck_endpoint/`)
 	}
 
 	emptyMessageQueue() {
@@ -291,6 +295,11 @@ class AdminStore {
         return this.graphNodeData[i]
       }
     }
+  }
+
+  changeEndpoint(end){
+    this.serverURL = end
+    this.openSocket(`${this.serverURL}/deck_endpoint/`)
   }
 
 }
