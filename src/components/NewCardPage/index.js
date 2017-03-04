@@ -59,6 +59,7 @@ export default class NewCardPage extends Component {
       shownAlert = (
         <Callout color={Colors.SUCCESS} size={Sizes.SMALL}>
           <h5>Success!</h5>
+          <p>New Card ID: {store.newCardID}</p>
         </Callout>
       )
     } else if (store.newCardStatus === "failure") {

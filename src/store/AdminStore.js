@@ -29,6 +29,7 @@ class AdminStore {
 
   @observable demoData = ""
   @observable setDemoStatus = ""
+  @observable newCardID = ""
 
 
 	socket
@@ -190,14 +191,18 @@ class AdminStore {
     const msg = { cmd: "newCard", requestID: reqID, nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld}
     this.sendMsg(msg)
     this.newCardStatus = "waiting"
+    this.newCardID = ""
   }
 
   newCardResponse(type, data) {
     if (type === MSG_SUCCESS){
       this.newCardStatus = "success"
+      this.newCardID = data.cardid
+      console.log(`asdfasdfasdf ${this.newCardID}`)
     } else {
       this.newCardStatus = "failure"
     }
+
   }
 
   hnStatusRequest(){
