@@ -1,4 +1,4 @@
-import SockJS from "sockjs-client"
+import cookie from "react-cookie"
 
 
 import { observable } from 'mobx';
@@ -40,7 +40,7 @@ class AdminStore {
 
 	constructor() {
 		// setup SockJS
-    this.serverURL = defaultServerURL
+    this.serverURL = cookie.load('serverurl') || defaultServerURL
 
 		const sockURL = `${this.serverURL}/deck_endpoint/`
 		this.socket = new WebSocket(sockURL)
@@ -299,6 +299,7 @@ class AdminStore {
 
   changeEndpoint(end){
     this.serverURL = end
+    cookie.save('serverurl', end, { path: '/' });
     this.openSocket(`${this.serverURL}/deck_endpoint/`)
   }
 
