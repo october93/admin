@@ -13,6 +13,7 @@ import NewUserPage from './components/NewUserPage'
 import NewCardPage from './components/NewCardPage'
 import ImportersPage from './components/ImportersPage'
 import InvitesPage from './components/InvitesPage'
+import DemoPage from './components/DemoPage'
 
 
 
@@ -29,6 +30,8 @@ const Routes = (props) => (
         <Route path="/newUser" component={NewUserPage} />
         <Route path="/importers" onEnter={() => AdminStore.hnStatusRequest()} component={ImportersPage} />
         <Route path="/invites" component={InvitesPage} />
+        <Route path="/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
+
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>

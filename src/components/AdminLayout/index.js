@@ -15,6 +15,8 @@ const menuItems = [
     {name: "Invites", path: "/invites/"},
     {name: "Importers", path: "/importers/"},
     {name: "Graph", path: "/graph/"},
+    {name: "Demo", path: "/demo/"},
+
 ]
 
 class AdminLayout extends Component {

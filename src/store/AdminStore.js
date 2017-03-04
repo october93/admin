@@ -27,6 +27,9 @@ class AdminStore {
 
   @observable inviteStatus = null
 
+  @observable demoData = ""
+  @observable setDemoStatus = ""
+
 
 	socket
   queuedMessages
@@ -246,6 +249,35 @@ class AdminStore {
     }
   }
 
+  getDemoRequest(){
+    const reqID = this.registerRequest(this.getDemoResponse.bind(this))
+
+    const msg = { cmd: "getDemoData", requestID: reqID }
+    this.sendMsg(msg)
+  }
+
+  getDemoResponse(type, data){
+    if(type === MSG_SUCCESS) {
+      this.demoData = JSON.stringify(data.CardIDs)
+    }
+  }
+
+  setDemoRequest(demoData) {
+    const reqID = this.registerRequest(this.setDemoResponse.bind(this))
+
+    const msg = { cmd: "setDemoData", requestID: reqID, cardids: JSON.parse(demoData)}
+    this.sendMsg(msg)
+
+    this.setDemoStatus = "waiting"
+  }
+
+  setDemoResponse(type, data) {
+    if(type === MSG_SUCCESS) {
+      this.setDemoStatus = "success"
+    } else {
+      this.setDemoStatus = "failure"
+    }
+  }
 
   // misc helpers
   getNodeData(nodeid){
