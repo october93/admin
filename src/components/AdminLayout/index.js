@@ -9,13 +9,13 @@ import logo from './october.svg';
 import classnames from 'classnames';
 
 const menuItems = [
-    {name: "Dashboard", path: "/"},
-    {name: "Users", path: "/users/"},
-    {name: "Cards", path: "/newCard/"},
-    {name: "Invites", path: "/invites/"},
-    {name: "Importers", path: "/importers/"},
-    {name: "Graph", path: "/graph/"},
-    {name: "Demo", path: "/demo/"},
+    {name: "Dashboard", path: "/admin"},
+    {name: "Users", path: "/admin/users/"},
+    {name: "Cards", path: "/admin/newCard/"},
+    {name: "Invites", path: "/admin/invites/"},
+    {name: "Importers", path: "/admin/importers/"},
+    {name: "Graph", path: "/admin/graph/"},
+    {name: "Demo", path: "/admin/demo/"},
 
 ]
 
