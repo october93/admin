@@ -5,7 +5,7 @@ import { observable } from 'mobx';
 import uuid from "uuid"
 
 
-const defaultServerURL = `${location.hostname}:8080`
+const defaultServerURL = `${location.hostname}`
 
 const MSG_SUCCESS = "success"
 const MSG_FAIL = "failure"
