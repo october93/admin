@@ -38,7 +38,7 @@ export default class UsersPage extends Component {
             </tbody>
           </table>
 
-          <Link to="/newuser/"><FaPlus color="#9E9"/></Link>
+          <Link to="/admin/newUser/"><FaPlus color="#9E9"/></Link>
       </div>
     );
   }

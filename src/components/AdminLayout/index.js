@@ -10,12 +10,12 @@ import classnames from 'classnames';
 
 const menuItems = [
     {name: "Dashboard", path: "/admin"},
-    {name: "Users", path: "/admin/users/"},
-    {name: "Cards", path: "/admin/newCard/"},
-    {name: "Invites", path: "/admin/invites/"},
-    {name: "Importers", path: "/admin/importers/"},
-    {name: "Graph", path: "/admin/graph/"},
-    {name: "Demo", path: "/admin/demo/"},
+    {name: "Users", path: "/admin/users"},
+    {name: "Cards", path: "/admin/newCard"},
+    {name: "Invites", path: "/admin/invites"},
+    {name: "Importers", path: "/admin/importers"},
+    {name: "Graph", path: "/admin/graph"},
+    {name: "Demo", path: "/admin/demo"},
 
 ]
 
