@@ -5,7 +5,7 @@ import { observable } from 'mobx';
 import uuid from "uuid"
 
 
-const defaultServerURL = "ws://localhost:8080"
+const defaultServerURL = `ws://${location.hostname}:8080`
 
 const MSG_SUCCESS = "success"
 const MSG_FAIL = "failure"
@@ -40,7 +40,7 @@ class AdminStore {
 
 	constructor() {
 		// setup SockJS
-    this.serverURL = cookie.load('serverurl') || defaultServerURL
+    this.serverURL = defaultServerURL
 
 		const sockURL = `${this.serverURL}/deck_endpoint/`
 		this.socket = new WebSocket(sockURL)
