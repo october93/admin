@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-HOST=latest.october.news
 REMOTE_USER=engine
+if [ "$STABLE" ]; then
+  HOST=stable.october.news
+else
+  HOST=latest.october.news
+fi
 
 # Install current version of Node.js
 source ~/.nvm/nvm.sh
