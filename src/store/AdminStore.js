@@ -31,6 +31,8 @@ class AdminStore {
   @observable setDemoStatus = ""
   @observable newCardID = ""
 
+  @observable commandResponse = ""
+
 
 
   serverURL
@@ -286,6 +288,21 @@ class AdminStore {
     } else {
       this.setDemoStatus = "failure"
     }
+  }
+
+  sendCommandRequest(command){
+    const reqID = this.registerRequest(this.sendCommandResponse.bind(this))
+
+    const msg = JSON.parse(command)
+    msg.requestID = reqID
+
+    this.sendMsg(msg)
+  }
+
+  sendCommandResponse(type, data) {
+    const dataString = JSON.stringify(data, null, 2)
+    console.log(dataString)
+    this.commandResponse = `Type: ${type}\nData:\n${dataString}`
   }
 
   // misc helpers

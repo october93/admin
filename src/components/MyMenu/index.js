@@ -4,7 +4,7 @@ import './style.scss';
 
 import classnames from 'classnames';
 
-import {Menu, MenuItem, Alignments} from 'react-foundation';
+import {Menu, MenuItem, Alignments, ResponsiveNavigation } from 'react-foundation';
 
 import { Link } from 'react-router'
 
@@ -26,9 +26,11 @@ export default class MyMenu extends Component {
     const { className, ...props } = this.props;
     return (
       <div className={classnames("MyMenu", className)}>
-        <Menu alignment={Alignments.CENTER} isExpanded>
-          {this.renderMenuItems()}
-        </Menu>
+        <ResponsiveNavigation>
+          <Menu className={"vertical medium-horizontal"} alignment={Alignments.CENTER} isExpanded>
+            {this.renderMenuItems()}
+          </Menu>
+        </ResponsiveNavigation>
       </div>
     );
   }

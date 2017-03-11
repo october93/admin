@@ -11,7 +11,7 @@ import NotFoundPage from './components/NotFoundPage';
 import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
 import NewCardPage from './components/NewCardPage'
-import ImportersPage from './components/ImportersPage'
+import UtilitiesPage from './components/UtilitiesPage'
 import InvitesPage from './components/InvitesPage'
 import DemoPage from './components/DemoPage'
 
@@ -28,7 +28,7 @@ const Routes = (props) => (
         <Route path="/newCard" component={NewCardPage} />
         <Route path="/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
         <Route path="/newUser" component={NewUserPage} />
-        <Route path="/importers" onEnter={() => AdminStore.hnStatusRequest()} component={ImportersPage} />
+        <Route path="/utilities" onEnter={() => AdminStore.hnStatusRequest()} component={UtilitiesPage} />
         <Route path="/invites" component={InvitesPage} />
         <Route path="/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
 
