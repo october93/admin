@@ -23,15 +23,14 @@ const Routes = (props) => (
   <Provider store={AdminStore}>
     <Router {...props}>
       <Route component={AdminLayout}>
-        <Route path="/" component={DashPage} />
-        <Route path="/users" component={UsersPage} />
-        <Route path="/newCard" component={NewCardPage} />
-        <Route path="/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
-        <Route path="/newUser" component={NewUserPage} />
-        <Route path="/utilities" onEnter={() => AdminStore.hnStatusRequest()} component={UtilitiesPage} />
-        <Route path="/invites" component={InvitesPage} />
-        <Route path="/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
-
+        <Route path="/admin" component={DashPage} />
+        <Route path="/admin/users" component={UsersPage} />
+        <Route path="/admin/newCard" component={NewCardPage} />
+        <Route path="/admin/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
+        <Route path="/admin/newUser" component={NewUserPage} />
+        <Route path="/admin/utilities" onEnter={() => AdminStore.hnStatusRequest()} component={UtilitiesPage} />
+        <Route path="/admin/invites" component={InvitesPage} />
+        <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>
