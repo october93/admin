@@ -195,10 +195,10 @@ class AdminStore {
     this.newUserWaiting = false
   }
 
-  newCardRequest(userid, body, url, anon, ld) {
+  newCardRequest(userid, body, url, anon, ld, replyid) {
     const reqID = this.registerRequest(this.newCardResponse.bind(this))
 
-    const msg = { cmd: "newCard", requestID: reqID, nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld}
+    const msg = { cmd: "newCard", requestID: reqID, nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld, replyID: replyid}
     this.sendMsg(msg)
     this.newCardStatus = "waiting"
     this.newCardID = ""

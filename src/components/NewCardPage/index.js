@@ -16,6 +16,7 @@ export default class NewCardPage extends Component {
       url: "",
       anon: false,
       layoutdata: "",
+      replycardid: "",
     }
 
     this.inputChange = this.inputChange.bind(this)
@@ -42,7 +43,7 @@ export default class NewCardPage extends Component {
       ld[dat[0]] = dat[1]
     }
 
-    this.props.store.newCardRequest(this.state.userid, this.state.body, this.state.url, this.state.anon, ld)
+    this.props.store.newCardRequest(this.state.userid, this.state.body, this.state.url, this.state.anon, ld, this.state.replycardid)
   }
 
   render() {
@@ -81,6 +82,8 @@ export default class NewCardPage extends Component {
   				<textarea type="text" placeholder="Body" name="body" onChange={this.inputChange}></textarea>
   				<label>URL</label>
   				<input type="text" placeholder="URL"  name="url" onChange={this.inputChange}/>
+          <label>Reply Card ID</label>
+  				<input type="text" placeholder="Reply Card ID" name="replycardid" onChange={this.inputChange}/>
   				<label>Layout Data</label>
   				<input type="text" placeholder="Layout Data" name="layoutdata" onChange={this.inputChange}/>
           <Callout>
