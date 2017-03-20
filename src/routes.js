@@ -1,6 +1,6 @@
 // src/routes.js
 import React from 'react';
-import { Router, Route } from 'react-router';
+import { Router, Route, Redirect } from 'react-router';
 
 import { Provider } from "mobx-react"
 
@@ -31,6 +31,7 @@ const Routes = (props) => (
         <Route path="/admin/utilities" onEnter={() => AdminStore.hnStatusRequest()} component={UtilitiesPage} />
         <Route path="/admin/invites" component={InvitesPage} />
         <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
+        <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>
