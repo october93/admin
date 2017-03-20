@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
 import { FaSpinner }  from 'react-icons/lib/fa';
-import { Link } from 'react-router'
 
-import {Callout, Button, Colors, Sizes, Label } from 'react-foundation';
+import {Callout, Colors, Sizes } from 'react-foundation';
 
 
 @inject("store") @observer
@@ -37,7 +35,6 @@ export default class InvitesPage extends Component {
   }
 
   render() {
-    const { className, ...props } = this.props
     const store = this.props.store
 
     let shownAlert = null

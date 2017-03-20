@@ -47,8 +47,6 @@ export default class NewCardPage extends Component {
   }
 
   render() {
-    const { className, ...props } = this.props;
-
     const store = this.props.store
 
     let shownAlert = null

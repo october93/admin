@@ -5,7 +5,7 @@ import './style.scss';
 
 export default class NotFoundPage extends Component {
   render() {
-    const { className, ...props } = this.props;
+    const { className } = this.props;
     return (
       <div className={classnames("NotFoundPage", className)}>
         <h1>

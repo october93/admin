@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
 import { Button } from "react-foundation"
 
@@ -23,7 +22,6 @@ class DashPage extends Component {
   }
 
   render() {
-    const { className, ...props } = this.props;
     return (
         <div>
         This is the October Dashboard. We display important things here.

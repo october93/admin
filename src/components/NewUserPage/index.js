@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
 import {FaSpinner}  from 'react-icons/lib/fa';
 import { Callout, Colors, Sizes} from 'react-foundation';

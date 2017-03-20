@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
-import { FaSpinner }  from 'react-icons/lib/fa';
-import { Link } from 'react-router'
 
 import { Button, Colors, Sizes, Label } from 'react-foundation';
 
@@ -38,8 +35,6 @@ export default class UtilitiesPage extends Component {
   }
 
   render() {
-    const { className, ...props } = this.props;
-
     let statusIndicator = (<Label color={Colors.SECONDARY}>Querying...</Label>)
 
     if(this.props.store.hnStatus === "up"){

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
-import {FaPowerOff, FaPlus}  from 'react-icons/lib/fa';
-import { Link } from 'react-router'
 import {FaSpinner}  from 'react-icons/lib/fa';
 import { Callout, Colors, Sizes} from 'react-foundation';
 
@@ -27,7 +24,6 @@ export default class DemoPage extends Component {
   }
 
   render() {
-    const { className, ...props } = this.props;
     const store = this.props.store
     let shownAlert = null
 

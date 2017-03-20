@@ -43,7 +43,7 @@ class AdminStore {
 	constructor() {
 		// setup SockJS
     let wsProtocol = 'ws:'
-    if (location.protocol == 'https:') {
+    if (location.protocol === 'https:') {
       wsProtocol = 'wss:'
     }
     this.serverURL = `${wsProtocol}//${defaultServerURL}`

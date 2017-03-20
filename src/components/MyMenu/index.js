@@ -23,7 +23,7 @@ export default class MyMenu extends Component {
     )
   }
   render() {
-    const { className, ...props } = this.props;
+    const { className } = this.props;
     return (
       <div className={classnames("MyMenu", className)}>
         <ResponsiveNavigation>

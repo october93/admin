@@ -14,7 +14,7 @@ export default class UsersPage extends Component {
     this.props.store.getUsersRequest()
   }
   render() {
-    const { className, ...props } = this.props;
+    const { className } = this.props;
     const usersList = this.props.store.usersData.toJS().map((data) =>
       <tr>
         <td>{data.Username}</td>

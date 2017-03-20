@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-
 import Graph from "react-graph-vis"
 import { observer, inject } from 'mobx-react';
-
-import { Button, Colors, Sizes} from 'react-foundation';
-
 
 import './style.scss';
 
@@ -36,10 +32,6 @@ export default class GraphPage extends Component {
     const nodeClicked = this.nodeClicked
     const graphNodes = this.props.store.graphNodeData.toJS()
     const graphEdges = this.props.store.graphEdgeData.toJS()
-
-    //console.log(`${JSON.stringify(nodes)}, ${JSON.stringify(edges)}`)
-
-
     console.log(`Render`)
 
     let graphElement = null
@@ -53,7 +45,7 @@ export default class GraphPage extends Component {
 
       const events = {
         selectNode: function(event) {
-          var { nodes, edges } = event;
+          var { nodes } = event;
           nodeClicked(nodes[0])
         }
       }

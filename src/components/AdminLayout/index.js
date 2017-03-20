@@ -20,7 +20,7 @@ const menuItems = [
 
 class AdminLayout extends Component {
   render() {
-    const { className, ...props } = this.props;
+    const { className } = this.props;
 
     return (
 		<div className={classnames("AdminLayout", className)}>
