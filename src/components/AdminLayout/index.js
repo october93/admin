@@ -9,13 +9,13 @@ import logo from './october.svg';
 import classnames from 'classnames';
 
 const menuItems = [
-{name: "Dashboard", path: "/admin"},
-{name: "Users", path: "/admin/users"},
-{name: "Cards", path: "/admin/newCard"},
-{name: "Invites", path: "/admin/invites"},
-{name: "Utilities", path: "/admin/utilities"},
-{name: "Graph", path: "/admin/graph"},
-{name: "Demo", path: "/admin/demo"},
+  {name: "Dashboard", path: "/admin"},
+  {name: "Users", path: "/admin/users"},
+  {name: "Cards", path: "/admin/newCard"},
+  {name: "Invites", path: "/admin/invites"},
+  {name: "Utilities", path: "/admin/utilities"},
+  {name: "Graph", path: "/admin/graph"},
+  {name: "Demo", path: "/admin/demo"},
 ]
 
 class AdminLayout extends Component {
