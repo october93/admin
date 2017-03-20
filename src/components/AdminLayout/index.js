@@ -16,6 +16,7 @@ const menuItems = [
   {name: "Utilities", path: "/admin/utilities"},
   {name: "Graph", path: "/admin/graph"},
   {name: "Demo", path: "/admin/demo"},
+  {name: "GraphQL", path: "/admin/graphql"},
 ]
 
 class AdminLayout extends Component {

@@ -3,7 +3,6 @@ import { observer, inject } from 'mobx-react';
 import {FaSpinner}  from 'react-icons/lib/fa';
 import { Callout, Colors, Sizes} from 'react-foundation';
 
-
 @inject("store") @observer
 export default class DemoPage extends Component {
   constructor(props){

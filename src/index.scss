@@ -4,9 +4,13 @@
 @include foundation-flex-classes;
 @include foundation-everything;
 
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-//  background: #f5f5f5;
 }
