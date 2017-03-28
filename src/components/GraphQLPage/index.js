@@ -5,7 +5,11 @@ import './index.css'
 
 export default class GraphQLPage extends Component {
   fetch(params) {
-    return fetch("http://localhost:8080/graphql", {
+    let endpoint = `${location.origin}/graphql`
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      endpoint = 'http://localhost:8080/graphql'
+    }
+    return fetch(endpoint, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
