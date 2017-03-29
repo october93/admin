@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
-import {FaPowerOff, FaPlus}  from 'react-icons/lib/fa';
+import { FaPlus }  from 'react-icons/lib/fa';
 import { Link } from 'react-router'
 
 import './style.scss';
@@ -17,9 +17,8 @@ export default class UsersPage extends Component {
     const { className } = this.props;
     const usersList = this.props.store.usersData.toJS().map((data) =>
       <tr>
-        <td>{data.Username}</td>
-        <td>{data.NodeID}</td>
-        <td><FaPowerOff color={data.Active ? "#9E9" : "#AAA"}/></td>
+        <td>{data.username}</td>
+        <td>{data.nodeId}</td>
       </tr>
     )
 
@@ -30,7 +29,6 @@ export default class UsersPage extends Component {
               <tr>
                 <th>Username</th>
                 <th>NodeID</th>
-                <th>Active</th>
               </tr>
               {usersList}
             </thead>
