@@ -36,14 +36,7 @@ export default class NewCardPage extends Component {
   submit(event) {
     event.preventDefault()
 
-    let ld = {}
-    let layoutTokens = this.state.layoutdata.split("|")
-    for (let i = 0; i < layoutTokens.length; i++) {
-      const dat = layoutTokens[i].split(":")
-      ld[dat[0]] = dat[1]
-    }
-
-    this.props.store.newCardRequest(this.state.userid, this.state.body, this.state.url, this.state.anon, ld, this.state.replycardid)
+    this.props.store.newCardRequest(this.state.userid, this.state.body, this.state.url, this.state.anon, JSON.parse(this.state.layoutdata), this.state.replycardid)
   }
 
   render() {
@@ -86,7 +79,7 @@ export default class NewCardPage extends Component {
   				<input type="text" placeholder="Layout Data" name="layoutdata" onChange={this.inputChange}/>
           <Callout>
               <div className="preformattedWhitespace">
-                {`Format: key:value|key:value|...
+                {`Format: JSON
                 Options:
                 fullScreen:true - renders card full screen (breaks on non-image cards)
                 bgIndex:[idx] - chooses background color for card (only for cards with links w/ no diffbot img, idx 0-5 are colors, 6-10 are images)`}
