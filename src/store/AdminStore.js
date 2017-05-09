@@ -1,8 +1,8 @@
 import cookie from "react-cookie"
-
-
 import { observable } from 'mobx';
 import uuid from "uuid"
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import gql from 'graphql-tag';
 
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":8080" : location.hostname}`
@@ -51,6 +51,16 @@ class AdminStore {
 		const sockURL = `${this.serverURL}/deck_endpoint/`
 		this.socket = new WebSocket(sockURL)
 
+    let graphQLEndpoint = `${location.origin}/graphql`
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      graphQLEndpoint = 'http://localhost:8080/graphql'
+    }
+
+    this.client = new ApolloClient({
+      networkInterface: createNetworkInterface({
+        uri: graphQLEndpoint
+      }),
+    })
 
 		this.socket.onmessage = this.onSocketMessage.bind(this)
 		this.socket.onopen = this.onSocketOpen.bind(this)
@@ -135,28 +145,42 @@ class AdminStore {
 
   // Graph Data
   getGraphData(){
-    const reqID = this.registerRequest(this.graphDataRecieved.bind(this))
-
-    const msg = { cmd: "getGraph", requestID: reqID }
-    this.sendMsg(msg)
+    this.client.query({
+      query: gql`
+        {
+          graph {
+            NodeData {
+              nodeId
+              displayname
+            }
+            EdgeData {
+              sourceID
+              targetID
+            }
+          }
+        }
+      `,
+    })
+      .then(data => this.graphDataRecieved(data))
+      .catch(error => console.error(error));
   }
 
-  graphDataRecieved(type, data){
-    const nodeData = data.NodeData
-    const edgeData = data.EdgeData
+  graphDataRecieved(data){
+    const nodeData = data.data.graph.NodeData
+    const edgeData = data.data.graph.EdgeData
 
     this.graphNodeData = []
     this.graphEdgeData = []
 
     for (let i = 0; i < nodeData.length; i++){
       const n = nodeData[i]
-      const tmp = {id: n.id, label: n.name}
+      const tmp = {id: n.nodeId, label: n.displayname}
       this.graphNodeData.push(tmp)
     }
 
     for (let i = 0; i < edgeData.length; i++){
       const n = edgeData[i]
-      const tmp = {from: n.sourceid, to: n.targetid}
+      const tmp = {from: n.sourceID, to: n.targetID}
       this.graphEdgeData.push(tmp)
     }
 
