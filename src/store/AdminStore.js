@@ -7,8 +7,6 @@ import gql from 'graphql-tag';
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":8080" : location.hostname}`
 
-const MSG_SUCCESS = "success"
-
 class AdminStore {
   @observable importerStatus = ""
   @observable graphNodeData = []
@@ -196,7 +194,7 @@ class AdminStore {
     this.sendMsg(msg)
   }
 
-  getUsersResponse(type, data){
+  getUsersResponse(error, data){
     this.usersData = data
   }
 
@@ -227,8 +225,8 @@ class AdminStore {
     this.newCardID = ""
   }
 
-  newCardResponse(type, data) {
-    if (type === MSG_SUCCESS){
+  newCardResponse(error, data) {
+    if (error === undefined){
       this.newCardStatus = "success"
       this.newCardID = data.cardid
       console.log(`asdfasdfasdf ${this.newCardID}`)
@@ -245,8 +243,8 @@ class AdminStore {
     this.sendMsg(msg)
   }
 
-  hnStatusResponse(type, data){
-    if(type === MSG_SUCCESS && data.Running) {
+  hnStatusResponse(error, data){
+    if(error === undefined && data.Running) {
       this.hnStatus = "up"
     } else {
       this.hnStatus = "down"
@@ -258,16 +256,16 @@ class AdminStore {
     let msg = {requestID: reqID}
 
     if (status === "up"){
-      msg.cmd = "startHN"
+      msg.rpc = "startHN"
     } else if (status === "down"){
-      msg.cmd = "stopHN"
+      msg.rpc = "stopHN"
     }
 
     this.sendMsg(msg)
     this.hnStatus = null
   }
 
-  changeHNStatusResponse(type, data) {
+  changeHNStatusResponse(error, data) {
     this.hnStatusRequest()
   }
 
@@ -279,8 +277,8 @@ class AdminStore {
     this.inviteStatus = "waiting"
   }
 
-  inviteResponse(type, data){
-    if(type === MSG_SUCCESS) {
+  inviteResponse(error, data){
+    if (error === undefined) {
       this.inviteStatus = "success"
     } else {
       this.inviteStatus = "failure"
@@ -294,8 +292,8 @@ class AdminStore {
     this.sendMsg(msg)
   }
 
-  getDemoResponse(type, data){
-    if(type === MSG_SUCCESS) {
+  getDemoResponse(error, data){
+    if (error === undefined) {
       this.demoData = JSON.stringify(data.CardIDs)
     }
   }
@@ -303,14 +301,14 @@ class AdminStore {
   setDemoRequest(demoData) {
     const reqID = this.registerRequest(this.setDemoResponse.bind(this))
 
-    const msg = { cmd: "setDemoData", requestID: reqID, cardids: JSON.parse(demoData)}
+    const msg = { rpc: "setDemoData", requestID: reqID, cardids: JSON.parse(demoData)}
     this.sendMsg(msg)
 
     this.setDemoStatus = "waiting"
   }
 
-  setDemoResponse(type, data) {
-    if(type === MSG_SUCCESS) {
+  setDemoResponse(error, data) {
+    if (error === undefined) {
       this.setDemoStatus = "success"
     } else {
       this.setDemoStatus = "failure"
@@ -326,10 +324,10 @@ class AdminStore {
     this.sendMsg(msg)
   }
 
-  sendCommandResponse(type, data) {
+  sendCommandResponse(error, data) {
     const dataString = JSON.stringify(data, null, 2)
     console.log(dataString)
-    this.commandResponse = `Type: ${type}\nData:\n${dataString}`
+    this.commandResponse = `Error: ${error}\nData:\n${dataString}`
   }
 
   // misc helpers
