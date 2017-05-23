@@ -7,9 +7,6 @@ import gql from 'graphql-tag';
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":8080" : location.hostname}`
 
-const MSG_SUCCESS = "success"
-const MSG_FAIL = "failure"
-
 class AdminStore {
   @observable importerStatus = ""
   @observable graphNodeData = []
@@ -117,12 +114,12 @@ class AdminStore {
 
 	onSocketMessage(e) {
 		const parsedMsg = JSON.parse(e.data)
-		const msgType = parsedMsg.msg
 		const msgData = parsedMsg.data
+		const msgError = parsedMsg.error
     const ack = parsedMsg.ack
 
     const handler = this.getResponse(ack)
-    handler(msgType, msgData)
+    handler(msgError, msgData)
   }
 
   //requst tracking
@@ -193,27 +190,27 @@ class AdminStore {
   getUsersRequest(){
     const reqID = this.registerRequest(this.getUsersResponse.bind(this))
 
-    const msg = { cmd: "getUsers", requestID: reqID }
+    const msg = { rpc: "getUsers", requestID: reqID }
     this.sendMsg(msg)
   }
 
-  getUsersResponse(type, data){
+  getUsersResponse(error, data){
     this.usersData = data
   }
 
   newUserRequest(email, username, displayname, password){
     const reqID = this.registerRequest(this.newUserResponse.bind(this))
 
-    const msg = { cmd: "newUser", email: email, username: username, displayName: displayname, password: password, requestID: reqID}
+    const msg = { rpc: "newUser", requestID: reqID, data: {email: email, username: username, displayName: displayname, password: password}}
 
     this.sendMsg(msg)
     this.newUserWaiting = true
   }
 
-  newUserResponse(type, data){
-    if (type === MSG_SUCCESS){
+  newUserResponse(error, data){
+    if (error === undefined){
       this.newUserSuccess = true
-    } else if (type === MSG_FAIL) {
+    } else {
       this.newUserSuccess = false
     }
     this.newUserWaiting = false
@@ -222,14 +219,14 @@ class AdminStore {
   newCardRequest(userid, body, url, anon, ld, replyid) {
     const reqID = this.registerRequest(this.newCardResponse.bind(this))
 
-    const msg = { cmd: "newCard", requestID: reqID, nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld, replyID: replyid}
+    const msg = { rpc: "newCard", requestID: reqID, data: {nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld, replyID: replyid}}
     this.sendMsg(msg)
     this.newCardStatus = "waiting"
     this.newCardID = ""
   }
 
-  newCardResponse(type, data) {
-    if (type === MSG_SUCCESS){
+  newCardResponse(error, data) {
+    if (error === undefined){
       this.newCardStatus = "success"
       this.newCardID = data.cardid
       console.log(`asdfasdfasdf ${this.newCardID}`)
@@ -242,12 +239,12 @@ class AdminStore {
   hnStatusRequest(){
     const reqID = this.registerRequest(this.hnStatusResponse.bind(this))
 
-    const msg = { cmd: "hnStatus", requestID: reqID }
+    const msg = { rpc: "hnStatus", requestID: reqID }
     this.sendMsg(msg)
   }
 
-  hnStatusResponse(type, data){
-    if(type === MSG_SUCCESS && data.Running) {
+  hnStatusResponse(error, data){
+    if(error === undefined && data.Running) {
       this.hnStatus = "up"
     } else {
       this.hnStatus = "down"
@@ -259,29 +256,29 @@ class AdminStore {
     let msg = {requestID: reqID}
 
     if (status === "up"){
-      msg.cmd = "startHN"
+      msg.rpc = "startHN"
     } else if (status === "down"){
-      msg.cmd = "stopHN"
+      msg.rpc = "stopHN"
     }
 
     this.sendMsg(msg)
     this.hnStatus = null
   }
 
-  changeHNStatusResponse(type, data) {
+  changeHNStatusResponse(error, data) {
     this.hnStatusRequest()
   }
 
   inviteRequest(inviter, invitee){
     const reqID = this.registerRequest(this.inviteResponse.bind(this))
 
-    const msg = { cmd: "invite", requestID: reqID, inviter: inviter, invitee: invitee}
+    const msg = { rpc: "invite", requestID: reqID, data: {inviter: inviter, invitee: invitee}}
     this.sendMsg(msg)
     this.inviteStatus = "waiting"
   }
 
-  inviteResponse(type, data){
-    if(type === MSG_SUCCESS) {
+  inviteResponse(error, data){
+    if (error === undefined) {
       this.inviteStatus = "success"
     } else {
       this.inviteStatus = "failure"
@@ -291,12 +288,12 @@ class AdminStore {
   getDemoRequest(){
     const reqID = this.registerRequest(this.getDemoResponse.bind(this))
 
-    const msg = { cmd: "getDemoData", requestID: reqID }
+    const msg = { rpc: "getDemoData", requestID: reqID }
     this.sendMsg(msg)
   }
 
-  getDemoResponse(type, data){
-    if(type === MSG_SUCCESS) {
+  getDemoResponse(error, data){
+    if (error === undefined) {
       this.demoData = JSON.stringify(data.CardIDs)
     }
   }
@@ -304,14 +301,14 @@ class AdminStore {
   setDemoRequest(demoData) {
     const reqID = this.registerRequest(this.setDemoResponse.bind(this))
 
-    const msg = { cmd: "setDemoData", requestID: reqID, cardids: JSON.parse(demoData)}
+    const msg = { rpc: "setDemoData", requestID: reqID, data: {cardids: JSON.parse(demoData)} }
     this.sendMsg(msg)
 
     this.setDemoStatus = "waiting"
   }
 
-  setDemoResponse(type, data) {
-    if(type === MSG_SUCCESS) {
+  setDemoResponse(error, data) {
+    if (error === undefined) {
       this.setDemoStatus = "success"
     } else {
       this.setDemoStatus = "failure"
@@ -327,10 +324,10 @@ class AdminStore {
     this.sendMsg(msg)
   }
 
-  sendCommandResponse(type, data) {
+  sendCommandResponse(error, data) {
     const dataString = JSON.stringify(data, null, 2)
     console.log(dataString)
-    this.commandResponse = `Type: ${type}\nData:\n${dataString}`
+    this.commandResponse = `Error: ${error}\nData:\n${dataString}`
   }
 
   // misc helpers
