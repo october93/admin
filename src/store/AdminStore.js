@@ -301,7 +301,7 @@ class AdminStore {
   setDemoRequest(demoData) {
     const reqID = this.registerRequest(this.setDemoResponse.bind(this))
 
-    const msg = { rpc: "setDemoData", requestID: reqID, cardids: JSON.parse(demoData)}
+    const msg = { rpc: "setDemoData", requestID: reqID, data: {cardids: JSON.parse(demoData)} }
     this.sendMsg(msg)
 
     this.setDemoStatus = "waiting"
