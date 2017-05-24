@@ -5,6 +5,7 @@ import { Router, Route, Redirect } from 'react-router';
 import { Provider } from "mobx-react"
 
 import AdminLayout from './components/AdminLayout';
+import LoginPage from './components/LoginPage'
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
@@ -17,13 +18,23 @@ import DemoPage from './components/DemoPage'
 import GraphQLPage from './components/GraphQLPage'
 
 import AdminStore from "./store/AdminStore"
+import AuthService from './utils/AuthService'
+
+const auth = new AuthService('nKlyaG5r1Hh6TWsumqjJ5Z7vY5d0NZpl', 'october93.auth0.com')
+
+const requireAuth = (nextState, replace) => {
+  if (!auth.loggedIn()) {
+    replace({ pathname: '/admin/login' })
+  }
+}
 
 const Routes = (props) => (
   <Provider store={AdminStore}>
     <Router {...props}>
-      <Route component={AdminLayout}>
+      <Route component={AdminLayout} auth={auth}>
         <Route path="/admin" component={DashPage} />
-        <Route path="/admin/users" component={UsersPage} />
+        <Route path="/admin/login" component={LoginPage} />
+        <Route path="/admin/users" component={UsersPage} onEnter={requireAuth} />
         <Route path="/admin/newCard" component={NewCardPage} />
         <Route path="/admin/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
