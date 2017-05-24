@@ -1,7 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Button } from 'react-foundation';
 import AuthService from '../../utils/AuthService'
-import './index.css'
 
 export default class LoginPage extends Component {
   static propTypes = {

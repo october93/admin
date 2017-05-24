@@ -31,10 +31,10 @@ const requireAuth = (nextState, replace) => {
 const Routes = (props) => (
   <Provider store={AdminStore}>
     <Router {...props}>
-      <Route component={AdminLayout} auth={auth}>
+      <Route path="/admin/login" component={LoginPage} auth={auth} />
+      <Route component={AdminLayout} auth={auth} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} />
-        <Route path="/admin/login" component={LoginPage} />
-        <Route path="/admin/users" component={UsersPage} onEnter={requireAuth} />
+        <Route path="/admin/users" component={UsersPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
         <Route path="/admin/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
