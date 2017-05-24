@@ -2,7 +2,7 @@ import Auth0Lock from 'auth0-lock'
 
 export default class AuthService {
   constructor(clientID, domain) {
-    this.lock = new Auth0Lock(clientID, domain, {})
+    this.lock = new Auth0Lock(clientID, domain, {allowedConnections: ['google-oauth2']})
     this.lock.on('authenticated', this._doAuthentication.bind(this))
     this.login = this.login.bind(this)
   }
