@@ -32,7 +32,7 @@ const Routes = (props) => (
   <Provider store={AdminStore} auth={auth}>
     <Router {...props}>
       <Route path="/admin/login" component={LoginPage} />
-      <Route component={AdminLayout} auth={auth} onEnter={requireAuth}>
+      <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} auth={auth} />
         <Route path="/admin/users" component={UsersPage} />
         <Route path="/admin/newCard" component={NewCardPage} />

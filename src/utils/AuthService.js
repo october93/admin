@@ -2,7 +2,14 @@ import Auth0Lock from 'auth0-lock'
 
 const options = {
   allowedConnections: ['google-oauth2'],
-  allowSignUp: false
+  allowSignUp: false,
+  auth: {
+    params: {
+      state: {
+       "return_url": "https://yoursite.com/home"
+      }
+    }
+  }
 }
 
 export default class AuthService {
@@ -10,6 +17,7 @@ export default class AuthService {
     this.lock = new Auth0Lock(clientID, domain, options)
     this.lock.on('authenticated', this._doAuthentication.bind(this))
     this.login = this.login.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
   _doAuthentication(authResult) {
@@ -26,6 +34,13 @@ export default class AuthService {
 
   login() {
     this.lock.show()
+  }
+
+  logout() {
+    this.lock.logout({ returnTo: 'http://localhost:3000/admin/login' })
+    localStorage.removeItem('id_token')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('profile')
   }
 
   loggedIn() {
