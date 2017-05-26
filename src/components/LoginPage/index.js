@@ -1,7 +1,9 @@
 import React, { Component, PropTypes as T } from 'react'
+import { observer, inject } from 'mobx-react';
 import { Button } from 'react-foundation';
 import AuthService from '../../utils/AuthService'
 
+@inject("auth") @observer
 export default class LoginPage extends Component {
   static propTypes = {
     location: T.object,
@@ -9,7 +11,7 @@ export default class LoginPage extends Component {
   }
 
   render() {
-    const auth = this.props.routes[0].auth
+    const auth = this.props.auth
     return (
       <div>
         <h2>Login</h2>
