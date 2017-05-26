@@ -28,10 +28,16 @@ const requireAuth = (nextState, replace) => {
   }
 }
 
+const checkAuth = (nextState, replace) => {
+  if (auth.loggedIn()) {
+    replace({ pathname: '/admin' })
+  }
+}
+
 const Routes = (props) => (
   <Provider store={AdminStore} auth={auth}>
     <Router {...props}>
-      <Route path="/admin/login" component={LoginPage} />
+      <Route path="/admin/login" component={LoginPage} onEnter={checkAuth} />
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} auth={auth} />
         <Route path="/admin/users" component={UsersPage} />

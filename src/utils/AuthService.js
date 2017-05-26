@@ -3,13 +3,7 @@ import Auth0Lock from 'auth0-lock'
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
-  auth: {
-    params: {
-      state: {
-       "return_url": "https://yoursite.com/home"
-      }
-    }
-  }
+  redirectUrl: 'http://localhost:3000/admin'
 }
 
 export default class AuthService {
