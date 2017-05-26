@@ -3,7 +3,6 @@ import Auth0Lock from 'auth0-lock'
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
-  redirectUrl: 'http://localhost:3000/admin'
 }
 
 export default class AuthService {
@@ -15,7 +14,7 @@ export default class AuthService {
   }
 
   _doAuthentication(authResult) {
-    this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+    this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
       if (error) {
         console.log(error)
         return;

@@ -5,7 +5,6 @@ import { Router, Route, Redirect } from 'react-router';
 import { Provider } from "mobx-react"
 
 import AdminLayout from './components/AdminLayout';
-import LoginPage from './components/LoginPage'
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
@@ -31,13 +30,15 @@ const requireAuth = (nextState, replace) => {
 const checkAuth = (nextState, replace) => {
   if (auth.loggedIn()) {
     replace({ pathname: '/admin' })
+  } else {
+    auth.login()
   }
 }
 
 const Routes = (props) => (
   <Provider store={AdminStore} auth={auth}>
     <Router {...props}>
-      <Route path="/admin/login" component={LoginPage} onEnter={checkAuth} />
+      <Route path="/admin/login" onEnter={checkAuth} />
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} auth={auth} />
         <Route path="/admin/users" component={UsersPage} />
