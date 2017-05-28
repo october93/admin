@@ -27,8 +27,10 @@ const requireAuth = (nextState, replace) => {
   }
 }
 
-const checkAuth = (nextState, replace) => {
-  if (auth.loggedIn()) {
+const checkAuth = (nextState, replace, callback) => {
+  if (nextState.location.query.token !== undefined) {
+    auth.authenticate(nextState.location.query.token, replace, callback)
+  } else if (auth.loggedIn()) {
     replace({ pathname: '/admin' })
   } else {
     auth.login()
