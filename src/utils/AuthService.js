@@ -3,32 +3,25 @@ import Auth0Lock from 'auth0-lock'
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
-  auth: {
-    redirectUrl: 'http://localhost:8080/oauth/authorize',
-    responseMode: 'form_post',
-    params: {
-      scope: 'openid email'
-    }
-  }
 }
 
 export default class AuthService {
   constructor(clientID, domain) {
     this.lock = new Auth0Lock(clientID, domain, options)
     this.login = this.login.bind(this)
+    this.lock.on('authenticated', this._doAuthentication.bind(this))
     this.logout = this.logout.bind(this)
   }
 
-  authenticate(accessToken, replace, callback) {
-    this.lock.getUserInfo(accessToken, (error, profile) => {
+  _doAuthentication(authResult) {
+    this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
       if (error) {
         console.log(error)
         return;
       }
       localStorage.setItem("profile", JSON.stringify(profile));
-      this.setToken(accessToken)
-      replace({ pathname: '/admin' })
-      callback()
+      this.setToken(authResult.id_token)
+      location.pathname = '/admin'
     });
   }
 
