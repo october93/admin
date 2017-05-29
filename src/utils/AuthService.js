@@ -10,6 +10,7 @@ export default class AuthService {
     this.lock = new Auth0Lock(clientID, domain, options)
     this.login = this.login.bind(this)
     this.lock.on('authenticated', this._doAuthentication.bind(this))
+    this.lock.on('authorization_error', this._handleError.bind(this))
     this.logout = this.logout.bind(this)
   }
 
@@ -22,6 +23,15 @@ export default class AuthService {
       localStorage.setItem("profile", JSON.stringify(profile));
       this.setToken(authResult.id_token)
       location.pathname = '/admin'
+    });
+  }
+
+  _handleError(error) {
+    this.lock.show({
+      flashMessage: {
+        type: 'error',
+        text: error.error_description
+      }
     });
   }
 
