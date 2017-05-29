@@ -1,6 +1,7 @@
 import cookie from "react-cookie"
 import { observable } from 'mobx';
 import uuid from "uuid"
+import AuthService from '../utils/AuthService'
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import gql from 'graphql-tag';
 
@@ -48,6 +49,8 @@ class AdminStore {
 		const sockURL = `${this.serverURL}/deck_endpoint/`
 		this.socket = new WebSocket(sockURL)
 
+    this.auth = new AuthService('nKlyaG5r1Hh6TWsumqjJ5Z7vY5d0NZpl', 'october93.auth0.com')
+
     let graphQLEndpoint = `${location.origin}/graphql`
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       graphQLEndpoint = 'http://localhost:8080/graphql'
@@ -92,6 +95,9 @@ class AdminStore {
 	}
 
 	sendMsg(msg) {
+    if (msg.sessionID === undefined) {
+      msg.sessionID = this.auth.getToken()
+    }
     msg = JSON.stringify(msg)
 
 		console.log(msg)

@@ -21,7 +21,7 @@ export default class AuthService {
         return;
       }
       localStorage.setItem("profile", JSON.stringify(profile));
-      this.setToken(authResult.id_token)
+      this.setToken(authResult.idToken)
       location.pathname = '/admin'
     });
   }
@@ -50,11 +50,11 @@ export default class AuthService {
     return !!this.getToken()
   }
 
-  setToken(idToken) {
-    localStorage.setItem('id_token', idToken)
+  setToken(token) {
+    localStorage.setItem('accessToken', token)
   }
 
   getToken() {
-    return localStorage.getItem('id_token')
+    return localStorage.getItem('accessToken')
   }
 }

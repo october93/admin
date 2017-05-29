@@ -4,11 +4,11 @@ import { observer, inject } from 'mobx-react'
 
 import './style.scss';
 
-@inject("auth") @observer
+@inject("store") @observer
 class DashPage extends Component {
   render() {
     const profile = JSON.parse(localStorage.getItem("profile"))
-    const auth = this.props.auth
+    const auth = this.props.store.auth
     return (
       <div>
         <div>
