@@ -5,7 +5,7 @@ const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
   auth: {
-    redirectUrl: 'http://localhost:3000/admin/login',
+    redirectUrl: window.location.origin + '/admin/login',
     responseType: 'token'
   },
   theme: {
