@@ -4,6 +4,10 @@ import logo from '../components/AdminLayout/october.svg';
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
+  auth: {
+    redirectUrl: 'http://localhost:3000/admin/login',
+    responseType: 'token'
+  },
   theme: {
     logo: logo,
     primaryColor: '#1aafdb'
