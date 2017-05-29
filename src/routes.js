@@ -18,10 +18,25 @@ import GraphQLPage from './components/GraphQLPage'
 
 import AdminStore from "./store/AdminStore"
 
+const requireAuth = (nextState, replace) => {
+  if (!AdminStore.auth.loggedIn()) {
+    replace({ pathname: '/admin/login' })
+  }
+}
+
+const checkAuth = (nextState, replace) => {
+  if (AdminStore.auth.loggedIn()) {
+    replace({ pathname: '/admin' })
+  } else if (!location.hash) {
+    AdminStore.auth.login()
+  }
+}
+
 const Routes = (props) => (
   <Provider store={AdminStore}>
     <Router {...props}>
-      <Route component={AdminLayout}>
+      <Route path="/admin/login" onEnter={checkAuth} />
+      <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} />
         <Route path="/admin/users" component={UsersPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
