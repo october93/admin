@@ -1,8 +1,16 @@
 import Auth0Lock from 'auth0-lock'
+import logo from '../components/AdminLayout/october.svg';
 
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
+  theme: {
+    logo: logo,
+    primaryColor: '#1aafdb'
+  },
+  languageDictionary: {
+    title: "October Admin Panel"
+  }
 }
 
 export default class AuthService {
