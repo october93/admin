@@ -11,7 +11,7 @@ export default class UtilitiesPage extends Component {
     super(props)
 
     this.state = {
-      commandTextArea: "",
+      commandTextArea: '{"rpc": "", "sessionID": "", "data": {}}',
     }
 
     this.inputChange = this.inputChange.bind(this)
