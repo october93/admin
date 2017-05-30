@@ -11,6 +11,7 @@ import classnames from 'classnames';
 const menuItems = [
   {name: "Dashboard", path: "/admin"},
   {name: "Users", path: "/admin/users"},
+  {name: "Sessions", path: "/admin/sessions"},
   {name: "Cards", path: "/admin/newCard"},
   {name: "Invites", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/utilities"},

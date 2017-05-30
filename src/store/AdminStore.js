@@ -14,6 +14,7 @@ class AdminStore {
   @observable graphEdgeData = []
   @observable graphLoaded = false
   @observable usersData = []
+  @observable sessionsData = []
 
   //this is a weird way to do this, but I don't feel like figuring out a better way right now
   @observable newUserSuccess = null
@@ -202,6 +203,20 @@ class AdminStore {
 
   getUsersResponse(error, data){
     this.usersData = data
+  }
+
+  getSessionsRequest() {
+    this.client.query({
+      query: gql`
+        {
+          sessions {
+            id
+            username
+          }
+        }
+      `,
+    }).then(data => { this.sessionsData = data.data.sessions })
+      .catch(error => console.error(error));
   }
 
   newUserRequest(email, username, displayname, password){

@@ -7,6 +7,7 @@ import { Provider } from "mobx-react"
 import AdminLayout from './components/AdminLayout';
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
+import SessionsPage from './components/SessionsPage';
 import NotFoundPage from './components/NotFoundPage';
 import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
@@ -39,6 +40,7 @@ const Routes = (props) => (
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} />
         <Route path="/admin/users" component={UsersPage} />
+        <Route path="/admin/sessions" component={SessionsPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
         <Route path="/admin/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
