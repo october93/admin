@@ -1,11 +1,13 @@
 import Auth0Lock from 'auth0-lock'
 import logo from '../components/AdminLayout/october.svg';
 
+const loginURL = `${window.location.origin}/admin/login`
+
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
   auth: {
-    redirectUrl: window.location.origin + '/admin/login',
+    redirectUrl: loginURL,
     responseType: 'token'
   },
   theme: {
@@ -52,7 +54,7 @@ export default class AuthService {
   }
 
   logout() {
-    this.lock.logout({ returnTo: 'http://localhost:3000/admin/login' })
+    this.lock.logout({ returnTo: loginURL })
     localStorage.removeItem('id_token')
     localStorage.removeItem('accessToken')
     localStorage.removeItem('profile')
