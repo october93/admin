@@ -34,7 +34,9 @@ export default class AuthService {
         console.log(error)
         return;
       }
+      let expiresAt = authResult.idTokenPayload.exp * 1000
       localStorage.setItem("profile", JSON.stringify(profile));
+      localStorage.setItem("expires_at", expiresAt)
       this.setToken(authResult.idToken)
       location.pathname = '/admin'
     });
@@ -57,11 +59,13 @@ export default class AuthService {
     this.lock.logout({ returnTo: loginURL })
     localStorage.removeItem('id_token')
     localStorage.removeItem('accessToken')
+    localStorage.removeItem("expires_at")
     localStorage.removeItem('profile')
   }
 
   loggedIn() {
-    return !!this.getToken()
+    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return !!this.getToken() && new Date().getTime() < expiresAt;
   }
 
   setToken(token) {
