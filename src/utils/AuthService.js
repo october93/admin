@@ -1,11 +1,13 @@
 import Auth0Lock from 'auth0-lock'
 import logo from '../components/AdminLayout/october.svg';
 
+const loginURL = `${window.location.origin}/admin/login`
+
 const options = {
   allowedConnections: ['google-oauth2'],
   allowSignUp: false,
   auth: {
-    redirectUrl: window.location.origin + '/admin/login',
+    redirectUrl: loginURL,
     responseType: 'token'
   },
   theme: {
@@ -32,7 +34,9 @@ export default class AuthService {
         console.log(error)
         return;
       }
+      let expiresAt = authResult.idTokenPayload.exp * 1000
       localStorage.setItem("profile", JSON.stringify(profile));
+      localStorage.setItem("expires_at", expiresAt)
       this.setToken(authResult.idToken)
       location.pathname = '/admin'
     });
@@ -52,14 +56,16 @@ export default class AuthService {
   }
 
   logout() {
-    this.lock.logout({ returnTo: 'http://localhost:3000/admin/login' })
+    this.lock.logout({ returnTo: loginURL })
     localStorage.removeItem('id_token')
     localStorage.removeItem('accessToken')
+    localStorage.removeItem("expires_at")
     localStorage.removeItem('profile')
   }
 
   loggedIn() {
-    return !!this.getToken()
+    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return !!this.getToken() && new Date().getTime() < expiresAt;
   }
 
   setToken(token) {
