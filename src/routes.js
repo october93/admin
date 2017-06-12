@@ -14,6 +14,7 @@ import NewCardPage from './components/NewCardPage'
 import UtilitiesPage from './components/UtilitiesPage'
 import InvitesPage from './components/InvitesPage'
 import DemoPage from './components/DemoPage'
+import SimulatorPage from "./components/SimulatorPage"
 import GraphQLPage from './components/GraphQLPage'
 
 import AdminStore from "./store/AdminStore"
@@ -46,6 +47,7 @@ const Routes = (props) => (
         <Route path="/admin/invites" component={InvitesPage} />
         <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
+        <Route path="/admin/sim" component={SimulatorPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
       </Route>

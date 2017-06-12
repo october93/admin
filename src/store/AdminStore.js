@@ -4,9 +4,11 @@ import uuid from "uuid"
 import AuthService from '../utils/AuthService'
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import gql from 'graphql-tag';
-
+import SocketClient from "./SocketClient"
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":8080" : location.hostname}`
+
+const defaultSimulatorSocketURL = "localhost:8083"
 
 class AdminStore {
   @observable importerStatus = ""
@@ -31,10 +33,18 @@ class AdminStore {
 
   @observable commandResponse = ""
 
+  @observable graphData = {}
+
+  gdat = {
+    nodes: [],
+    edges: [],
+  }
+
 
 
   serverURL
 	socket
+  simulatorclient
   queuedMessages
   requests
 
@@ -68,6 +78,8 @@ class AdminStore {
 
     this.queuedMessages = []
     this.requests = {}
+
+    this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, this.auth, true)
 	}
 
 	// Socket Code
@@ -187,9 +199,14 @@ class AdminStore {
       this.graphEdgeData.push(tmp)
     }
 
+    this.gdat = {
+      nodes: this.graphNodeData.toJS(),
+      edges: this.graphEdgeData.toJS(),
+    }
+
     this.graphLoaded = true
 
-    console.log(`${JSON.stringify(this.graphNodeData)}, ${JSON.stringify(this.graphEdgeData)}`)
+    //console.log(`${JSON.stringify(this.graphNodeData)}, ${JSON.stringify(this.graphEdgeData)}`)
   }
 
   //Get Users
@@ -334,6 +351,15 @@ class AdminStore {
     const dataString = JSON.stringify(data, null, 2)
     console.log(dataString)
     this.commandResponse = `Error: ${error}\nData:\n${dataString}`
+  }
+
+  sendSimulatorCommandRequest(cmd){
+    var msg = { cmd }
+    this.simulatorClient.sendMsg(msg, this.simulatorCommandResponseHandler.bind(this))
+  }
+
+  simulatorCommandResponseHandler(err, data) {
+    console.log(data)
   }
 
   // misc helpers

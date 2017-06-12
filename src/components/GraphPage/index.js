@@ -4,6 +4,12 @@ import { observer, inject } from 'mobx-react';
 
 import './style.scss';
 
+const graphoptions = {
+  edges: {
+    color: "#000000"
+  }
+}
+
 @inject("store") @observer
 export default class GraphPage extends Component {
   constructor(props) {
@@ -29,35 +35,10 @@ export default class GraphPage extends Component {
   }
 
   render() {
-    const nodeClicked = this.nodeClicked
-    const graphNodes = this.props.store.graphNodeData.toJS()
-    const graphEdges = this.props.store.graphEdgeData.toJS()
+    //const nodeClicked = this.nodeClicked
     console.log(`Render`)
+    console.log()
 
-    let graphElement = null
-
-    if(this.props.store.graphLoaded) {
-      const options = {
-        edges: {
-          color: "#000000"
-        }
-      }
-
-      const events = {
-        selectNode: function(event) {
-          var { nodes } = event;
-          nodeClicked(nodes[0])
-        }
-      }
-
-      let graph = {
-        nodes: graphNodes,
-        edges: graphEdges
-      }
-
-
-      graphElement = (<Graph graph={graph} options={options} events={events} />)
-    }
 
     return (
       <div>
@@ -67,7 +48,7 @@ export default class GraphPage extends Component {
             <p>Name: {this.state.selectedNodeLabel}</p>
           </div>
           <div className="columns">
-            {graphElement}
+            <Graph graph={this.props.store.gdat} options={graphoptions} />
           </div>
         </div>
 

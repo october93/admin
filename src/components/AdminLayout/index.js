@@ -14,8 +14,9 @@ const menuItems = [
   {name: "Cards", path: "/admin/newCard"},
   {name: "Invites", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/utilities"},
-  {name: "Graph", path: "/admin/graph"},
+  //{name: "Graph", path: "/admin/graph"},
   {name: "Demo", path: "/admin/demo"},
+  //{name: "Simulator", path: "/admin/sim"},
   {name: "GraphQL", path: "/admin/graphql"},
 ]
 
