@@ -36,6 +36,12 @@ class AdminStore {
 
   @observable graphData = {}
 
+  @observable simData = {
+    users: [],
+    cards: [],
+  }
+
+  @observable simulatorConnected = false
   gdat = {
     nodes: [],
     edges: [],
@@ -80,8 +86,10 @@ class AdminStore {
     this.queuedMessages = []
     this.requests = {}
 
-    this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, this.auth, true)
+    this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, this.auth, false, (b) => this.simulatorConnected = b)
 	}
+
+
 
 	// Socket Code
 
@@ -374,6 +382,20 @@ class AdminStore {
   }
 
   simulatorCommandResponseHandler(err, data) {
+    console.log(data)
+  }
+
+  getSimulatorDataRequest() {
+    var msg = { cmd: "dump" }
+    this.simulatorClient.sendMsg(msg, this.simulatorDataResponseHandler.bind(this))
+  }
+
+  connectToSim() {
+    this.simulatorClient.connect()
+  }
+
+  simulatorDataResponseHandler(err, data) {
+    this.simData = data
     console.log(data)
   }
 

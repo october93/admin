@@ -49,7 +49,7 @@ const Routes = (props) => (
         <Route path="/admin/invites" component={InvitesPage} />
         <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
-        <Route path="/admin/sim" component={SimulatorPage} />
+        <Route path="/admin/sim" onEnter={() => AdminStore.getSimulatorDataRequest()} component={SimulatorPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
       </Route>

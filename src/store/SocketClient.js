@@ -4,40 +4,44 @@ export default class SocketClient {
   autoconnect
   socketURL
   socket
-  socketConnected
-  queuedMessages
-  requests
+  socketConnected = false
+  queuedMessages = []
+  requests = {}
   auth
+  connectTimeout = 0
+  conStatusChangeHandler
 
-  constructor(url, auth, autoconnect){
+  constructor(url, auth, autoconnect, conStatusChangeHandler){
     this.autoconnect = autoconnect
     this.socketURL = url
     this.auth = auth
+    this.conStatusChangeHandler = conStatusChangeHandler
 
-    this.connect(url)
-
-    this.queuedMessages = []
-    this.requests = {}
+    this.connect()
   }
-
 
   onSocketOpen() {
     console.log(`SocketConnected to ${this.socketURL}`)
     this.socketConnected = true
+    this.conStatusChangeHandler(true)
+    this.emptyMessageQueue()
   }
 
   onSocketClose() {
     console.log("Lost Connection.")
+    this.socketConnected = false
+    this.conStatusChangeHandler(false)
 
     if (this.autoconnect) {
-      console.log("Autoconnect enabled, reconnecting")
-      this.socketConnected = false
-      this.openSocket(this.socketURL)
+      this.connectTimeout = setTimeout( this.connect.bind(this), 5000)
+      //this.connect(this.socketURL)
     }
   }
 
-  connect(url) {
-		this.socket = new WebSocket(url)
+  connect() {
+    console.log(`Conecting to ${this.socketURL}.`)
+    clearTimeout(this.connectTimeout)
+		this.socket = new WebSocket(this.socketURL)
 		this.socket.onclose = this.onSocketClose.bind(this)
 		this.socket.onmessage = this.onSocketMessage.bind(this)
 		this.socket.onopen = this.onSocketOpen.bind(this)
