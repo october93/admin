@@ -41,19 +41,21 @@ class AdminStore {
     cards: [],
   }
 
+  simUserAnalysis = []
+  @observable simUsers = []
+
   @observable simulatorConnected = false
   gdat = {
     nodes: [],
     edges: [],
   }
 
-
+  @observable cohortAnalysisSummary = {}
 
   serverURL
-	socket
   simulatorclient
-  queuedMessages
-  requests
+  engineclient
+
 
 	constructor() {
 		// setup SockJS
@@ -63,10 +65,11 @@ class AdminStore {
     }
     this.serverURL = `${wsProtocol}//${defaultServerURL}`
 
-		const sockURL = `${this.serverURL}/deck_endpoint/`
-		this.socket = new WebSocket(sockURL)
-
     this.auth = new AuthService('nKlyaG5r1Hh6TWsumqjJ5Z7vY5d0NZpl', 'october93.auth0.com')
+
+    const sockURL = `${this.serverURL}/deck_endpoint/`
+    this.engineClient = new SocketClient(sockURL, this.auth, true, (b) => this.socketConnected = b)
+
 
     let graphQLEndpoint = `${location.origin}/graphql`
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
@@ -79,91 +82,14 @@ class AdminStore {
       }),
     })
 
-		this.socket.onmessage = this.onSocketMessage.bind(this)
-		this.socket.onopen = this.onSocketOpen.bind(this)
-		this.socket.onclose = this.onSocketClose.bind(this)
-
     this.queuedMessages = []
     this.requests = {}
 
     this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, this.auth, false, (b) => this.simulatorConnected = b)
+
+
+    this.engineClient.subscribeTo(this.cohortAnalysisHandler.bind(this), "cohortAnalysis")
 	}
-
-
-
-	// Socket Code
-
-	onSocketOpen() {
-		this.socketConnected = true
-    console.log("SocketConnected")
-
-    this.emptyMessageQueue()
-	}
-
-	onSocketClose() {
-		console.log("lost connection, reconnecting")
-		this.socketConnected = false
-		this.openSocket(`${this.serverURL}/deck_endpoint/`)
-	}
-
-	emptyMessageQueue() {
-		if (this.socketConnected && this.queuedMessages.length > 0) {
-			for (let i = 0; i < this.queuedMessages.length; i++) {
-				this.socket.send(this.queuedMessages[i])
-			}
-			this.queuedMessages = []
-		}
-	}
-
-	sendMsg(msg) {
-    if (msg.sessionID === undefined) {
-      msg.sessionID = this.auth.getToken()
-    }
-    msg = JSON.stringify(msg)
-
-		console.log(msg)
-		if (this.socketConnected) {
-			if (this.queuedMessages.length > 0) {
-				this.emptyMessageQueue()
-			}
-			this.socket.send(msg)
-		} else {
-			this.queuedMessages.push(msg)
-		}
-	}
-
-	openSocket(url) {
-		this.socket = new WebSocket(url)
-		this.socket.onclose = this.onSocketClose.bind(this)
-		this.socket.onmessage = this.onSocketMessage.bind(this)
-		this.socket.onopen = this.onSocketOpen.bind(this)
-	}
-
-	onSocketMessage(e) {
-		const parsedMsg = JSON.parse(e.data)
-		const msgData = parsedMsg.data
-		const msgError = parsedMsg.error
-    const ack = parsedMsg.ack
-
-    const handler = this.getResponse(ack)
-    handler(msgError, msgData)
-  }
-
-  //requst tracking
-
-  registerRequest(handler){
-    const id = uuid.v4()
-    this.requests[id] = handler
-
-    return id
-  }
-
-  getResponse(ack){
-    const handler = this.requests[ack]
-    this.requests[ack] = null
-
-    return handler
-  }
 
   // server data requests
 
@@ -220,10 +146,8 @@ class AdminStore {
 
   //Get Users
   getUsersRequest(){
-    const reqID = this.registerRequest(this.getUsersResponse.bind(this))
-
-    const msg = { rpc: "getUsers", requestID: reqID }
-    this.sendMsg(msg)
+    const msg = { rpc: "getUsers" }
+    this.engineClient.sendMsg(msg, this.getUsersResponse.bind(this))
   }
 
   getUsersResponse(error, data){
@@ -245,11 +169,9 @@ class AdminStore {
   }
 
   newUserRequest(email, username, displayname, password){
-    const reqID = this.registerRequest(this.newUserResponse.bind(this))
+    const msg = { rpc: "newUser", data: {email: email, username: username, displayName: displayname, password: password}}
 
-    const msg = { rpc: "newUser", requestID: reqID, data: {email: email, username: username, displayName: displayname, password: password}}
-
-    this.sendMsg(msg)
+    this.engineClient.sendMsg(msg, this.newUserResponse.bind(this))
     this.newUserWaiting = true
   }
 
@@ -263,10 +185,8 @@ class AdminStore {
   }
 
   newCardRequest(userid, body, url, anon, ld, replyid) {
-    const reqID = this.registerRequest(this.newCardResponse.bind(this))
-
-    const msg = { rpc: "newCard", requestID: reqID, data: {nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld, replyID: replyid}}
-    this.sendMsg(msg)
+    const msg = { rpc: "newCard", data: {nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld, replyID: replyid}}
+    this.engineClient.sendMsg(msg, this.newCardResponse.bind(this))
     this.newCardStatus = "waiting"
     this.newCardID = ""
   }
@@ -283,10 +203,8 @@ class AdminStore {
   }
 
   hnStatusRequest(){
-    const reqID = this.registerRequest(this.hnStatusResponse.bind(this))
-
-    const msg = { rpc: "hnStatus", requestID: reqID }
-    this.sendMsg(msg)
+    const msg = { rpc: "hnStatus" }
+    this.engineClient.sendMsg(msg, this.hnStatusResponse.bind(this))
   }
 
   hnStatusResponse(error, data){
@@ -298,8 +216,7 @@ class AdminStore {
   }
 
   changeHNStatusRequest(status){
-    const reqID = this.registerRequest(this.changeHNStatusResponse.bind(this))
-    let msg = {requestID: reqID}
+    let msg = {}
 
     if (status === "up"){
       msg.rpc = "startHN"
@@ -307,7 +224,7 @@ class AdminStore {
       msg.rpc = "stopHN"
     }
 
-    this.sendMsg(msg)
+    this.engineClient.sendMsg(msg, this.changeHNStatusResponse.bind(this))
     this.hnStatus = null
   }
 
@@ -316,10 +233,8 @@ class AdminStore {
   }
 
   inviteRequest(inviter, invitee){
-    const reqID = this.registerRequest(this.inviteResponse.bind(this))
-
-    const msg = { rpc: "invite", requestID: reqID, data: {inviter: inviter, invitee: invitee}}
-    this.sendMsg(msg)
+    const msg = { rpc: "invite", data: {inviter: inviter, invitee: invitee}}
+    this.engineClient.sendMsg(msg, this.inviteResponse.bind(this))
     this.inviteStatus = "waiting"
   }
 
@@ -332,10 +247,8 @@ class AdminStore {
   }
 
   getDemoRequest(){
-    const reqID = this.registerRequest(this.getDemoResponse.bind(this))
-
-    const msg = { rpc: "getDemoCards", requestID: reqID }
-    this.sendMsg(msg)
+    const msg = { rpc: "getDemoCards" }
+    this.engineClient.sendMsg(msg, this.getDemoResponse.bind(this))
   }
 
   getDemoResponse(error, data){
@@ -345,10 +258,8 @@ class AdminStore {
   }
 
   setDemoRequest(demoData) {
-    const reqID = this.registerRequest(this.setDemoResponse.bind(this))
-
-    const msg = { rpc: "setDemoCards", requestID: reqID, data: {cardids: JSON.parse(demoData)} }
-    this.sendMsg(msg)
+    const msg = { rpc: "setDemoCards", data: {cardids: JSON.parse(demoData)} }
+    this.engineClient.sendMsg(msg, this.setDemoResponse.bind(this))
 
     this.setDemoStatus = "waiting"
   }
@@ -362,12 +273,9 @@ class AdminStore {
   }
 
   sendCommandRequest(command){
-    const reqID = this.registerRequest(this.sendCommandResponse.bind(this))
-
     const msg = JSON.parse(command)
-    msg.requestID = reqID
 
-    this.sendMsg(msg)
+    this.engineClient.sendMsg(msg, this.sendCommandResponse.bind(this))
   }
 
   sendCommandResponse(error, data) {
@@ -395,8 +303,90 @@ class AdminStore {
   }
 
   simulatorDataResponseHandler(err, data) {
-    this.simData = data
-    console.log(data)
+    this.simUsers = this.mergeCohortAnalytics(data.users)
+
+
+    console.log(this.simUsers.toJS())
+  }
+
+  requestCohortAnalysis(success, number, mass) {
+    var msg = {
+      rpc: "publish",
+      data: {
+        topic: "analyzeCohorts",
+        message: {
+          RequiredNodeSuccess: success,
+          RequiredMemberNumber: number,
+          RequiredCohortMass: mass,
+        }
+      }
+    }
+
+    this.engineClient.sendMsg(msg, () => null)
+  }
+
+  mergeCohortAnalytics(users) {
+    for (var i = 0; i < users.length; i++) {
+      let userid = users[i].nodeID
+
+      if (typeof (this.simUserAnalysis[userid]) !== "undefined") {
+        users[i].analysis = this.simUserAnalysis[userid]
+      } else {
+        users[i].analysis = {}
+      }
+    }
+
+    return users
+  }
+
+  cohortAnalysisHandler(err, data) {
+    this.simUserAnalysis = JSON.parse(JSON.stringify(data.message.pernoderesults))
+
+    this.cohortAnalysisSummary = data.message
+    this.cohortAnalysisSummary.pernoderesults = null
+
+    this.getSimulatorDataRequest()
+
+    /*console.log(data)
+
+    const perNode = data.message.pernoderesults
+
+    this.cohortAnalysisSummary = data.message
+
+    const newUsers = this.simData.users
+
+    let simNameMap = {}
+
+    for (var i = 0; i < newUsers.length; i++) {
+      let userid = newUsers[i].nodeID
+      simNameMap[userid] = i
+    }
+
+    console.log(simNameMap)
+
+    for (var nID in perNode) {
+      if (Object.prototype.hasOwnProperty.call(perNode, nID)) {
+        console.log(`Attaching for ${nID}`)
+        let userTableIndex = simNameMap[nID]
+        let user = newUsers[userTableIndex]
+        if (user) {
+          user.analysis = perNode[nID]
+          user.test = true
+        }
+      }
+      if ({}.hasOwnProperty.call(perNode, nID)) {
+        console.log(`Attaching for ${nID}`)
+        let userTableIndex = simNameMap[nID]
+        let user = newUsers[userTableIndex]
+        if (user) {
+          user.analysis = perNode[nID]
+          user.test = true
+        }
+      }
+    }
+
+    this.simData.users = newUsers
+    */
   }
 
   // misc helpers

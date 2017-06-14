@@ -7,6 +7,10 @@ export default class SocketClient {
   socketConnected = false
   queuedMessages = []
   requests = {}
+
+  //these are objects with a callback and an unsubscribe ID
+  subscriptionHandlers = {}
+
   auth
   connectTimeout = 0
   conStatusChangeHandler
@@ -18,6 +22,44 @@ export default class SocketClient {
     this.conStatusChangeHandler = conStatusChangeHandler
 
     this.connect()
+  }
+
+  subscribeTo(callback, ...topics) {
+    console.log("subscribing")
+    let msg = {
+      rpc :"subscribe",
+      sessionID: this.auth.getToken(),
+      "data": {
+        "string": callback.name,
+        "topics": topics,
+      }
+    }
+
+    var reqID = this.registerRequest(this.subscribeToHandler.bind(this))
+
+    msg.requestID = reqID
+
+    msg = JSON.stringify(msg)
+
+    //put in msg queue or send message
+    if (this.socketConnected) {
+      if (this.queuedMessages.length > 0) {
+        this.emptyMessageQueue()
+      }
+      this.socket.send(msg)
+    } else {
+      this.queuedMessages.push(msg)
+    }
+
+    //register subscription handler (objects to someday deal with unsubscribes)
+    this.subscriptionHandlers[reqID] = {
+      handler: callback,
+    }
+  }
+
+  subscribeToHandler(err, data) {
+    // data is the ID to unsubscribe to
+    //we need to add the unsubscribe ID here somehow, but I don't want to deal with that right now.
   }
 
   onSocketOpen() {
@@ -77,6 +119,7 @@ export default class SocketClient {
   }
 
   onSocketMessage(e) {
+    console.log(e)
     const parsedMsg = JSON.parse(e.data)
     const msgData = parsedMsg.data
     const msgError = parsedMsg.error
@@ -94,8 +137,12 @@ export default class SocketClient {
   }
 
   getResponse(ack){
-    const handler = this.requests[ack]
+    let handler = this.requests[ack]
     this.requests[ack] = null
+
+    if (handler === null || typeof (handler) === "undefined") {
+      handler = this.subscriptionHandlers[ack].handler
+    }
 
     return handler
   }

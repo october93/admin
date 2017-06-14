@@ -2,72 +2,101 @@ import React, { Component } from 'react'
 import { Link } from 'react-foundation'
 import { observer, inject } from 'mobx-react'
 import ReactTable from 'react-table'
-import { Button, Colors, Sizes, Label } from 'react-foundation';
+import { Column, Row, Colors, Sizes, Label } from 'react-foundation';
 
 
 import './style.scss';
 import "react-table/react-table.css"
 
-const userTableRow = (data) => (
-  <tr>
-    <td>{data.simID}</td>
-    <td>{data.nodeID}</td>
-    <td>{data.username}</td>
-    <td>{data.character.summary}</td>
-  </tr>
-)
-
 const columns = [{
   Header: 'Sim ID',
-  accessor: 'simID' // String-based value accessors!
+  accessor: 'simID'
 }, {
   Header: 'NodeID',
   accessor: 'nodeID',
-  // Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
 }, {
-  //id: 'friendName', // Required because our accessor is not a string
   Header: 'Username',
   accessor: 'username',
 }, {
-  Header: "Character Summary", // Custom header components!
+  Header: "Character Summary",
   accessor: 'character.summary'
+}, {
+  id: "success",
+  Header: "Analysis Results",
+  accessor: d => d.analysis.success === true ? "Success" : d.analysis.failurereason,
+  show: true,
 }]
 
 
-/*
-<table className="hover">
-  <thead>
-    <tr>
-      <th>Sim ID</th>
-      <th>NodeID</th>
-      <th>Username</th>
-      <th>Character Summary</th>
-    </tr>
-    {usersTable}
-  </thead>
-  <tbody>
-  </tbody>
-</table>*/
-
 @inject("store") @observer
 class SimulatorPage extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      cohortSuccess: "",
+      cohortNumber: "",
+      cohortMass: "",
+    }
+
+    this.inputChange = this.inputChange.bind(this)
+    this.onCohortAnalysisSubmit = this.onCohortAnalysisSubmit.bind(this)
+
+  }
+
+  onCohortAnalysisSubmit(event) {
+    event.preventDefault()
+    this.props.store.requestCohortAnalysis(parseInt(this.state.cohortSuccess, 10), parseInt(this.state.cohortNumber, 10), parseInt(this.state.cohortMass, 10))
+  }
+
+  inputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
-    const usersTable = this.props.store.simData.users.toJS().map(userTableRow)
     let simConnected = (<Label onClick={() => this.props.store.connectToSim()} color={Colors.ALERT}>No Sim Connected (Click to connect)</Label>)
-    let simUserTable = null
 
     if (this.props.store.simulatorConnected) {
       simConnected = (<Label color={Colors.SUCCESS}>Simulator Connected</Label>)
     }
+
+
     return (
       <div>
         <div>
           {simConnected}
         </div>
         <Link disabled={!this.props.store.simulatorConnected} size={Sizes.SMALL} onClick={() => this.props.store.getSimulatorDataRequest()}>Query Sim</Link>
+
+        <div>
+          <form onSubmit={this.onCohortAnalysisSubmit}>
+            <Row className="display">
+              <Column small={1}>
+                <input type="number" placeholder="Suc." name="cohortSuccess" onChange={this.inputChange} required/>
+              </Column>
+              <Column small={1}>
+                <input type="number" placeholder="Num" name="cohortNumber" onChange={this.inputChange} required/>
+              </Column>
+              <Column small={1}>
+                <input type="number" placeholder="Mass" name="cohortMass" onChange={this.inputChange} required/>
+              </Column>
+              <Column small={1}>
+                <button disabled={!this.props.store.simulatorConnected} type="submit" className="button">Analyze</button>
+              </Column>
+            </Row>
+
+          </form>
+        </div>
+
         <div>
           <ReactTable
-           data={this.props.store.simData.users}
+           data={this.props.store.simUsers}
            columns={columns}
            defaultPageSize={10}
          />
