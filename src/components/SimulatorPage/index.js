@@ -46,7 +46,7 @@ class SimulatorPage extends Component {
 
   onCohortAnalysisSubmit(event) {
     event.preventDefault()
-    this.props.store.requestCohortAnalysis(parseInt(this.state.cohortSuccess, 10), parseInt(this.state.cohortNumber, 10), parseInt(this.state.cohortMass, 10))
+    this.props.store.requestCohortAnalysis(parseFloat(this.state.cohortSuccess, 10), parseFloat(this.state.cohortNumber, 10), parseFloat(this.state.cohortMass, 10))
   }
 
   inputChange(event) {
@@ -78,13 +78,13 @@ class SimulatorPage extends Component {
           <form onSubmit={this.onCohortAnalysisSubmit}>
             <Row className="display">
               <Column small={1}>
-                <input type="number" placeholder="Suc." name="cohortSuccess" onChange={this.inputChange} required/>
+                <input type="number" step="any" placeholder="Suc." name="cohortSuccess" onChange={this.inputChange} required/>
               </Column>
               <Column small={1}>
-                <input type="number" placeholder="Num" name="cohortNumber" onChange={this.inputChange} required/>
+                <input type="number" step="any" placeholder="Num" name="cohortNumber" onChange={this.inputChange} required/>
               </Column>
               <Column small={1}>
-                <input type="number" placeholder="Mass" name="cohortMass" onChange={this.inputChange} required/>
+                <input type="number" step="any" placeholder="Mass" name="cohortMass" onChange={this.inputChange} required/>
               </Column>
               <Column small={1}>
                 <button disabled={!this.props.store.simulatorConnected} type="submit" className="button">Analyze</button>
