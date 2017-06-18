@@ -1,6 +1,5 @@
 import cookie from "react-cookie"
 import { observable } from 'mobx';
-import uuid from "uuid"
 import AuthService from '../utils/AuthService'
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import gql from 'graphql-tag';
@@ -31,8 +30,6 @@ class AdminStore {
   @observable newUserWaiting = false
 
   @observable newCardStatus = null
-
-  @observable hnStatus = null
 
   @observable inviteStatus = null
 
@@ -221,36 +218,6 @@ class AdminStore {
       this.newCardStatus = "failure"
     }
 
-  }
-
-  hnStatusRequest(){
-    const msg = { rpc: "hnStatus" }
-    this.engineClient.sendMsg(msg, this.hnStatusResponse.bind(this))
-  }
-
-  hnStatusResponse(error, data){
-    if(error === undefined && data.Running) {
-      this.hnStatus = "up"
-    } else {
-      this.hnStatus = "down"
-    }
-  }
-
-  changeHNStatusRequest(status){
-    let msg = {}
-
-    if (status === "up"){
-      msg.rpc = "startHN"
-    } else if (status === "down"){
-      msg.rpc = "stopHN"
-    }
-
-    this.engineClient.sendMsg(msg, this.changeHNStatusResponse.bind(this))
-    this.hnStatus = null
-  }
-
-  changeHNStatusResponse(error, data) {
-    this.hnStatusRequest()
   }
 
   inviteRequest(inviter, invitee){

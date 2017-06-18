@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 
-import { Button, Colors, Sizes, Label } from 'react-foundation';
-
 import './style.scss'
 
 @inject("store") @observer
@@ -35,31 +33,10 @@ export default class UtilitiesPage extends Component {
   }
 
   render() {
-    let statusIndicator = (<Label color={Colors.SECONDARY}>Querying...</Label>)
-
-    if(this.props.store.hnStatus === "up"){
-      statusIndicator = (<Label color={Colors.SUCCESS}>Running</Label>)
-    } else if (this.props.store.hnStatus === "down"){
-      statusIndicator = (<Label color={Colors.ALERT}>Down</Label>)
-    }
-
     return (
       <div>
         <div>
-          <div className="importerStatus">
-            HN Importer: {statusIndicator}
-          </div>
-          <div className="importerButtons">
-            <Button color={Colors.SUCCESS} size={Sizes.SMALL} onClick={() => this.props.store.changeHNStatusRequest("up")}>Start</Button>
-            <Button color={Colors.ALERT} size={Sizes.SMALL} onClick={() => this.props.store.changeHNStatusRequest("down")}>Stop</Button>
-          </div>
-        </div>
-
-        <div className="separator" />
-
-        <div>
-          <b>Command Tester<br /></b>
-
+          <strong>Command Tester<br/></strong>
           Response:
           <div className="commandResponse">
             <pre>
@@ -72,7 +49,6 @@ export default class UtilitiesPage extends Component {
           </form>
         </div>
       </div>
-
     )
   }
 }
