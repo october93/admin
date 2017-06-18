@@ -10,6 +10,14 @@ const defaultServerURL = `${location.hostname === "localhost" ? location.hostnam
 
 const defaultSimulatorSocketURL = "localhost:8083"
 
+const getFromUsers = (users, id) => {
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].nodeId === id) {
+      return users[i]
+    }
+  }
+}
+
 class AdminStore {
   @observable importerStatus = ""
   @observable graphNodeData = []
@@ -144,14 +152,27 @@ class AdminStore {
     //console.log(`${JSON.stringify(this.graphNodeData)}, ${JSON.stringify(this.graphEdgeData)}`)
   }
 
-  //Get Users
-  getUsersRequest(){
-    const msg = { rpc: "getUsers" }
-    this.engineClient.sendMsg(msg, this.getUsersResponse.bind(this))
+  getUsersData(data){
+    this.client.query({
+      query: gql`
+        {
+          users {
+            username
+            nodeId
+            lastactiontime
+            node {
+              cardRankTableSize
+            }
+          }
+        }
+      `,
+    })
+      .then(data => this.userHealthDataRecieved(data))
+      .catch(error => console.error(error));
   }
 
-  getUsersResponse(error, data){
-    this.usersData = data
+  userHealthDataRecieved(data){
+    this.usersData = data.data.users
   }
 
   getSessionsRequest() {

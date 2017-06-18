@@ -40,7 +40,7 @@ const Routes = (props) => (
       <Route path="/admin/login" onEnter={checkAuth} />
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={DashPage} />
-        <Route path="/admin/users" component={UsersPage} />
+        <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/sessions" component={SessionsPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
         <Route path="/admin/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
