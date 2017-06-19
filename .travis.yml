@@ -3,6 +3,11 @@ language: node_js
 node_js:
   - "7.7.1"
 
+addons:
+  ssh_known_hosts:
+  - latest.october.news
+  - development.october.news
+
 notifications:
   email: false
 
@@ -11,3 +16,6 @@ install:
 
 script:
   - ./scripts/ci/test.sh
+
+after_success:
+  - ./scripts/ci/travis_deploy.sh
