@@ -1,0 +1,13 @@
+language: node_js
+
+node_js:
+  - "7.7.1"
+
+notifications:
+  email: false
+
+install:
+  - ./scripts/ci/setup.sh
+
+script:
+  - ./scripts/ci/test.sh
