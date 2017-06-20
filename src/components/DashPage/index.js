@@ -12,7 +12,7 @@ class DashPage extends Component {
     return (
       <div>
         <div>
-          Welcome {profile.given_name}
+          Welcome {profile ? profile.given_name : null}
         </div>
         <div>
           <Link onClick={auth.logout.bind(this)}>Logout</Link>
