@@ -18,7 +18,7 @@ export default class NewUserPage extends Component {
       password: "",
     }
 
-    this.props.store.getUsersRequest()
+    this.props.store.getUsersData()
 
     this.inputChange = this.inputChange.bind(this)
     this.submit = this.submit.bind(this)
