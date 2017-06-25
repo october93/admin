@@ -43,7 +43,7 @@ const Routes = (props) => (
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/sessions" component={SessionsPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
-        <Route path="/admin/graph" onEnter={() => AdminStore.getGraphData()} component={GraphPage} />
+        <Route path="/admin/graph" component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/utilities" component={UtilitiesPage} />
         <Route path="/admin/invites" component={InvitesPage} />

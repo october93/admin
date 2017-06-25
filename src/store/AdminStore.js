@@ -104,11 +104,11 @@ class AdminStore {
       query: gql`
         {
           graph {
-            NodeData {
+            users {
               nodeId
               displayname
             }
-            EdgeData {
+            edges {
               sourceID
               targetID
             }
