@@ -21,7 +21,10 @@ export default class GraphPage extends Component {
       }),
     })
 
-    this.buildGraph = this.buildGraph.bind(this)
+    this.renderGraph = true;
+    this.buildGraph = this.buildGraph.bind(this);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
+    this.state = {selectedNode: {}, tooltipPosition: {top: 0, right: 0}, showNodeLabels: false}
   }
 
   buildGraph(graph, data) {
@@ -33,21 +36,31 @@ export default class GraphPage extends Component {
       let edge = data.graph.edges[i];
       graph.addLink(edge.sourceID, edge.targetID);
     }
-    this.setState({graph: graph});
   }
 
-  componentDidMount() {
+  configureGraph(showLabels) {
     let graph = Viva.Graph.graph();
     let graphics = Viva.Graph.View.svgGraphics();
-    let nodeSize = 24;
-    graphics.node(function(node) {
+    let nodeSize = 20;
+    graphics.node((node) => {
       // This time it's a group of elements: http://www.w3.org/TR/SVG/struct.html#Groups
       let ui = Viva.Graph.svg('g')
         // Create SVG text element with user id as content
-      let rect = Viva.Graph.svg('rect').attr('fill', "#1aafdb").attr("width", 20).attr("height", 20).attr('y', '-4px').attr('x', '4px')
-      let tooltip = Viva.Graph.svg('title').text("What\nlol")
+      let rect = Viva.Graph.svg('rect').attr('fill', "#1aafdb").attr("width", nodeSize).attr("height", nodeSize)
+      let label = Viva.Graph.svg('text').text(node.data.displayname).attr('class', 'nodeLabel')
       ui.append(rect);
-      ui.append(tooltip);
+      if (showLabels) {
+        ui.append(label);
+      }
+
+      ui.addEventListener('mouseover', () => {
+        let data = node.data
+        this.setState({selectedNode: node.data, tooltipPosition: ui.getBoundingClientRect(), show: true});
+      });
+      ui.addEventListener('mouseout', () => {
+        this.setState({show: false})
+      });
+
       return ui;
     }).placeNode(function(nodeUI, pos) {
       // 'g' element doesn't have convenient (x,y) attributes, instead
@@ -85,8 +98,12 @@ export default class GraphPage extends Component {
         //  "Links should start/stop at node's bounding box, not at the node center."
         // For rectangular nodes Viva.Graph.geom() provides efficient way to find
         // an intersection point between segment and rectangle
-        var toNodeSize = nodeSize,
-            fromNodeSize = nodeSize;
+
+        // Padding is used for the distance between edge and node
+        let padding = 10;
+
+        var toNodeSize = nodeSize + padding,
+            fromNodeSize = nodeSize + padding;
         var from = geom.intersectRect(
                 // rectangle:
                         fromPos.x - fromNodeSize / 2, // left
@@ -117,11 +134,19 @@ export default class GraphPage extends Component {
       gravity : -1.2
     });
 
+    let graphDOM = document.getElementById('graph');
+    graphDOM.innerHTML = null
+
+    this.graph = graph;
     this.renderer = Viva.Graph.View.renderer(graph, {
       graphics: graphics,
       layout: layout,
-      container: document.getElementById('graph')
+      container: graphDOM,
     });
+  }
+
+  componentDidMount() {
+    this.configureGraph(false)
     this.client.query({
       query: gql`
         {
@@ -138,16 +163,52 @@ export default class GraphPage extends Component {
           }
         }
       `,
-    }).then(response => this.buildGraph(graph, response.data))
+    }).then(response => this.setState({graphData: response.data}))
       .catch(error => console.error(error));
   }
 
+  handleOptionChange() {
+    this.renderGraph = true;
+    this.configureGraph(!this.state.showNodeLabels)
+    this.setState({
+      showNodeLabels: !this.state.showNodeLabels
+    });
+  }
+
   render() {
-    if (this.renderer !== undefined) {
+    if (this.renderer !== undefined && this.renderGraph) {
+      this.buildGraph(this.graph, this.state.graphData);
       this.renderer.run()
+      this.renderGraph = false;
     }
+    const tooltipStyle = {
+      top: this.state.tooltipPosition.top,
+      right: this.state.tooltipPosition.right,
+      display: this.state.show ? 'inline' : 'none',
+    };
     return (
       <div className="graph-wrapper">
+        <div className="options">
+          <label for="nodeLabels">
+            Node Labels
+          </label>
+          <input
+            name="nodeLabels"
+            type="checkbox"
+            checked={this.state.showNodeLabels}
+            onChange={this.handleOptionChange} />
+        </div>
+        <div id="tooltip" style={tooltipStyle}>
+          <ul>
+            {Object.keys(this.state.selectedNode).map((key) => {
+              if (key.startsWith('__')) {
+                return null
+              } else {
+                return <li><strong>{key}</strong> {this.state.selectedNode[key]}</li>;
+              }
+            })}
+          </ul>
+        </div>
         <div id="graph"></div>
       </div>
     )

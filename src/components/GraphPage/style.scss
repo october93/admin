@@ -7,4 +7,11 @@
       height: 100%;
     }
   }
+  > #tooltip {
+    display: inline;
+    position: absolute;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #000;
+  }
 }
