@@ -4,7 +4,6 @@ import { observer, inject } from 'mobx-react';
 import { FaPlus }  from 'react-icons/lib/fa';
 import { Link } from 'react-router'
 import ReactTable from 'react-table'
-import { Sizes } from 'react-foundation';
 
 import './style.scss';
 

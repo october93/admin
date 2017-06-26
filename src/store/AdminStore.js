@@ -9,14 +9,6 @@ const defaultServerURL = `${location.hostname === "localhost" ? location.hostnam
 
 const defaultSimulatorSocketURL = "localhost:8083"
 
-const getFromUsers = (users, id) => {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].nodeId === id) {
-      return users[i]
-    }
-  }
-}
-
 class AdminStore {
   @observable importerStatus = ""
   @observable graphNodeData = []
@@ -179,6 +171,7 @@ class AdminStore {
           sessions {
             id
             username
+            lastActivity
           }
         }
       `,

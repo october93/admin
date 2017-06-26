@@ -18,6 +18,7 @@ export default class SessionsPage extends Component {
       <tr>
         <td>{data.id}</td>
         <td>{data.username}</td>
+        <td>{data.lastActivity}</td>
       </tr>
     )
 
@@ -28,10 +29,11 @@ export default class SessionsPage extends Component {
               <tr>
                 <th>Session ID</th>
                 <th>Username</th>
+                <th>Last Activity</th>
               </tr>
-              {sessionsList}
             </thead>
             <tbody>
+              {sessionsList}
             </tbody>
           </table>
       </div>

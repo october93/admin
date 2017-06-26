@@ -54,7 +54,6 @@ export default class GraphPage extends Component {
       }
 
       ui.addEventListener('mouseover', () => {
-        let data = node.data
         this.setState({selectedNode: node.data, tooltipPosition: ui.getBoundingClientRect(), show: true});
       });
       ui.addEventListener('mouseout', () => {
