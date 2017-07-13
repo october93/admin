@@ -33,6 +33,11 @@ export default class InvitesPage extends Component {
     this.props.store.inviteRequest(this.state.users)
   }
 
+  pressConnectAll = (event) => {
+    event.preventDefault()
+    this.props.store.connectAllUsersRequest()
+  }
+
   render() {
     const store = this.props.store
 
@@ -62,6 +67,9 @@ export default class InvitesPage extends Component {
           <label>Array of users to connect by username</label>
           <input type="text" value={this.state.users} placeholder="Name/ID" name="users" onChange={this.inputChange} required/>
           <button type="submit" className="button">Submit</button>
+        </form>
+        <form onSubmit={this.pressConnectAll}>
+          <button type="submit" className="button">Connect All Users</button>
         </form>
       </div>
     )

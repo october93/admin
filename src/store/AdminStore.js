@@ -229,6 +229,26 @@ class AdminStore {
     }
   }
 
+  connectAllUsersRequest(){
+    let followersArray = []
+
+    for (let i = 0; i < this.usersData.length; i++) {
+      followersArray.push(this.usersData[i].username)
+    }
+
+    this.inviteStatus = "waiting"
+    const msg = { rpc: "connectUsers", data: {users: followersArray}}
+    this.engineClient.sendMsg(msg, this.connectAllResponse.bind(this))
+  }
+
+  connectAllResponse(error, data){
+    if (error === undefined) {
+      this.inviteStatus = "success"
+    } else {
+      this.inviteStatus = "failure"
+    }
+  }
+
   getDemoRequest(){
     const msg = { rpc: "getDemoCards" }
     this.engineClient.sendMsg(msg, this.getDemoResponse.bind(this))
