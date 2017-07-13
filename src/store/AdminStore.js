@@ -213,10 +213,12 @@ class AdminStore {
 
   }
 
-  inviteRequest(inviter, invitee){
-    const msg = { rpc: "invite", data: {inviter: inviter, invitee: invitee}}
-    this.engineClient.sendMsg(msg, this.inviteResponse.bind(this))
+  inviteRequest(users){
+    const followersArray = JSON.parse(users)
+
     this.inviteStatus = "waiting"
+    const msg = { rpc: "connectUsers", data: {users: followersArray}}
+    this.engineClient.sendMsg(msg, this.inviteResponse.bind(this))
   }
 
   inviteResponse(error, data){

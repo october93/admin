@@ -11,8 +11,7 @@ export default class InvitesPage extends Component {
     super(props)
 
     this.state = {
-      inviterid: "",
-      inviteeid: "",
+      users: '[""]',
     }
 
     this.inputChange = this.inputChange.bind(this)
@@ -31,7 +30,7 @@ export default class InvitesPage extends Component {
 
   submit(event){
     event.preventDefault()
-    this.props.store.inviteRequest(this.state.inviterid, this.state.inviteeid)
+    this.props.store.inviteRequest(this.state.users)
   }
 
   render() {
@@ -60,10 +59,8 @@ export default class InvitesPage extends Component {
       <div>
         {shownAlert}
         <form onSubmit={this.submit}>
-          <label>Inviter Username or Node ID</label>
-          <input type="text" placeholder="Name/ID" name="inviterid" onChange={this.inputChange} required/>
-          <label>Invitee Username or Node ID</label>
-          <input type="text" placeholder="Name/ID" name="inviteeid" onChange={this.inputChange} required/>
+          <label>Array of users to connect by username</label>
+          <input type="text" value={this.state.users} placeholder="Name/ID" name="users" onChange={this.inputChange} required/>
           <button type="submit" className="button">Submit</button>
         </form>
       </div>

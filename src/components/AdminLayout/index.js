@@ -13,7 +13,7 @@ const menuItems = [
   {name: "Users", path: "/admin/users"},
   {name: "Sessions", path: "/admin/sessions"},
   {name: "Cards", path: "/admin/newCard"},
-  {name: "Invites", path: "/admin/invites"},
+  {name: "Connect", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/utilities"},
   {name: "Graph", path: "/admin/graph"},
   {name: "Demo", path: "/admin/demo"},
