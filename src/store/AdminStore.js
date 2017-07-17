@@ -38,6 +38,14 @@ class AdminStore {
     cards: [],
   }
 
+  @observable postRankings = []
+  @observable likeRankings = []
+  @observable hitRateRankings = []
+
+  @observable totalPosts = 0
+  @observable totalLikes = 0
+  @observable totalHitrate = 0
+
   simUserAnalysis = []
   @observable simUsers = []
 
@@ -139,6 +147,62 @@ class AdminStore {
     this.graphLoaded = true
 
     //console.log(`${JSON.stringify(this.graphNodeData)}, ${JSON.stringify(this.graphEdgeData)}`)
+  }
+
+  getDashboardMetrics(){
+    console.log("sdf;jlkasdf;o'ajlshkdfbklads;ifoulahsjkdbfmn,.kjlasouiydfghkjbasn,md.jklf;iouhlakj,")
+
+    this.client.query({
+      query: gql`
+      {
+        graph {
+          users {
+            username
+            displayname
+            likesThisWeek
+            postsThisWeek
+            reactionsThisWeek
+          }
+        }
+      }
+      `,
+    })
+      .then(data => this.dashboardMetricsRecieved(data))
+      .catch(error => console.error(error));
+  }
+
+  dashboardMetricsRecieved(data){
+    const users = data.data.graph.users
+    let totalReacts = 0
+
+    this.totalPosts = 0
+    this.totalLikes = 0
+
+    for(let i = 0; i < users.length; i++) {
+      const usr = users[i]
+      this.postRankings.push({name: usr.displayname, metric: usr.postsThisWeek})
+      this.likeRankings.push({name: usr.displayname, metric: usr.likesThisWeek})
+      let hr = usr.likesThisWeek / usr.reactionsThisWeek
+      this.hitRateRankings.push({name: usr.displayname, metric: usr.reactionsThisWeek > 0 ? hr : 0 })
+
+      this.totalPosts += usr.postsThisWeek
+      this.totalLikes += usr.likesThisWeek
+      totalReacts += usr.reactionsThisWeek
+    }
+
+    const sortFn = (a, b) => {
+      if (a.metric > b.metric) {
+        return -1
+      } else if (a.metric < b.metric) {
+        return 1
+      }
+      return 0
+    }
+
+    this.postRankings = this.postRankings.toJS().sort(sortFn)
+    this.likeRankings = this.likeRankings.toJS().sort(sortFn)
+    this.hitRateRankings = this.hitRateRankings.toJS().sort(sortFn)
+    this.totalHitrate = totalReacts > 0 ? this.totalLikes / totalReacts : 0
   }
 
   getUsersData(data){

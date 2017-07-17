@@ -39,7 +39,7 @@ const Routes = (props) => (
     <Router {...props}>
       <Route path="/admin/login" onEnter={checkAuth} />
       <Route component={AdminLayout} onEnter={requireAuth}>
-        <Route path="/admin" component={DashPage} />
+        <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/sessions" component={SessionsPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
