@@ -23,21 +23,21 @@ class DashPage extends Component {
     const postsList = this.props.store.postRankings.toJS().map((data, i) =>
       <tr className={ i === 0 ? "firstRow" : ""}>
         <td>{data.name}</td>
-        <td>{data.metric}</td>
+        <td>{data.metric > 0 ? data.metric: "-"}</td>
       </tr>
     )
 
     const likesList = this.props.store.likeRankings.toJS().map((data, i) =>
       <tr className={ i === 0 ? "firstRow" : ""}>
         <td>{data.name}</td>
-        <td>{data.metric}</td>
+        <td>{data.metric > 0 ? data.metric: "-"}</td>
       </tr>
     )
 
     const hitList = this.props.store.hitRateRankings.toJS().map((data, i) =>
       <tr className={ i === 0 ? "firstRow" : ""}>
         <td>{data.name}</td>
-        <td>{data.metric}</td>
+        <td>{data.metric > 0 ? data.metric.toFixed(2)* 100 + "%" : "-"}</td>
       </tr>
     )
 
@@ -80,7 +80,7 @@ class DashPage extends Component {
             </Column>
             <Column small={4}>
               <h2>
-                Average HR: {this.props.store.totalHitrate}
+                Average HR: {this.props.store.totalHitrate > 0 ? this.props.store.totalHitrate.toFixed(2)* 100 + "%" : "-"}
               </h2>
               <table className="hover">
                 <thead>
