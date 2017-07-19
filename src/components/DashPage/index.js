@@ -17,9 +17,6 @@ const sortFn = (a, b) => {
 @inject("store") @observer
 class DashPage extends Component {
   render() {
-    const profile = JSON.parse(localStorage.getItem("profile"))
-    const auth = this.props.store.auth
-
     const postsList = this.props.store.postRankings.toJS().map((data, i) =>
       <tr className={ i === 0 ? "firstRow" : ""}>
         <td>{data.name}</td>

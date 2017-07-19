@@ -177,6 +177,9 @@ class AdminStore {
 
     this.totalPosts = 0
     this.totalLikes = 0
+    this.postRankings = []
+    this.likeRankings = []
+    this.hitRateRankings = []
 
     for(let i = 0; i < users.length; i++) {
       const usr = users[i]
