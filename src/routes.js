@@ -17,7 +17,7 @@ import InvitesPage from './components/InvitesPage'
 import DemoPage from './components/DemoPage'
 import SimulatorPage from "./components/SimulatorPage"
 import GraphQLPage from './components/GraphQLPage'
-
+import CardsPage from './components/CardsPage'
 import AdminStore from "./store/AdminStore"
 
 const requireAuth = (nextState, replace) => {
@@ -42,6 +42,7 @@ const Routes = (props) => (
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/sessions" component={SessionsPage} />
+          <Route path="/admin/cards" component={CardsPage} />
         <Route path="/admin/newCard" component={NewCardPage} />
         <Route path="/admin/graph" component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />

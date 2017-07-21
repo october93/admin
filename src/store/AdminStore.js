@@ -57,6 +57,8 @@ class AdminStore {
 
   @observable cohortAnalysisSummary = {}
 
+  @observable layoutDataCardPreview = null
+
   serverURL
   simulatorclient
   engineclient
@@ -149,9 +151,26 @@ class AdminStore {
     //console.log(`${JSON.stringify(this.graphNodeData)}, ${JSON.stringify(this.graphEdgeData)}`)
   }
 
-  getDashboardMetrics(){
-    console.log("sdf;jlkasdf;o'ajlshkdfbklads;ifoulahsjkdbfmn,.kjlasouiydfghkjbasn,md.jklf;iouhlakj,")
+  getCardData(cardID){
 
+  this.client.query({
+    query: gql`
+    {
+    	card(card_id: "${cardID}") {
+        layoutdata
+    	}
+    }
+    `,
+  })
+    .then(data => this.cardDataRecieved(data))
+    .catch(error => console.error(error));
+  }
+
+  cardDataRecieved(data) {
+    this.layoutDataCardPreview = data.data.card.layoutdata
+  }
+
+  getDashboardMetrics(){
     this.client.query({
       query: gql`
       {
