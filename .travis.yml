@@ -11,6 +11,9 @@ addons:
 notifications:
   email: false
 
+before_install:
+- npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+
 install:
   - ./scripts/ci/setup.sh
 
