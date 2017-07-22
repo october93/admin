@@ -11,14 +11,14 @@ import logo from './october.svg';
 import classnames from 'classnames';
 
 const menuItems = [
-  {name: "Dashboard", path: "/admin"},
-  {name: "Users", path: "/admin/users"},
+  {name: "Usage Dashboard", path: "/admin"},
+  {name: "Users Dashboard", path: "/admin/users"},
+  {name: "Cards Dashboard", path: "/admin/cards"},
   {name: "Sessions", path: "/admin/sessions"},
   {name: "New Card", path: "/admin/newCard"},
   {name: "Connect", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/utilities"},
   {name: "Graph", path: "/admin/graph"},
-  {name: "Cards", path: "/admin/cards"},
   {name: "Demo", path: "/admin/demo"},
   {name: "Simulator", path: "/admin/sim"},
   {name: "GraphQL", path: "/admin/graphql"},

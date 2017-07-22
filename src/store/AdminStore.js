@@ -58,6 +58,7 @@ class AdminStore {
   @observable cohortAnalysisSummary = {}
 
   @observable layoutDataCardPreview = null
+  @observable allCardsWithMetrics = []
 
   serverURL
   simulatorclient
@@ -152,23 +153,46 @@ class AdminStore {
   }
 
   getCardData(cardID){
-
-  this.client.query({
-    query: gql`
-    {
-    	card(card_id: "${cardID}") {
-        layoutdata
-    	}
-    }
-    `,
-  })
-    .then(data => this.cardDataRecieved(data))
-    .catch(error => console.error(error));
+    this.layoutDataCardPreview = null
+    this.client.query({
+      query: gql`
+      {
+      	card(card_id:"${cardID}") {
+          layoutdata
+      	}
+      }
+      `,
+    })
+      .then(data => this.cardDataRecieved(data))
+      .catch(error => console.error(error));
   }
 
   cardDataRecieved(data) {
     this.layoutDataCardPreview = data.data.card.layoutdata
   }
+
+  getCardsData(){
+
+  this.client.query({
+    query: gql`
+    {
+    	cards {
+    	  cardID
+    	  post_timestamp
+    	  total_likes
+    	  total_reacts
+    	}
+    }
+    `,
+  })
+    .then(data => this.cardsDataRecieved(data))
+    .catch(error => console.error(error));
+  }
+
+  cardsDataRecieved(data) {
+    this.allCardsWithMetrics = data.data.cards
+  }
+
 
   getDashboardMetrics(){
     this.client.query({

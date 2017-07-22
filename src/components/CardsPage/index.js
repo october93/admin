@@ -1,11 +1,31 @@
 import React, { Component } from 'react'
-import { observer, inject, toJS } from 'mobx-react';
+import { observer, inject  } from 'mobx-react';
 import { Card } from '@october/web-card'
+import ReactTable from 'react-table'
+import { Link, Sizes } from 'react-foundation';
 
 
 import './style.scss';
 
-const card = {"content":{"content":{"bgColor":["#fff"],"bgOpacity":0,"content":[{"fontColor":"#fff","fontSize":24,"justification":"center","text":"How Technology is Changing What it Means to Be Human","type":"textBody"},{"fontColor":"#fff","fontSize":12,"justification":"center","text":"www.scout.ai","type":"linkDomain"}],"type":"container"},"resizeMode":"cover","src":"https://scout-cdn.s3.amazonaws.com/BJOGhmErZundefined","type":"image"},"rootType":"overlay","url":"https://www.scout.ai/story/how-technology-is-changing-what-it-means-to-be-human"}
+const columns = [{
+  Header: 'Card ID',
+  accessor: 'cardID',
+  filterable: true,
+},
+{
+  Header: 'Likes',
+  accessor: 'total_likes',
+},
+{
+  id: "hitRate",
+  Header: 'Hit Rate',
+  accessor: d => (d.total_reacts > 0 ? Math.floor(d.total_likes / d.total_reacts * 100) : 0) + "%",
+}, {
+  Header: "",
+  accessor: "callback",
+  Cell: row => (<Link onClick={row.value} size={Sizes.SMALL}>View</Link>)
+
+}]
 
 @inject("store") @observer
 export default class CardsPage extends Component {
@@ -37,16 +57,24 @@ export default class CardsPage extends Component {
         <Card data={JSON.parse(this.props.store.layoutDataCardPreview)}/>
       )
     }
+
+    const cardsData = this.props.store.allCardsWithMetrics.toJS().map((value, idx) => {
+      value.callback = () => {
+        this.props.store.getCardData(value.cardID)
+      }
+      return value
+    })
+
     return (
       <div>
-        <form onSubmit={this.submit}>
-          <label>CardID</label>
-          <input type="text" value={this.state.cardid} placeholder="Name/ID" name="cardid" onChange={this.inputChange} required/>
-          <button type="submit" className="button">Submit</button>
-        </form>
         <div className="card">
           {card}
         </div>
+        <ReactTable
+         data={cardsData}
+         columns={columns}
+         defaultPageSize={20}
+        />
       </div>
     )
   }
