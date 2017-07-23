@@ -7,12 +7,7 @@ import { ResponsiveContainer, LineChart, Line, Tooltip, XAxis, YAxis} from 'rech
 import { Column, Row  } from 'react-foundation'
 
 import './style.scss';
-const datas = [
-  {hitRate: 10, number: 18},
-  {hitRate: 20, number: 1},
-  {hitRate: 40, number: 10},
-  {hitRate: 60, number: 5},
-]
+
 const columns = [{
   Header: 'Card ID',
   accessor: 'cardID',

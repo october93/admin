@@ -59,6 +59,11 @@ const columns = [{
   Header: 'NodeID',
   accessor: 'nodeId',
 }, {
+  id: "satisfaction",
+  Header: 'Satisfaction (5-day avg)',
+  accessor: d => d.countGivenReacts > 0 ? d.countGivenLikes / d.countGivenReacts : 0,
+  Cell: row => (Math.floor(row.value * 100) + "%")
+}, {
   Header: 'Last Action',
   accessor: 'lastactiontime',
   Cell: row => (<span className={daysSinceColor(daysSince(row.value))}>{daysSinceString(daysSince(row.value))}</span>)

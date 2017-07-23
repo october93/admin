@@ -211,6 +211,16 @@ class AdminStore {
 
 
   getDashboardMetrics(from, to){
+    if (typeof (from) === "undefined") {
+      const lastSunday = new Date()
+      lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
+      from = lastSunday
+    }
+    if (typeof (to) === "undefined") {
+      const nextSunday = new Date()
+      nextSunday.setDate(nextSunday.getDate() + 7 - nextSunday.getDay())
+      to = nextSunday
+    }
     this.client.query({
       query: gql`
       {
@@ -275,6 +285,8 @@ class AdminStore {
             username
             nodeId
             lastactiontime
+            countGivenLikes
+            countGivenReacts
             node {
               cardRankTableSize
             }
