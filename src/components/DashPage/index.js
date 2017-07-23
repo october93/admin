@@ -1,19 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-foundation'
 import { observer, inject } from 'mobx-react'
 import { Column, Row  } from 'react-foundation'
 import dateFormat from 'dateformat'
 
 import './style.scss'
-
-const sortFn = (a, b) => {
-  if (a.metric < b.metric) {
-    return -1
-  } else if (a.metric < b.metric) {
-    return 1
-  }
-  return 0
-}
 
 @inject("store") @observer
 class DashPage extends Component {

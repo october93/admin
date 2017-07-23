@@ -7,6 +7,15 @@ import { Link, Sizes } from 'react-foundation';
 
 import './style.scss';
 
+const sortFn = (a, b) => {
+  if (a.metric < b.metric) {
+    return -1
+  } else if (a.metric < b.metric) {
+    return 1
+  }
+  return 0
+}
+
 const columns = [{
   Header: 'Card ID',
   accessor: 'cardID',
@@ -19,7 +28,8 @@ const columns = [{
 {
   id: "hitRate",
   Header: 'Hit Rate',
-  accessor: d => (d.total_reacts > 0 ? Math.floor(d.total_likes / d.total_reacts * 100) : 0) + "%",
+  accessor: d => d.total_reacts > 0 ? d.total_likes / d.total_reacts : 0,
+  Cell: row => (Math.floor(row.value * 100) + "%")
 }, {
   Header: "",
   accessor: "callback",
