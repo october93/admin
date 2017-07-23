@@ -4,6 +4,7 @@ import AuthService from '../utils/AuthService'
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import gql from 'graphql-tag';
 import SocketClient from "./SocketClient"
+import dateFormat from 'dateformat'
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":8080" : location.hostname}`
 
@@ -211,15 +212,15 @@ class AdminStore {
 
 
   getDashboardMetrics(from, to){
-    if (typeof (from) === "undefined") {
+    if (typeof from === "undefined") {
       const lastSunday = new Date()
       lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
-      from = lastSunday
+      from = dateFormat(lastSunday, "yyyy-mm-dd")
     }
-    if (typeof (to) === "undefined") {
+    if (typeof to === "undefined") {
       const nextSunday = new Date()
       nextSunday.setDate(nextSunday.getDate() + 7 - nextSunday.getDay())
-      to = nextSunday
+      to = dateFormat(nextSunday, "yyyy-mm-dd")
     }
     this.client.query({
       query: gql`
