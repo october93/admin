@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-foundation'
 import { observer, inject } from 'mobx-react'
-import { Column, Row  } from 'react-foundation';
+import { Column, Row  } from 'react-foundation'
+import dateFormat from 'dateformat'
 
-import './style.scss';
+import './style.scss'
 
 const sortFn = (a, b) => {
   if (a.metric < b.metric) {
@@ -16,6 +17,35 @@ const sortFn = (a, b) => {
 
 @inject("store") @observer
 class DashPage extends Component {
+  constructor(props){
+      super(props)
+
+      const today = new Date()
+      const lastSunday = new Date(today)
+      lastSunday.setDate(today.getDate() - today.getDay())
+      const nextSunday = new Date(today)
+      nextSunday.setDate(today.getDate() + 7 - today.getDay())
+
+      this.state = {
+        from: dateFormat(lastSunday, "yyyy-mm-dd"),
+        to: dateFormat(nextSunday, "yyyy-mm-dd"),
+      }
+  }
+
+  onBlur = () => {
+    this.props.store.getDashboardMetrics(this.state.from, this.state.to)
+  }
+
+  inputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
     const postsList = this.props.store.postRankings.toJS().map((data, i) =>
       <tr className={ i === 0 ? "firstRow" : ""}>
@@ -38,12 +68,14 @@ class DashPage extends Component {
       </tr>
     )
 
+
+
     return (
       <div>
         <div>
-          <h2>This week...</h2>
+          <h3>From <input onBlur={this.onBlur} style={{width: "120px", display: "inline"}} type="text" value={this.state.from} name="from" onChange={this.inputChange} required/> to <input onBlur={this.onBlur} style={{width: "120px", display: "inline"}} className="picker" type="text" value={this.state.to} name="to" placeholder="To" onChange={this.inputChange} required/></h3>
           <Row className="display">
-            <Column small={4}>
+            <Column small={12} large={4}>
               <h2>
                 Total Posts: {this.props.store.totalPosts}
               </h2>
@@ -59,7 +91,7 @@ class DashPage extends Component {
                 </tbody>
               </table>
             </Column>
-            <Column small={4}>
+            <Column small={12} large={4}>
               <h2>
                 Total Likes: {this.props.store.totalLikes}
               </h2>
@@ -75,7 +107,7 @@ class DashPage extends Component {
                 </tbody>
               </table>
             </Column>
-            <Column small={4}>
+            <Column small={12} large={4}>
               <h2>
                 Average HR: {this.props.store.totalHitrate > 0 ? this.props.store.totalHitrate.toFixed(2)* 100 + "%" : "-"}
               </h2>
@@ -92,7 +124,6 @@ class DashPage extends Component {
               </table>
             </Column>
           </Row>
-
         </div>
       </div>
     );

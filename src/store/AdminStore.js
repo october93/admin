@@ -194,7 +194,7 @@ class AdminStore {
   }
 
 
-  getDashboardMetrics(){
+  getDashboardMetrics(from, to){
     this.client.query({
       query: gql`
       {
@@ -202,9 +202,9 @@ class AdminStore {
           users {
             username
             displayname
-            likesThisWeek
-            postsThisWeek
-            reactionsThisWeek
+            likesThisWeek(from:"${from}", to:"${to}")
+            postsThisWeek(from:"${from}", to:"${to}")
+            reactionsThisWeek(from:"${from}", to:"${to}")
           }
         }
       }
@@ -459,47 +459,6 @@ class AdminStore {
     this.cohortAnalysisSummary.pernoderesults = null
 
     this.getSimulatorDataRequest()
-
-    /*console.log(data)
-
-    const perNode = data.message.pernoderesults
-
-    this.cohortAnalysisSummary = data.message
-
-    const newUsers = this.simData.users
-
-    let simNameMap = {}
-
-    for (var i = 0; i < newUsers.length; i++) {
-      let userid = newUsers[i].nodeID
-      simNameMap[userid] = i
-    }
-
-    console.log(simNameMap)
-
-    for (var nID in perNode) {
-      if (Object.prototype.hasOwnProperty.call(perNode, nID)) {
-        console.log(`Attaching for ${nID}`)
-        let userTableIndex = simNameMap[nID]
-        let user = newUsers[userTableIndex]
-        if (user) {
-          user.analysis = perNode[nID]
-          user.test = true
-        }
-      }
-      if ({}.hasOwnProperty.call(perNode, nID)) {
-        console.log(`Attaching for ${nID}`)
-        let userTableIndex = simNameMap[nID]
-        let user = newUsers[userTableIndex]
-        if (user) {
-          user.analysis = perNode[nID]
-          user.test = true
-        }
-      }
-    }
-
-    this.simData.users = newUsers
-    */
   }
 
   // misc helpers
