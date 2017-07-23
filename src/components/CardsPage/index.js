@@ -3,19 +3,16 @@ import { observer, inject  } from 'mobx-react';
 import { Card } from '@october/web-card'
 import ReactTable from 'react-table'
 import { Link, Sizes } from 'react-foundation';
-
+import { ResponsiveContainer, LineChart, Line, Tooltip, XAxis, YAxis} from 'recharts'
+import { Column, Row  } from 'react-foundation'
 
 import './style.scss';
-
-const sortFn = (a, b) => {
-  if (a.metric < b.metric) {
-    return -1
-  } else if (a.metric < b.metric) {
-    return 1
-  }
-  return 0
-}
-
+const datas = [
+  {hitRate: 10, number: 18},
+  {hitRate: 20, number: 1},
+  {hitRate: 40, number: 10},
+  {hitRate: 60, number: 5},
+]
 const columns = [{
   Header: 'Card ID',
   accessor: 'cardID',
@@ -77,9 +74,25 @@ export default class CardsPage extends Component {
 
     return (
       <div>
-        <div className="card">
-          {card}
-        </div>
+
+        <Row className="display">
+          <Column small={12} large={6}>
+            <div className="card">
+              {card}
+            </div>
+          </Column>
+          <Column small={12} large={6}>
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={this.props.store.cardHitRateMetricsData.toJS()}
+                margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
+                <XAxis domain={[0, 100]} dataKey="hitRate" name="HitRate" />
+                <YAxis  dataKey="number" />
+                <Tooltip />
+                <Line type='monotone' dataKey="number" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
+          </Column>
+        </Row>
         <ReactTable
          data={cardsData}
          columns={columns}

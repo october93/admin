@@ -59,6 +59,7 @@ class AdminStore {
 
   @observable layoutDataCardPreview = null
   @observable allCardsWithMetrics = []
+  @observable cardHitRateMetricsData = []
 
   serverURL
   simulatorclient
@@ -191,6 +192,21 @@ class AdminStore {
 
   cardsDataRecieved(data) {
     this.allCardsWithMetrics = data.data.cards
+
+    let z = new Array(101)
+
+    for (let i = 0; i <= 100; i++) {
+      z[i] = {hitRate: i, number: 0}
+    }
+
+    for (let i = 0; i < this.allCardsWithMetrics.length; i++) {
+      const d = this.allCardsWithMetrics[i]
+      const hr = d.total_reacts > 0 ? Math.floor(d.total_likes / d.total_reacts * 100) : 0
+      z[hr] = { hitRate: hr, number: z[hr].number + 1}
+    }
+
+    this.cardHitRateMetricsData = z
+    console.log(this.cardHitRateMetricsData.toJS())
   }
 
 
