@@ -60,14 +60,14 @@ export default class CardsPage extends Component {
     let card = null
     let feedbackTable = null
 
-    if (this.props.store.cardPreview && this.props.store.cardPreview.layoutdata !== null ) {
+    if (this.props.store.cardPreviewLayoutdata !== null ) {
       card = (
-        <Card data={JSON.parse(this.props.store.cardPreview.layoutdata)}/>
+        <Card data={JSON.parse(this.props.store.cardPreviewLayoutdata)}/>
       )
     }
 
-    if (this.props.store.cardPreview && this.props.store.cardPreview.feedback && this.props.store.cardPreview.feedback.length > 0){
-      const feedbackRows = this.props.store.cardPreview.feedback.map((data) => (
+    if (this.props.store.cardPreviewFeedback && this.props.store.cardPreviewFeedback.length > 0){
+      const feedbackRows = this.props.store.cardPreviewFeedback.map((data) => (
         <tr>
           <td>{data.rating}</td>
           <td>{data.comment}</td>

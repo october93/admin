@@ -58,7 +58,9 @@ class AdminStore {
 
   @observable cohortAnalysisSummary = {}
 
-  @observable layoutDataCardPreview = null
+  @observable cardPreviewLayoutdata = null
+  @observable cardPreviewFeedback = null
+
   @observable allCardsWithMetrics = []
   @observable cardHitRateMetricsData = []
 
@@ -174,7 +176,7 @@ class AdminStore {
   }
 
   cardDataRecieved(data) {
-    this.cardPreview = data.data.card
+    this.cardPreviewLayoutdata = data.data.card.layoutdata
   }
 
   getCardsData(){
