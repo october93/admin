@@ -3,7 +3,7 @@ import { observer, inject  } from 'mobx-react';
 import { Card } from '@october/web-card'
 import ReactTable from 'react-table'
 import { Link, Sizes } from 'react-foundation';
-import { ResponsiveContainer, LineChart, Line, Tooltip, XAxis, YAxis} from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, Tooltip, XAxis, YAxis} from 'recharts'
 import { Column, Row  } from 'react-foundation'
 
 import './style.scss';
@@ -111,13 +111,13 @@ export default class CardsPage extends Component {
           </Column>
           <Column small={12} large={6}>
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={this.props.store.cardHitRateMetricsData.toJS()}
+              <BarChart data={this.props.store.cardHitRateMetricsData.toJS()}
                 margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
                 <XAxis domain={[0, 100]} dataKey="hitRate" name="HitRate" />
                 <YAxis  dataKey="number" />
                 <Tooltip />
-                <Line type='monotone' dataKey="number" stroke="#8884d8" />
-              </LineChart>
+                <Bar type='monotone' dataKey="number" stroke="#8884d8" />
+              </BarChart>
             </ResponsiveContainer>
           </Column>
         </Row>
