@@ -67,7 +67,7 @@ export default class CardsPage extends Component {
     }
 
     if (this.props.store.cardPreviewFeedback && this.props.store.cardPreviewFeedback.length > 0){
-      const feedbackRows = this.props.store.cardPreviewFeedback.map((data) => (
+      const feedbackRows = this.props.store.cardPreviewFeedback.toJS().map((data) => (
         <tr>
           <td>{data.rating}</td>
           <td>{data.comment}</td>
