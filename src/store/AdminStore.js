@@ -232,6 +232,7 @@ class AdminStore {
             likesThisWeek(from:"${from}", to:"${to}")
             postsThisWeek(from:"${from}", to:"${to}")
             reactionsThisWeek(from:"${from}", to:"${to}")
+            countGivenReacts
           }
         }
       }

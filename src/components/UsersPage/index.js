@@ -68,6 +68,9 @@ const columns = [{
   accessor: 'lastactiontime',
   Cell: row => (<span className={daysSinceColor(daysSince(row.value))}>{daysSinceString(daysSince(row.value))}</span>)
 }, {
+  Header: 'Consumed this wk',
+  accessor: 'countGivenReacts',
+}, {
   Header: "Unseen Cards",
   accessor: 'node.cardRankTableSize',
   Cell: row => (<span className={cardsSize(row.value)}>{row.value}</span>)
