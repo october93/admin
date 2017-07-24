@@ -67,6 +67,7 @@ export default class CardsPage extends Component {
     }
 
     if (this.props.store.cardPreviewFeedback && this.props.store.cardPreviewFeedback.length > 0){
+      console.log(`${this.props.store.cardPreviewFeedback && this.props.store.cardPreviewFeedback.length > 0} --- ${this.props.store.cardPreviewFeedback.length}`);
       const feedbackRows = this.props.store.cardPreviewFeedback.toJS().map((data) => (
         <tr>
           <td>{data.rating}</td>
@@ -77,6 +78,9 @@ export default class CardsPage extends Component {
       feedbackTable = (
         <table className="hover">
           <thead>
+            <tr>
+              <th span={2}>Feedback</th>
+            </tr>
             <tr>
               <th>Rating</th>
               <th>Comment</th>

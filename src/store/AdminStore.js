@@ -157,7 +157,9 @@ class AdminStore {
   }
 
   getCardData(cardID){
-    this.layoutDataCardPreview = null
+    this.cardPreviewLayoutdata = null
+    this.cardPreviewFeedback = null
+
     this.client.query({
       query: gql`
       {
@@ -177,6 +179,8 @@ class AdminStore {
 
   cardDataRecieved(data) {
     this.cardPreviewLayoutdata = data.data.card.layoutdata
+    this.cardPreviewFeedback = data.data.card.feedback
+    console.log(this.cardPreviewFeedback);
   }
 
   getCardsData(){
