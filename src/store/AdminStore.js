@@ -161,6 +161,10 @@ class AdminStore {
       {
       	card(card_id:"${cardID}") {
           layoutdata
+          feedback {
+            rating
+            comment
+          }
       	}
       }
       `,
@@ -170,7 +174,7 @@ class AdminStore {
   }
 
   cardDataRecieved(data) {
-    this.layoutDataCardPreview = data.data.card.layoutdata
+    this.cardPreview = data.data.card
   }
 
   getCardsData(){
@@ -183,6 +187,10 @@ class AdminStore {
     	  post_timestamp
     	  total_likes
     	  total_reacts
+        feedback {
+          rating
+          comment
+        }
     	}
     }
     `,

@@ -18,6 +18,11 @@ const columns = [{
   accessor: 'total_likes',
 },
 {
+  id: 'feedback',
+  Header: 'Feedback',
+  accessor: d => d.feedback.length,
+},
+{
   id: "hitRate",
   Header: 'Hit Rate',
   accessor: d => d.total_reacts > 0 ? d.total_likes / d.total_reacts : 0,
@@ -53,10 +58,34 @@ export default class CardsPage extends Component {
 
   render() {
     let card = null
+    let feedbackTable = null
 
-    if (this.props.store.layoutDataCardPreview !== null ) {
+    if (this.props.store.cardPreview && this.props.store.cardPreview.layoutdata !== null ) {
       card = (
-        <Card data={JSON.parse(this.props.store.layoutDataCardPreview)}/>
+        <Card data={JSON.parse(this.props.store.cardPreview.layoutdata)}/>
+      )
+    }
+
+    if (this.props.store.cardPreview && this.props.store.cardPreview.feedback && this.props.store.cardPreview.feedback.length > 0){
+      const feedbackRows = this.props.store.cardPreview.feedback.map((data) => (
+        <tr>
+          <td>{data.rating}</td>
+          <td>{data.comment}</td>
+        </tr>
+      ))
+
+      feedbackTable = (
+        <table className="hover">
+          <thead>
+            <tr>
+              <th>Rating</th>
+              <th>Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {feedbackRows}
+          </tbody>
+        </table>
       )
     }
 
@@ -88,6 +117,7 @@ export default class CardsPage extends Component {
             </ResponsiveContainer>
           </Column>
         </Row>
+        {feedbackTable}
         <ReactTable
          data={cardsData}
          columns={columns}
