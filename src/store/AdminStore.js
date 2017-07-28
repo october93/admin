@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import SocketClient from "./SocketClient"
 import dateFormat from 'dateformat'
 
-const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":8080" : location.hostname}`
+const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":9000" : location.hostname}`
 
 const defaultSimulatorSocketURL = "localhost:8083"
 
@@ -64,9 +64,15 @@ class AdminStore {
   @observable allCardsWithMetrics = []
   @observable cardHitRateMetricsData = []
 
+  @observable dashboardFromTime = null
+  @observable dashboardToTime = null
+
   serverURL
   simulatorclient
   engineclient
+
+  websocketURL
+  graphqlURL
 
 
 	constructor() {
@@ -79,18 +85,18 @@ class AdminStore {
 
     this.auth = new AuthService('nKlyaG5r1Hh6TWsumqjJ5Z7vY5d0NZpl', 'october93.auth0.com')
 
-    const sockURL = `${this.serverURL}/deck_endpoint/`
-    this.engineClient = new SocketClient(sockURL, this.auth, true, (b) => this.socketConnected = b)
+    this.websocketURL = `${this.serverURL}/deck_endpoint/`
+    this.engineClient = new SocketClient(this.websocketURL, this.auth, true, (b) => this.socketConnected = b)
 
 
-    let graphQLEndpoint = `${location.origin}/graphql`
+    this.graphqlURL = `${location.origin}/graphql`
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      graphQLEndpoint = 'http://localhost:8080/graphql'
+      this.graphqlURL = 'http://localhost:9000/graphql'
     }
 
     this.client = new ApolloClient({
       networkInterface: createNetworkInterface({
-        uri: graphQLEndpoint
+        uri: this.graphqlURL
       }),
     })
 
@@ -101,6 +107,15 @@ class AdminStore {
 
 
     this.engineClient.subscribeTo(this.cohortAnalysisHandler.bind(this), "cohortAnalysis")
+
+    const lastSunday = new Date()
+    lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
+    const nextSunday = new Date()
+    nextSunday.setDate(nextSunday.getDate() + 7 - nextSunday.getDay())
+    console.log(`${lastSunday}, ${nextSunday}`)
+
+    this.dashboardFromTime = dateFormat(lastSunday, "yyyy-mm-dd")
+    this.dashboardToTime = dateFormat(nextSunday, "yyyy-mm-dd")
 	}
 
   // server data requests
@@ -183,12 +198,18 @@ class AdminStore {
     console.log(this.cardPreviewFeedback);
   }
 
-  getCardsData(){
-
+  getCardsData(from, to){
+    if (typeof from !== "undefined") {
+      this.dashboardFromTime = from
+    }
+    if (typeof to !== "undefined") {
+      this.dashboardToTime = to
+    }
+ console.log(`(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")`)
   this.client.query({
     query: gql`
     {
-    	cards {
+    	cards(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}") {
     	  cardID
     	  post_timestamp
     	  total_likes
@@ -226,16 +247,14 @@ class AdminStore {
 
 
   getDashboardMetrics(from, to){
-    if (typeof from === "undefined") {
-      const lastSunday = new Date()
-      lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
-      from = dateFormat(lastSunday, "yyyy-mm-dd")
+    if (typeof from !== "undefined") {
+      this.dashboardFromTime = from
     }
-    if (typeof to === "undefined") {
-      const nextSunday = new Date()
-      nextSunday.setDate(nextSunday.getDate() + 7 - nextSunday.getDay())
-      to = dateFormat(nextSunday, "yyyy-mm-dd")
+    if (typeof to !== "undefined") {
+      this.dashboardToTime = to
     }
+    console.log(`(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")`)
+
     this.client.query({
       query: gql`
       {
@@ -243,9 +262,9 @@ class AdminStore {
           users {
             username
             displayname
-            likesThisWeek(from:"${from}", to:"${to}")
-            postsThisWeek(from:"${from}", to:"${to}")
-            reactionsThisWeek(from:"${from}", to:"${to}")
+            likesThisWeek(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
+            postsThisWeek(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
+            reactionsThisWeek(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
             countGivenReacts
           }
         }
@@ -293,7 +312,16 @@ class AdminStore {
     this.totalHitrate = totalReacts > 0 ? this.totalLikes / totalReacts : 0
   }
 
-  getUsersData(data){
+  getUsersData(from, to){
+    if (typeof from !== "undefined") {
+      this.dashboardFromTime = from
+    }
+    if (typeof to !== "undefined") {
+      this.dashboardToTime = to
+    }
+    console.log(`(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")`)
+
+
     this.client.query({
       query: gql`
         {
@@ -301,8 +329,8 @@ class AdminStore {
             username
             nodeId
             lastactiontime
-            countGivenLikes
-            countGivenReacts
+            countGivenLikes(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
+            countGivenReacts(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
             node {
               cardRankTableSize
             }

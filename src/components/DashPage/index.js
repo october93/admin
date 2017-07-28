@@ -1,25 +1,14 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Column, Row  } from 'react-foundation'
-import dateFormat from 'dateformat'
 
 import './style.scss'
 
 @inject("store") @observer
 class DashPage extends Component {
-  constructor(props){
-      super(props)
-
-      const today = new Date()
-      const lastSunday = new Date(today)
-      lastSunday.setDate(today.getDate() - today.getDay())
-      const nextSunday = new Date(today)
-      nextSunday.setDate(today.getDate() + 7 - today.getDay())
-
-      this.state = {
-        from: dateFormat(lastSunday, "yyyy-mm-dd"),
-        to: dateFormat(nextSunday, "yyyy-mm-dd"),
-      }
+  state = {
+    from: this.props.store.dashboardFromTime,
+    to: this.props.store.dashboardToTime,
   }
 
   onBlur = () => {

@@ -5,6 +5,7 @@ import ReactTable from 'react-table'
 import { Link, Sizes } from 'react-foundation';
 import { ResponsiveContainer, BarChart, Bar, Tooltip, XAxis, YAxis} from 'recharts'
 import { Column, Row  } from 'react-foundation'
+import dateFormat from 'dateformat'
 
 import './style.scss';
 
@@ -14,13 +15,19 @@ const columns = [{
   filterable: true,
 },
 {
+  id: 'postedon',
+  Header: 'Posted On',
+  accessor: d => dateFormat(new Date(d.post_timestamp*1000), "mm/dd H:M:s")
+
+},
+{
   Header: 'Likes',
   accessor: 'total_likes',
 },
 {
   id: 'feedback',
   Header: 'Feedback',
-  accessor: d => d.feedback.length,
+  accessor: d => d.feedback == null ? 0 : d.feedback.length,
 },
 {
   id: "hitRate",
@@ -37,6 +44,8 @@ const columns = [{
 @inject("store") @observer
 export default class CardsPage extends Component {
   state = {
+    from: this.props.store.dashboardFromTime,
+    to: this.props.store.dashboardToTime,
     cardid: "",
   }
 
@@ -55,6 +64,9 @@ export default class CardsPage extends Component {
     });
   }
 
+  onBlur = () => {
+    this.props.store.getCardsData(this.state.from, this.state.to)
+  }
 
   render() {
     let card = null
@@ -102,6 +114,7 @@ export default class CardsPage extends Component {
 
     return (
       <div>
+        <h3>From <input onBlur={this.onBlur} style={{width: "120px", display: "inline"}} type="text" value={this.state.from} name="from" onChange={this.inputChange} required/> to <input onBlur={this.onBlur} style={{width: "120px", display: "inline"}} className="picker" type="text" value={this.state.to} name="to" placeholder="To" onChange={this.inputChange} required/></h3>
 
         <Row className="display">
           <Column small={12} large={6}>

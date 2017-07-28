@@ -10,14 +10,10 @@ import './style.scss';
 export default class GraphPage extends Component {
   constructor(props) {
     super(props)
-    // create GraphQL client
-    let graphQLEndpoint = `${location.origin}/graphql`
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      graphQLEndpoint = 'http://localhost:8080/graphql'
-    }
+
     this.client = new ApolloClient({
       networkInterface: createNetworkInterface({
-        uri: graphQLEndpoint
+        uri: this.props.store.graphqlURL
       }),
     })
 
