@@ -17,6 +17,7 @@ export default class UtilitiesPage extends Component {
     this.inputChange = this.inputChange.bind(this)
     this.submit = this.submit.bind(this)
     this.handleHistoryClick = this.handleHistoryClick.bind(this)
+    this.handleHistoryClear = this.handleHistoryClear.bind(this)
   }
 
   submit(event){
@@ -45,11 +46,16 @@ export default class UtilitiesPage extends Component {
     this.setState({commandTextArea: content})
   }
 
+  handleHistoryClear() {
+    localStorage.removeItem('rpcHistory')
+    this.setState({history: []})
+  }
+
   render() {
     return (
       <div>
         <div>
-          <h4>Command Tester</h4>
+          <h4>RPC Tester</h4>
           Response:
           <div className="commandResponse">
             <pre>
@@ -57,13 +63,15 @@ export default class UtilitiesPage extends Component {
             </pre>
           </div>
           <form onSubmit={this.submit}>
-            <textarea name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
+            <textarea className="rpcInput" name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
             <button type="submit" className="button">Submit</button>
           </form>
           {this.state.history && this.state.history.length > 0 &&
             <div>
               <h4>History</h4>
-                <ul>
+              <p>Select item to restore input</p>
+                <a className="button" onClick={this.handleHistoryClear}>Clear</a>
+                <ul className="historyList">
                   {this.state.history.map(rpc => <RPCHistoryItem content={rpc} handleClick={this.handleHistoryClick}/>)}
                 </ul>
               </div>

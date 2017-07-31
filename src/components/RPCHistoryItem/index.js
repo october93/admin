@@ -11,7 +11,7 @@ export default class RPCHistoryItem extends Component {
 
   render() {
     return (
-      <li onClick={() => this.props.handleClick(this.props.content)}>{this.props.content}</li>
+      <li className="historyItem" onClick={() => this.props.handleClick(this.props.content)}><code>{this.props.content}</code></li>
     )
   }
 }

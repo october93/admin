@@ -1,0 +1,14 @@
+li.historyItem {
+  margin-bottom: 2em;
+  margin-left: 0;
+  list-style-type: none;
+  cursor: pointer;
+  > code {
+    color: #999;
+    padding: 1em;
+    background-color: #fbfbfb;
+  }
+  > :hover {
+    color: #000;
+  }
+}
