@@ -442,18 +442,26 @@ class AdminStore {
   }
 
   getDemoRequest(){
-    const msg = { rpc: "getDemoCards" }
+    const msg = { rpc: "getDemoHand" }
     this.engineClient.sendMsg(msg, this.getDemoResponse.bind(this))
   }
 
   getDemoResponse(error, data){
     if (error === undefined) {
-      this.demoData = JSON.stringify(data.CardIDs)
+      let cardIDs = []
+      for (let i = 0; i < data.length; i++){
+        cardIDs.push(data[i].cardID)
+      }
+
+      this.demoData = JSON.stringify(cardIDs)
+
+      console.log("JEEP CEJPEJAf")
+      console.log(data)
     }
   }
 
   setDemoRequest(demoData) {
-    const msg = { rpc: "setDemoCards", data: {cardids: JSON.parse(demoData)} }
+    const msg = { rpc: "setDemo", data: {cards: JSON.parse(demoData)} }
     this.engineClient.sendMsg(msg, this.setDemoResponse.bind(this))
 
     this.setDemoStatus = "waiting"
