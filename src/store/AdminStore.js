@@ -368,6 +368,16 @@ class AdminStore {
     this.newUserWaiting = true
   }
 
+  reportBugRequest(summary, description){
+    const msg = { rpc: "reportBug", data: { source: "admin", summary, description }}
+
+    this.engineClient.sendMsg(msg, this.reportBugResponse.bind(this))
+    this.newUserWaiting = true
+  }
+
+  reportBugResponse(error, data){
+  }
+
   newUserResponse(error, data){
     if (error === undefined){
       this.newUserSuccess = true

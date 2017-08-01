@@ -60,7 +60,7 @@ const columns = [{
   accessor: 'nodeId',
 }, {
   id: "satisfaction",
-  Header: 'Satisfaction (5-day avg)',
+  Header: 'Satisfaction',
   accessor: d => d.countGivenReacts > 0 ? d.countGivenLikes / d.countGivenReacts : 0,
   Cell: row => (Math.floor(row.value * 100) + "%")
 }, {
@@ -68,7 +68,7 @@ const columns = [{
   accessor: 'lastactiontime',
   Cell: row => (<span className={daysSinceColor(daysSince(row.value))}>{daysSinceString(daysSince(row.value))}</span>)
 }, {
-  Header: 'Consumed this wk',
+  Header: 'Consumed',
   accessor: 'countGivenReacts',
 }, {
   Header: "Unseen Cards",
