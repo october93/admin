@@ -2,13 +2,14 @@
 # yarn lockfile v1
 
 
-"@october/web-card@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@october/web-card/-/web-card-0.0.8.tgz#58141c9925de878ac1e774eccb66504830a9851e"
+"@october/web-card@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@october/web-card/-/web-card-0.0.11.tgz#78039e365cf001b2a96c63b4dd81922eb7e7b12e"
   dependencies:
     color "^2.0.0"
     prop-types "^15.5.10"
     react "^15.6.1"
+    react-text-truncate "^0.11.2"
     resize-observer-polyfill "^1.4.2"
 
 "@types/async@^2.0.31":
@@ -4937,6 +4938,12 @@ react-table@^6.3.0:
   dependencies:
     classnames "^2.2.5"
     react-json-tree "^0.10.9"
+
+react-text-truncate@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/react-text-truncate/-/react-text-truncate-0.11.2.tgz#79b2fd1d24c19392661648fec5c7cc5e434ae6c4"
+  dependencies:
+    prop-types "^15.5.7"
 
 react-transition-group@^1.1.1:
   version "1.2.0"
