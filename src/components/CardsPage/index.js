@@ -38,7 +38,6 @@ const columns = [{
   Header: "",
   accessor: "callback",
   Cell: row => (<Link onClick={row.value} size={Sizes.SMALL}>View</Link>)
-
 }]
 
 @inject("store") @observer
