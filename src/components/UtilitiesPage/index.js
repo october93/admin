@@ -31,7 +31,7 @@ export default class UtilitiesPage extends Component {
     if (currentHistory === null) {
       currentHistory = []
     }
-    currentHistory.push(this.state.commandTextArea)
+    currentHistory.unshift(this.state.commandTextArea)
     localStorage.setItem("rpcHistory", JSON.stringify(currentHistory))
     this.setState({history: currentHistory})
     this.props.store.sendCommandRequest(this.state.commandTextArea)
