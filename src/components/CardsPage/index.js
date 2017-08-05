@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { observer, inject  } from 'mobx-react';
 import { Card } from '@october/web-card'
 import ReactTable from 'react-table'
-import { Link, Sizes } from 'react-foundation';
 import { ResponsiveContainer, BarChart, Bar, Tooltip, XAxis, YAxis} from 'recharts'
 import { Column, Row  } from 'react-foundation'
 import dateFormat from 'dateformat'
@@ -10,6 +9,19 @@ import dateFormat from 'dateformat'
 import './style.scss';
 
 const columns = [{
+  id: "preview",
+  Header: "",
+  accessor: d => d,
+  width: 400,
+  Cell: row => (
+    <div className="smallCard">
+      <a onClick={row.value.callback}>
+        <Card data={JSON.parse(row.value.layoutdata)}/>
+      </a>
+    </div>
+  )
+},
+{
   Header: 'Card ID',
   accessor: 'cardID',
   filterable: true,
@@ -34,10 +46,6 @@ const columns = [{
   Header: 'Hit Rate',
   accessor: d => d.total_reacts > 0 ? d.total_likes / d.total_reacts : 0,
   Cell: row => (Math.floor(row.value * 100) + "%")
-}, {
-  Header: "",
-  accessor: "callback",
-  Cell: row => (<Link onClick={row.value} size={Sizes.SMALL}>View</Link>)
 }]
 
 @inject("store") @observer

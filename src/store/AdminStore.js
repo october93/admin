@@ -216,6 +216,7 @@ class AdminStore {
     	  post_timestamp
     	  total_likes
     	  total_reacts
+        layoutdata
         feedback {
           rating
           comment
