@@ -37,6 +37,11 @@ const columns = [{
   accessor: 'total_likes',
 },
 {
+  id: 'Dislikes',
+  Header: 'Dislikes',
+  accessor: d => d.total_reacts - d.total_likes,
+},
+{
   id: 'feedback',
   Header: 'Feedback',
   accessor: d => d.feedback == null ? 0 : d.feedback.length,
