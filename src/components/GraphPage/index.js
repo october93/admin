@@ -20,13 +20,17 @@ export default class GraphPage extends Component {
     this.renderGraph = true;
     this.buildGraph = this.buildGraph.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
-    this.state = {selectedNode: {}, tooltipPosition: {top: 0, right: 0}, showNodeLabels: false}
+    this.state = {selectedNode: {}, tooltipPosition: {top: 0, right: 0}, showNodeLabels: false, synchronized: false}
   }
 
   buildGraph(graph, data) {
-    for (let i = 0; i < data.graph.users.length; i++) {
-      let user = data.graph.users[i];
+    for (let i = 0; i < data.users.length; i++) {
+      let user = data.users[i];
       graph.addNode(user.nodeId, user)
+    }
+    for (let i = 0; i < data.tags.length; i++) {
+      let tag = data.tags[i];
+      graph.addNode(tag.node.id, tag)
     }
     for (let i = 0; i < data.graph.edges.length; i++) {
       let edge = data.graph.edges[i];
@@ -42,8 +46,17 @@ export default class GraphPage extends Component {
       // This time it's a group of elements: http://www.w3.org/TR/SVG/struct.html#Groups
       let ui = Viva.Graph.svg('g')
         // Create SVG text element with user id as content
-      let rect = Viva.Graph.svg('rect').attr('fill', "#1aafdb").attr("width", nodeSize).attr("height", nodeSize)
-      let label = Viva.Graph.svg('text').text(node.data.displayname).attr('class', 'nodeLabel')
+      let isTag = node.data.displayname === undefined
+      let color = "#1aafdb"
+      if (isTag) {
+        color = "#666666"
+      }
+      let rect = Viva.Graph.svg('rect').attr('fill', color).attr("width", nodeSize).attr("height", nodeSize)
+      let text = node.data.displayname
+      if (text === undefined) {
+        text = node.data.name
+      }
+      let label = Viva.Graph.svg('text').text(text).attr('class', 'nodeLabel')
       ui.append(rect);
       if (showLabels) {
         ui.append(label);
@@ -145,20 +158,29 @@ export default class GraphPage extends Component {
     this.client.query({
       query: gql`
         {
-          graph {
-            users {
-              nodeId
-              username
-              displayname
+          users {
+            nodeId
+            username
+            displayname
+          }
+          tags {
+            name
+            node {
+              id
             }
+          }
+          graph {
             edges {
               sourceID
               targetID
             }
+            health {
+              synchronized
+            }
           }
         }
       `,
-    }).then(response => this.setState({graphData: response.data}))
+    }).then(response => this.setState({graphData: response.data, synchronized: response.data.graph.health.synchronized}))
       .catch(error => console.error(error));
   }
 
@@ -183,7 +205,19 @@ export default class GraphPage extends Component {
     };
     return (
       <div className="graph-wrapper">
+        <div className="health">
+          <h4>Graph Health</h4>
+          <table>
+            <thead>
+              <tr>
+                <th scope="row">Attention & Flow Rank Synchronized</th>
+                <td>{this.state.synchronized ? "Yes" : "No"}</td>
+              </tr>
+            </thead>
+          </table>
+        </div>
         <div className="options">
+          <h4>Options</h4>
           <label for="nodeLabels">
             Node Labels
           </label>
@@ -197,6 +231,8 @@ export default class GraphPage extends Component {
           <ul>
             {Object.keys(this.state.selectedNode).map((key) => {
               if (key.startsWith('__')) {
+                return null
+              } else if (typeof this.state.selectedNode[key] === 'object') {
                 return null
               } else {
                 return <li><strong>{key}</strong> {this.state.selectedNode[key]}</li>;
