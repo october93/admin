@@ -211,7 +211,7 @@ export default class GraphPage extends Component {
             <thead>
               <tr>
                 <th scope="row">Attention & Flow Rank Synchronized</th>
-                <td>{this.state.synchronized ? "Yes" : "No"}</td>
+                <td className={this.state.synchronized ? "success" : "danger"}>{this.state.synchronized ? "Yes" : "No"}</td>
               </tr>
             </thead>
           </table>

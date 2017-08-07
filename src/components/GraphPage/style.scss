@@ -15,6 +15,20 @@
     border: 1px solid #000;
   }
   table {
-    width: 50%;
+    width: 50em;
+    th {
+      width: 15em;
+    }
+    td {
+      background-color: none;
+      text-align: center;
+      width: 5em;
+      &.success {
+        background-color: #77dd77;
+      }
+      &.danger {
+        background-color: #ff6347;
+      }
+    }
   }
 }
