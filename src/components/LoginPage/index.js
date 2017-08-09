@@ -30,7 +30,7 @@ class LoginPage extends Component {
     return (
       <div className="LoginPage">
         <div className="LoginForm">
-          <img className="logo" src={logo} />
+          <img className="logo" role="presentation" src={logo} />
           {errorMessage}
           <form action="/" onSubmit={this.handleSubmit}>
             <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
