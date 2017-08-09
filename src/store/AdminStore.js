@@ -16,6 +16,11 @@ class AdminStore {
   @observable graphEdgeData = []
   @observable graphLoaded = false
   @observable usersData = []
+
+  @observable session = null
+  @observable loginError = null
+
+
   @observable sessionsData = []
 
   //this is a weird way to do this, but I don't feel like figuring out a better way right now
@@ -479,6 +484,35 @@ class AdminStore {
 
     this.engineClient.sendMsg(msg, this.reportBugResponse.bind(this))
     this.newUserWaiting = true
+  }
+
+  sendLoginRequest(username, password) {
+    const msg = {rpc: "login", data: {username, password, admin: true}}
+    this.engineClient.sendMsg(msg, this.loginResponse.bind(this))
+  }
+
+  loginResponse(error, data) {
+    if (error !== undefined) {
+      this.loginError = error;
+    } else {
+      this.session = {id: data.sessionID, username: data.displayname}
+      localStorage.setItem("session", JSON.stringify(this.session))
+      window.location.replace('/admin')
+    }
+  }
+
+  loggedIn() {
+    let session = localStorage.getItem("session")
+    if (session !== undefined) {
+      this.session = JSON.parse(session)
+    }
+    return this.session !== null;
+  }
+
+  logout() {
+    this.session = null;
+    localStorage.removeItem("session")
+    window.location.replace('/admin/login')
   }
 
   reportBugResponse(error, data){

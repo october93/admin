@@ -66,7 +66,7 @@ class AdminLayout extends Component {
 
   render() {
     const { className } = this.props;
-    const profile = JSON.parse(localStorage.getItem("profile"))
+    const profile = JSON.parse(localStorage.getItem("session"))
 
     return (
     		<div className={classnames("AdminLayout", className)}>
@@ -84,7 +84,7 @@ class AdminLayout extends Component {
           </ReactModal>
 
           <div className="AdminLayout-profilename">
-            Welcome {profile ? profile.given_name : null}
+            Welcome {profile ? profile.username : null}
           </div>
     			<div className="AdminLayout-header">
     			    <img src={logo} className="AdminLayout-logo" alt="logo" />
@@ -92,7 +92,7 @@ class AdminLayout extends Component {
     			</div>
           <div className="AdminLayout-logout">
             <Link color={Colors.ALERT} onClick={this.handleOpenModal}>Report Bug</Link>
-            <Link onClick={this.props.store.auth.logout.bind(this)}>Logout</Link>
+            <Link onClick={this.props.store.logout.bind(this)}>Logout</Link>
           </div>
     			<MyMenu menuItems={menuItems} />
     			<div className="AdminLayout-custom">

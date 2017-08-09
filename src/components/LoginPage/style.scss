@@ -1,0 +1,42 @@
+.LoginPage {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .LoginForm {
+    margin-bottom: 20em;
+    .logo {
+      width: 250px;
+      margin-bottom: 2em;
+    }
+    span.danger {
+      display: block;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #ff0033;
+    }
+    form {
+      input[type="password"] {
+        margin-bottom: 1.5em;
+      }
+    }
+    input[type="submit"] {
+      cursor: pointer;
+      border: none;
+      width: 10em;
+      color: #fff;
+      border-radius: 5px;
+      display: block;
+      margin: 0 auto;
+      background-color: #1aafdb;
+      text-align: center;
+      padding: 1em;
+      &:hover {
+        background-color: #1a9fdb;
+      }
+      &:active {
+        background-color: #1a88db;
+      }
+    }
+  }
+}

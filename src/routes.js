@@ -5,6 +5,7 @@ import { Router, Route, Redirect } from 'react-router';
 import { Provider } from "mobx-react"
 
 import AdminLayout from './components/AdminLayout';
+import LoginPage from './components/LoginPage';
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
 import SessionsPage from './components/SessionsPage';
@@ -23,23 +24,21 @@ import TagsPage from "./components/TagsPage"
 import AdminStore from "./store/AdminStore"
 
 const requireAuth = (nextState, replace) => {
-  if (!AdminStore.auth.loggedIn()) {
+  if (!AdminStore.loggedIn()) {
     replace({ pathname: '/admin/login' })
   }
 }
 
 const checkAuth = (nextState, replace) => {
-  if (AdminStore.auth.loggedIn()) {
+  if (AdminStore.loggedIn()) {
     replace({ pathname: '/admin' })
-  } else if (!location.hash) {
-    AdminStore.auth.login()
   }
 }
 
 const Routes = (props) => (
   <Provider store={AdminStore}>
     <Router {...props}>
-      <Route path="/admin/login" onEnter={checkAuth} />
+      <Route path="/admin/login" onEnter={checkAuth} component={LoginPage} />
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
