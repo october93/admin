@@ -506,7 +506,16 @@ class AdminStore {
     if (session !== undefined) {
       this.session = JSON.parse(session)
     }
-    return this.session !== null;
+    if (this.session === null) {
+      return false
+    }
+    const msg = {rpc: 'authorized', sessionID: this.session.id}
+    this.engineClient.sendMsg(msg, (error) => {
+      if (error !== undefined) {
+        window.location.replace("/admin/login")
+      }
+    })
+    return true
   }
 
   logout() {
