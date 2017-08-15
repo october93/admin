@@ -7,9 +7,12 @@ import './style.scss';
 class LoginPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {email: '', password: ''};
+    this.state = {email: '', password: '', token: this.props.location.query.token};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    if (this.state.token !== undefined) {
+      this.props.store.sendLoginRequest(this.state.email, this.state.password, this.state.token)
+    }
   }
 
   handleChange(event) {

@@ -486,8 +486,8 @@ class AdminStore {
     this.newUserWaiting = true
   }
 
-  sendLoginRequest(username, password) {
-    const msg = {rpc: "login", data: {username, password, admin: true}}
+  sendLoginRequest(username, password, token) {
+    const msg = {rpc: "login", data: {username, password, token, admin: true}}
     this.engineClient.sendMsg(msg, this.loginResponse.bind(this))
   }
 
