@@ -501,6 +501,14 @@ class AdminStore {
     }
   }
 
+  updateSettings(password) {
+    const msg = {rpc: "updateSettings", sessionID: this.session.id, data: {password}}
+    this.engineClient.sendMsg(msg, this.updateSettingsResponse.bind(this))
+  }
+
+  updateSettingsResponse(error, data) {
+  }
+
   loggedIn() {
     let session = localStorage.getItem("session")
     if (session !== undefined) {

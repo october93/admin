@@ -25,6 +25,7 @@ const menuItems = [
   {name: "Demo", path: "/admin/demo"},
   {name: "Simulator", path: "/admin/sim"},
   {name: "GraphQL", path: "/admin/graphql"},
+  {name: "Settings", path: "/admin/settings"},
 ]
 
 

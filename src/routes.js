@@ -20,6 +20,7 @@ import SimulatorPage from "./components/SimulatorPage"
 import GraphQLPage from './components/GraphQLPage'
 import CardsPage from './components/CardsPage'
 import TagsPage from "./components/TagsPage"
+import SettingsPage from "./components/SettingsPage"
 
 import AdminStore from "./store/AdminStore"
 
@@ -55,6 +56,7 @@ const Routes = (props) => (
         <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
         <Route path="/admin/sim" onEnter={() => AdminStore.getSimulatorDataRequest()} component={SimulatorPage} />
+        <Route path="/admin/settings" component={SettingsPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
       </Route>
