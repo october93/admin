@@ -11,24 +11,28 @@ export default class SocketClient {
   //these are objects with a callback and an unsubscribe ID
   subscriptionHandlers = {}
 
-  auth
   connectTimeout = 0
   conStatusChangeHandler
 
-  constructor(url, auth, autoconnect, conStatusChangeHandler){
+  constructor(url, autoconnect, conStatusChangeHandler){
     this.autoconnect = autoconnect
     this.socketURL = url
-    this.auth = auth
     this.conStatusChangeHandler = conStatusChangeHandler
+    this.session = {}
 
     this.connect()
   }
 
   subscribeTo(callback, ...topics) {
     console.log("subscribing")
+    let session = localStorage.getItem("session")
+    if (session !== null) {
+      this.session = JSON.parse(session)
+    }
+
     let msg = {
       rpc :"subscribe",
-      sessionID: this.auth.getToken(),
+      sessionID: this.session.id,
       "data": {
         "string": callback.name,
         "topics": topics,
@@ -100,7 +104,11 @@ export default class SocketClient {
 
   sendMsg(msg, responseHandler) {
     if (msg.sessionID === undefined) {
-      msg.sessionID = this.auth.getToken()
+      let session = localStorage.getItem("session")
+      if (session !== null) {
+        this.session = JSON.parse(session)
+        msg.sessionID = this.session.id
+      }
     }
 
     var reqID = this.registerRequest(responseHandler)

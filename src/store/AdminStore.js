@@ -1,6 +1,5 @@
 import cookie from "react-cookie"
 import { observable } from 'mobx';
-import AuthService from '../utils/AuthService'
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import gql from 'graphql-tag';
 import SocketClient from "./SocketClient"
@@ -90,10 +89,8 @@ class AdminStore {
     }
     this.serverURL = `${wsProtocol}//${defaultServerURL}`
 
-    this.auth = new AuthService('nKlyaG5r1Hh6TWsumqjJ5Z7vY5d0NZpl', 'october93.auth0.com')
-
     this.websocketURL = `${this.serverURL}/deck_endpoint/`
-    this.engineClient = new SocketClient(this.websocketURL, this.auth, true, (b) => this.socketConnected = b)
+    this.engineClient = new SocketClient(this.websocketURL, true, (b) => this.socketConnected = b)
 
 
     this.graphqlURL = `${location.origin}/graphql`
@@ -110,7 +107,7 @@ class AdminStore {
     this.queuedMessages = []
     this.requests = {}
 
-    this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, this.auth, false, (b) => this.simulatorConnected = b)
+    this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, false, (b) => this.simulatorConnected = b)
 
 
     this.engineClient.subscribeTo(this.cohortAnalysisHandler.bind(this), "cohortAnalysis")
