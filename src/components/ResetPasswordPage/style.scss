@@ -1,30 +1,10 @@
-.LoginPage {
+.ResetPasswordPage {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  .LoginForm {
+  .ResetPasswordForm {
     margin-bottom: 20em;
-    .logo {
-      width: 250px;
-      margin-bottom: 2em;
-    }
-    span.danger {
-      display: block;
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #ff0033;
-    }
-    form {
-      input[type="password"] {
-        margin-bottom: 1.5em;
-      }
-    }
-    .resetPasswordLink {
-      display: block;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
     input[type="submit"] {
       cursor: pointer;
       border: none;

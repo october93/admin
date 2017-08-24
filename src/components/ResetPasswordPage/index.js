@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router'
 import { observer, inject  } from 'mobx-react'
-import logo from './logo.png';
 import './style.scss';
 
 @inject("store") @observer
-class LoginPage extends Component {
+class ResetPasswordPage extends Component {
   constructor(props) {
     super(props);
     this.state = {email: '', password: '', token: this.props.location.query.token};
@@ -23,24 +21,16 @@ class LoginPage extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.store.sendLoginRequest(this.state.email, this.state.password)
+    this.props.store.sendPasswordResetRequest(this.state.email, this.state.password)
   }
 
   render() {
-    let errorMessage = null;
-    if (this.props.store.loginError !== null) {
-      errorMessage = <span className="danger">Not authorized</span>
-    }
     return (
-      <div className="LoginPage">
-        <div className="LoginForm">
-          <img className="logo" role="presentation" src={logo} />
-          {errorMessage}
+      <div className="ResetPasswordPage">
+        <div className="ResetPasswordForm">
           <form action="/" onSubmit={this.handleSubmit}>
             <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
-            <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
-            <Link className="resetPasswordLink" to={"/admin/resetpassword"}>Forgot your password?</Link>
-            <input type="submit" value="Sign in" />
+            <input type="submit" value="Reset Password" />
           </form>
         </div>
       </div>
@@ -48,4 +38,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default ResetPasswordPage;

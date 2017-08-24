@@ -487,7 +487,7 @@ class AdminStore {
   }
 
   sendLoginRequest(username, password, token) {
-    const msg = {rpc: "login", data: {username, password, token, admin: true}}
+    const msg = {rpc: "login", data: {username, password, token}}
     this.engineClient.sendMsg(msg, this.loginResponse.bind(this))
   }
 
@@ -499,6 +499,15 @@ class AdminStore {
       localStorage.setItem("session", JSON.stringify(this.session))
       window.location.replace('/admin')
     }
+  }
+
+  sendPasswordResetRequest(email) {
+    const msg = {rpc: "resetPassword", data: {email}}
+    this.engineClient.sendMsg(msg, this.passwordResetResponse.bind(this))
+  }
+
+  passwordResetResponse(error, data) {
+    window.location.replace('/admin/login')
   }
 
   updateSettings(password) {

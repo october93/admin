@@ -21,6 +21,7 @@ import GraphQLPage from './components/GraphQLPage'
 import CardsPage from './components/CardsPage'
 import TagsPage from "./components/TagsPage"
 import SettingsPage from "./components/SettingsPage"
+import ResetPasswordPage from "./components/ResetPasswordPage"
 
 import AdminStore from "./store/AdminStore"
 
@@ -40,6 +41,7 @@ const Routes = (props) => (
   <Provider store={AdminStore}>
     <Router {...props}>
       <Route path="/admin/login" onEnter={checkAuth} component={LoginPage} />
+      <Route path="/admin/resetpassword" onEnter={checkAuth} component={ResetPasswordPage} />
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
