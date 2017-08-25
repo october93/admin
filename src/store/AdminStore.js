@@ -489,7 +489,7 @@ class AdminStore {
   }
 
   loginResponse(error, data) {
-    if (error !== undefined) {
+    if (error !== undefined || !data.admin) {
       this.loginError = error;
     } else {
       this.session = {id: data.sessionID, username: data.displayname}
