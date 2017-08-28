@@ -1285,19 +1285,12 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codemirror-graphql@^0.6.11:
+codemirror-graphql@^0.6.11, codemirror-graphql@^0.6.3:
   version "0.6.11"
   resolved "https://registry.yarnpkg.com/codemirror-graphql/-/codemirror-graphql-0.6.11.tgz#795efa3933523815a5245eefe8d6831d3c4ad026"
   dependencies:
     graphql-language-service-interface "0.0.19"
     graphql-language-service-parser "0.0.15"
-
-codemirror-graphql@^0.6.3:
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/codemirror-graphql/-/codemirror-graphql-0.6.6.tgz#6fb696d419a2f5f54748b9b015a4bbb4ccfba22d"
-  dependencies:
-    graphql-language-service-interface "0.0.16"
-    graphql-language-service-parser "^0.0.14"
 
 codemirror@5.23.0:
   version "5.23.0"
@@ -2620,27 +2613,11 @@ graphql-config@~1.0.0:
     minimatch "^3.0.4"
     rimraf "^2.6.1"
 
-graphql-language-service-config@0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/graphql-language-service-config/-/graphql-language-service-config-0.0.15.tgz#12b91d6adf45dfdbe45b54e9ad66eaa7a5b533a1"
-  dependencies:
-    graphql-language-service-types "0.0.20"
-
 graphql-language-service-config@0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/graphql-language-service-config/-/graphql-language-service-config-0.0.17.tgz#36b5a9906c0bf0d356d31b7583058f9b85d1793e"
   dependencies:
     graphql-language-service-types "0.0.21"
-
-graphql-language-service-interface@0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/graphql-language-service-interface/-/graphql-language-service-interface-0.0.16.tgz#36f3e0640dd58be1a5c0b5cded47870a065635ec"
-  dependencies:
-    graphql "^0.10.1"
-    graphql-language-service-config "0.0.15"
-    graphql-language-service-parser "0.0.14"
-    graphql-language-service-types "0.0.20"
-    graphql-language-service-utils "0.0.15"
 
 graphql-language-service-interface@0.0.19:
   version "0.0.19"
@@ -2662,12 +2639,6 @@ graphql-language-service-interface@^0.0.23:
     graphql-language-service-types "0.0.23"
     graphql-language-service-utils "0.0.21"
 
-graphql-language-service-parser@0.0.14, graphql-language-service-parser@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/graphql-language-service-parser/-/graphql-language-service-parser-0.0.14.tgz#70353f776cfaf5d30e110c4edd70d3eb98a4d062"
-  dependencies:
-    graphql-language-service-types "0.0.20"
-
 graphql-language-service-parser@0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/graphql-language-service-parser/-/graphql-language-service-parser-0.0.15.tgz#fd64afd8873624fa3c4a5831a08de9ccd6cc5182"
@@ -2680,12 +2651,6 @@ graphql-language-service-parser@0.0.17:
   dependencies:
     graphql-language-service-types "0.0.23"
 
-graphql-language-service-types@0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/graphql-language-service-types/-/graphql-language-service-types-0.0.20.tgz#57514fd81ed580c7450ea582605eeedc6ee3fc55"
-  dependencies:
-    graphql "^0.10.1"
-
 graphql-language-service-types@0.0.21:
   version "0.0.21"
   resolved "https://registry.yarnpkg.com/graphql-language-service-types/-/graphql-language-service-types-0.0.21.tgz#b9453366fc8985765034bf34056fe93603a24b82"
@@ -2697,13 +2662,6 @@ graphql-language-service-types@0.0.23:
   resolved "https://registry.yarnpkg.com/graphql-language-service-types/-/graphql-language-service-types-0.0.23.tgz#e8a422527f8baa5d7e756de5cf2a1fdf714630cc"
   dependencies:
     graphql "^0.10.5"
-
-graphql-language-service-utils@0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/graphql-language-service-utils/-/graphql-language-service-utils-0.0.15.tgz#3541dd467be9ba4f516c2fc68a4b13c74d4fe952"
-  dependencies:
-    graphql "^0.10.1"
-    graphql-language-service-types "0.0.20"
 
 graphql-language-service-utils@0.0.17:
   version "0.0.17"
@@ -4964,11 +4922,12 @@ react-dom-factories@^1.0.0:
     object-assign "^4.1.0"
     prop-types "~15.5.7"
 
-react-foundation@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-foundation/-/react-foundation-0.7.0.tgz#e52db639031ffc979dc996538cebd730db00c328"
+react-foundation@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/react-foundation/-/react-foundation-0.9.0.tgz#97ddbd4fe27f89bc5d5c582791a134a938a142ae"
   dependencies:
     classnames "^2.2.3"
+    prop-types "^15.5.10"
 
 react-icon-base@2.0.7:
   version "2.0.7"
