@@ -14,7 +14,7 @@ import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
 import NewCardPage from './components/NewCardPage'
 import UtilitiesPage from './components/UtilitiesPage'
-import InvitesPage from './components/InvitesPage'
+import ConnectPage from './components/ConnectPage'
 import DemoPage from './components/DemoPage'
 import SimulatorPage from "./components/SimulatorPage"
 import GraphQLPage from './components/GraphQLPage'
@@ -54,7 +54,7 @@ const Routes = (props) => (
         <Route path="/admin/graph" component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/utilities" component={UtilitiesPage} />
-        <Route path="/admin/invites" onEnter={() => AdminStore.getUsersData()} component={InvitesPage} />
+        <Route path="/admin/connect" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
         <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
         <Route path="/admin/sim" onEnter={() => AdminStore.getSimulatorDataRequest()} component={SimulatorPage} />

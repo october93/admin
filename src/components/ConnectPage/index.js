@@ -6,7 +6,7 @@ import {Callout, Colors, Sizes } from 'react-foundation';
 
 
 @inject("store") @observer
-export default class InvitesPage extends Component {
+export default class ConnectPage extends Component {
   constructor(props) {
     super(props)
 
