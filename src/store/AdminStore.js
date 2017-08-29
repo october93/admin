@@ -116,7 +116,6 @@ class AdminStore {
     lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
     const nextSunday = new Date()
     nextSunday.setDate(nextSunday.getDate() + 7 - nextSunday.getDay())
-    console.log(`${lastSunday}, ${nextSunday}`)
 
     this.dashboardFromTime = dateFormat(lastSunday, "yyyy-mm-dd")
     this.dashboardToTime = dateFormat(nextSunday, "yyyy-mm-dd")
@@ -171,8 +170,6 @@ class AdminStore {
     }
 
     this.graphLoaded = true
-
-    //console.log(`${JSON.stringify(this.graphNodeData)}, ${JSON.stringify(this.graphEdgeData)}`)
   }
 
   getCardData(cardID){
@@ -209,7 +206,6 @@ class AdminStore {
     if (typeof to !== "undefined") {
       this.dashboardToTime = to
     }
- console.log(`(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")`)
   this.client.query({
     query: gql`
     {
@@ -359,9 +355,6 @@ class AdminStore {
     if (typeof to !== "undefined") {
       this.dashboardToTime = to
     }
-    console.log(`(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")`)
-
-
 
     this.client.query({
       query: gql`
@@ -611,9 +604,6 @@ class AdminStore {
       }
 
       this.demoData = JSON.stringify(cardIDs)
-
-      console.log("JEEP CEJPEJAf")
-      console.log(data)
     }
   }
 

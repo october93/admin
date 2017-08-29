@@ -24,7 +24,6 @@ export default class SocketClient {
   }
 
   subscribeTo(callback, ...topics) {
-    console.log("subscribing")
     let session = localStorage.getItem("session")
     if (session !== null) {
       this.session = JSON.parse(session)
@@ -67,7 +66,6 @@ export default class SocketClient {
   }
 
   onSocketOpen() {
-    console.log(`SocketConnected to ${this.socketURL}`)
     this.socketConnected = true
     this.conStatusChangeHandler(true)
     this.emptyMessageQueue()
@@ -85,7 +83,6 @@ export default class SocketClient {
   }
 
   connect() {
-    console.log(`Conecting to ${this.socketURL}.`)
     clearTimeout(this.connectTimeout)
 		this.socket = new WebSocket(this.socketURL)
 		this.socket.onclose = this.onSocketClose.bind(this)
@@ -127,7 +124,6 @@ export default class SocketClient {
   }
 
   onSocketMessage(e) {
-    console.log(e)
     const parsedMsg = JSON.parse(e.data)
     const msgData = parsedMsg.data
     const msgError = parsedMsg.error
