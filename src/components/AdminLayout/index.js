@@ -17,6 +17,7 @@ const menuItems = [
   {name: "Users Dashboard", path: "/admin/users"},
   {name: "Cards Dashboard", path: "/admin/cards"},
   {name: "Sessions", path: "/admin/sessions"},
+  {name: "Invites", path: "/admin/invites"},
   {name: "New Card", path: "/admin/newCard"},
   {name: "Connect", path: "/admin/connect"},
   {name: "Utilities", path: "/admin/utilities"},

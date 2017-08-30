@@ -22,6 +22,7 @@ import CardsPage from './components/CardsPage'
 import TagsPage from "./components/TagsPage"
 import SettingsPage from "./components/SettingsPage"
 import ResetPasswordPage from "./components/ResetPasswordPage"
+import InvitesPage from "./components/InvitesPage"
 
 import AdminStore from "./store/AdminStore"
 
@@ -46,6 +47,7 @@ const Routes = (props) => (
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/sessions" component={SessionsPage} />
+        <Route path="/admin/invites" component={InvitesPage} />
         <Route path="/admin/tags" onEnter={() => AdminStore.getTags()}component={TagsPage} />
         <Route path="/admin/cards" onEnter={() => {
           AdminStore.getCardsData()

@@ -20,6 +20,7 @@ class AdminStore {
   @observable loginError = null
 
 
+  @observable invitesData = []
   @observable sessionsData = []
 
   //this is a weird way to do this, but I don't feel like figuring out a better way right now
@@ -459,6 +460,21 @@ class AdminStore {
         }
       `,
     }).then(data => { this.sessionsData = data.data.sessions })
+      .catch(error => console.error(error));
+  }
+
+  getInvitesRequest() {
+    this.client.query({
+      query: gql`
+        {
+          invites {
+            token
+            issuer
+            expires
+          }
+        }
+      `,
+    }).then(data => { this.invitesData = data.data.invites })
       .catch(error => console.error(error));
   }
 
