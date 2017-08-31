@@ -6,27 +6,22 @@ import Timestamp from 'react-timestamp'
 class InvitesPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {password: ''}
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNewInvite = this.handleNewInvite.bind(this);
     this.props.store.getInvitesRequest()
   }
 
-  handleChange(event) {
-    const name = event.target.name;
-    this.setState({[name]: event.target.value});
-  }
-
-  handleSubmit(event) {
+  handleNewInvite(event) {
     event.preventDefault()
+    this.props.store.newInviteRequest()
   }
 
   render() {
     let errorMessage = null;
-    if (this.props.store.inviteError !== null) {
+    if (this.props.store.newInviteError !== null) {
       errorMessage = <span className="danger">{this.props.store.inviteError}</span>
     }
-    const inviteList = this.props.store.invitesData.toJS().map((data, i) =>
+    let invitesData = this.props.store.invitesData.toJS()
+    const inviteList = invitesData.map((data, i) =>
       <tr key={i}>
         <td>{data.token}</td>
         <td>{data.issuer}</td>
@@ -37,6 +32,8 @@ class InvitesPage extends Component {
     return (
       <div className="InvitesPage">
         {errorMessage}
+        <p>Create a new invite</p>
+        <a className="button" onClick={this.handleNewInvite}>New Invite</a>
         <table className="inviteTable">
           <thead>
             <tr>

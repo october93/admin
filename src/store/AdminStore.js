@@ -464,7 +464,12 @@ class AdminStore {
   }
 
   getInvitesRequest() {
-    this.client.query({
+    let client = new ApolloClient({
+      networkInterface: createNetworkInterface({
+        uri: this.graphqlURL
+      }),
+    })
+    client.query({
       query: gql`
         {
           invites {
@@ -475,8 +480,19 @@ class AdminStore {
           }
         }
       `,
-    }).then(data => { this.invitesData = data.data.invites })
+    }).then(data => { console.log(data.data.invites.length); this.invitesData = data.data.invites })
       .catch(error => console.error(error));
+  }
+
+  newInviteRequest() {
+    const msg = {rpc: "newInvite"}
+    this.engineClient.sendMsg(msg, this.newInviteResponse.bind(this))
+  }
+
+  newInviteResponse(error, data) {
+    if (error === undefined) {
+      this.getInvitesRequest()
+    }
   }
 
   newUserRequest(email, username, displayname, password){
