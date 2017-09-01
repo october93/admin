@@ -47,7 +47,7 @@ export default class GraphPage extends Component {
       let ui = Viva.Graph.svg('g')
       // Deal with unknown nodes
       if (node.data === undefined) {
-        return
+        return ui
       }
       // Create SVG text element with user id as content
       let isTag = node.data.displayname === undefined
