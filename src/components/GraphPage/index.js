@@ -34,7 +34,7 @@ export default class GraphPage extends Component {
     }
     for (let i = 0; i < data.graph.edges.length; i++) {
       let edge = data.graph.edges[i];
-      graph.addLink(edge.sourceID, edge.targetID);
+      graph.addLink(edge.sourceID, edge.targetID, edge);
     }
   }
 
@@ -101,9 +101,15 @@ export default class GraphPage extends Component {
     defs.append(marker);
     var geom = Viva.Graph.geom();
     graphics.link(function(link){
+        let color = 'gray'
+        if (link.data.score < 0.5) {
+          color = 'red'
+        } else if (link.data.score > 0.5) {
+          color = 'green'
+        }
         // Notice the Triangle marker-end attribe:
         return Viva.Graph.svg('path')
-                   .attr('stroke', 'gray')
+                   .attr('stroke', color)
                    .attr('marker-end', 'url(#Triangle)');
     }).placeLink(function(linkUI, fromPos, toPos) {
         // Here we should take care about
@@ -177,6 +183,7 @@ export default class GraphPage extends Component {
             edges {
               sourceID
               targetID
+              score
             }
             health {
               synchronized
