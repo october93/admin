@@ -24,8 +24,8 @@ export default class GraphPage extends Component {
   }
 
   buildGraph(graph, data) {
-    for (let i = 0; i < data.users.length; i++) {
-      let user = data.users[i];
+    for (let i = 0; i < data.graph.users.length; i++) {
+      let user = data.graph.users[i];
       graph.addNode(user.nodeId, user)
     }
     for (let i = 0; i < data.tags.length; i++) {
@@ -162,11 +162,6 @@ export default class GraphPage extends Component {
     this.client.query({
       query: gql`
         {
-          users {
-            nodeId
-            username
-            displayname
-          }
           tags {
             name
             node {
@@ -174,6 +169,11 @@ export default class GraphPage extends Component {
             }
           }
           graph {
+            users {
+              nodeId
+              username
+              displayname
+            }
             edges {
               sourceID
               targetID
