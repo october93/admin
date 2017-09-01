@@ -20,7 +20,7 @@ export default class GraphPage extends Component {
     this.renderGraph = true;
     this.buildGraph = this.buildGraph.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
-    this.state = {selectedNode: {}, tooltipPosition: {top: 0, right: 0}, showNodeLabels: false, synchronized: false}
+    this.state = {selectedNode: {}, tooltipPosition: {top: 0, right: 0}, showNodeLabels: false, health: {synchronized: false, unknownNodes: false}}
   }
 
   buildGraph(graph, data) {
@@ -45,7 +45,11 @@ export default class GraphPage extends Component {
     graphics.node((node) => {
       // This time it's a group of elements: http://www.w3.org/TR/SVG/struct.html#Groups
       let ui = Viva.Graph.svg('g')
-        // Create SVG text element with user id as content
+      // Deal with unknown nodes
+      if (node.data === undefined) {
+        return
+      }
+      // Create SVG text element with user id as content
       let isTag = node.data.displayname === undefined
       let color = "#1aafdb"
       if (isTag) {
@@ -176,11 +180,12 @@ export default class GraphPage extends Component {
             }
             health {
               synchronized
+              unknownNodes
             }
           }
         }
       `,
-    }).then(response => this.setState({graphData: response.data, synchronized: response.data.graph.health.synchronized}))
+    }).then(response => this.setState({graphData: response.data, health: response.data.graph.health}))
       .catch(error => console.error(error));
   }
 
@@ -211,7 +216,11 @@ export default class GraphPage extends Component {
             <thead>
               <tr>
                 <th scope="row">Attention & Flow Rank Synchronized</th>
-                <td className={this.state.synchronized ? "success" : "danger"}>{this.state.synchronized ? "Yes" : "No"}</td>
+                <td className={this.state.health.synchronized ? "success" : "danger"}>{this.state.health.synchronized ? "Yes" : "No"}</td>
+              </tr>
+              <tr>
+                <th scope="row">Unknown Nodes</th>
+                <td className={this.state.health.unknownNodes ? "danger" : "success"}>{this.state.health.unknownNodes? "Yes" : "No"}</td>
               </tr>
             </thead>
           </table>
