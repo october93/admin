@@ -515,10 +515,10 @@ class AdminStore {
   }
 
   loginResponse(error, data) {
-    if (error !== undefined || !data.admin) {
+    if (error !== undefined || !data.user.admin) {
       this.loginError = error;
     } else {
-      this.session = {id: data.sessionID, username: data.displayname}
+      this.session = {id: data.session.id, username: data.user.displayname}
       localStorage.setItem("session", JSON.stringify(this.session))
       window.location.replace('/admin')
     }
