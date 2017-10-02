@@ -88,7 +88,6 @@ export default class SocketClient {
 		this.socket.onclose = this.onSocketClose.bind(this)
 		this.socket.onmessage = this.onSocketMessage.bind(this)
 		this.socket.onopen = this.onSocketOpen.bind(this)
-    console.log(this.socket)
 	}
 
   emptyMessageQueue() {
