@@ -28,10 +28,6 @@ export default class GraphPage extends Component {
       let user = data.graph.users[i];
       graph.addNode(user.nodeId, user)
     }
-    for (let i = 0; i < data.tags.length; i++) {
-      let tag = data.tags[i];
-      graph.addNode(tag.node.id, tag)
-    }
     for (let i = 0; i < data.graph.edges.length; i++) {
       let edge = data.graph.edges[i];
       graph.addLink(edge.sourceID, edge.targetID, edge);
@@ -168,12 +164,6 @@ export default class GraphPage extends Component {
     this.client.query({
       query: gql`
         {
-          tags {
-            name
-            node {
-              id
-            }
-          }
           graph {
             users {
               nodeId

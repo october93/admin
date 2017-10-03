@@ -22,7 +22,6 @@ const menuItems = [
   {name: "Connect", path: "/admin/connect"},
   {name: "Utilities", path: "/admin/utilities"},
   {name: "Graph", path: "/admin/graph"},
-  {name: "Tags", path: "/admin/tags"},
   {name: "Demo", path: "/admin/demo"},
   {name: "Simulator", path: "/admin/sim"},
   {name: "GraphQL", path: "/admin/graphql"},

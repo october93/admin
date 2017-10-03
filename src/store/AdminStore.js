@@ -72,8 +72,6 @@ class AdminStore {
   @observable dashboardFromTime = null
   @observable dashboardToTime = null
 
-  @observable tags = []
-
   serverURL
   simulatorclient
   engineclient
@@ -246,108 +244,6 @@ class AdminStore {
     this.cardHitRateMetricsData = z
     console.log(this.cardHitRateMetricsData.toJS())
   }
-
-  setTagActive(id, state) {
-    this.client.mutate({
-      mutation: gql`
-      mutation{
-        editTag (id:"${id}", active:${state}) {
-          tagID
-        }
-      }
-      `,
-      refetchQueries: [{
-        query: gql`
-      {
-        tags {
-          tagID
-          name
-          postCount
-          active
-        }
-      }
-      `}]
-    })
-      .then(data => window.setTimeout(() => {
-        this.getTags()
-      }, 100))
-      .catch(error => console.error(error));
-  }
-
-  newTag(name) {
-    this.client.mutate({
-      mutation: gql`
-      mutation{
-        createTag (name:"${name}") {
-          tagID
-        }
-      }
-      `,
-      refetchQueries: [{
-        query: gql`
-      {
-        tags {
-          tagID
-          name
-          postCount
-          active
-        }
-      }
-      `}]
-    })
-      .then(data => window.setTimeout(() => {
-        this.getTags()
-      }, 100))
-      .catch(error => console.error(error));
-  }
-
-  deleteTag(id) {
-    this.client.mutate({
-      mutation: gql`
-      mutation{
-        deleteTag (id:"${id}")
-      }
-      `,
-      refetchQueries: [{
-        query: gql`
-      {
-        tags {
-          tagID
-          name
-          postCount
-          active
-        }
-      }
-      `}]
-    })
-      .then(data => window.setTimeout(() => {
-        this.getTags()
-      }, 100))
-      .catch(error => console.error(error));
-  }
-
-  getTags(){
-    this.client.query({
-      query: gql`
-      {
-        tags {
-          tagID
-          name
-          postCount
-          active
-        }
-      }
-      `,
-    })
-      .then(data => this.tagsRecieved(data))
-      .catch(error => console.error(error));
-  }
-
-  tagsRecieved(data) {
-    console.log(data)
-    this.tags = data.data.tags
-  }
-
 
   getDashboardMetrics(from, to){
     if (typeof from !== "undefined") {
