@@ -327,8 +327,6 @@ class AdminStore {
             username
             nodeId
             lastactiontime
-            countGivenLikes(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
-            countGivenReacts(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
             node {
               cardRankTableSize
             }
