@@ -12,13 +12,11 @@ import SessionsPage from './components/SessionsPage';
 import NotFoundPage from './components/NotFoundPage';
 import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
-import NewCardPage from './components/NewCardPage'
 import UtilitiesPage from './components/UtilitiesPage'
 import ConnectPage from './components/ConnectPage'
 import DemoPage from './components/DemoPage'
 import SimulatorPage from "./components/SimulatorPage"
 import GraphQLPage from './components/GraphQLPage'
-import CardsPage from './components/CardsPage'
 import SettingsPage from "./components/SettingsPage"
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
@@ -47,13 +45,9 @@ const Routes = (props) => (
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/sessions" component={SessionsPage} />
         <Route path="/admin/invites" component={InvitesPage} />
-        <Route path="/admin/cards" onEnter={() => {
-          AdminStore.getCardsData()
-          AdminStore.getUsersData()}} component={CardsPage} />
-        <Route path="/admin/newCard" component={NewCardPage} />
         <Route path="/admin/graph" component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
-        <Route path="/admin/utilities" component={UtilitiesPage} />
+        <Route path="/admin/rpcconsole" component={UtilitiesPage} />
         <Route path="/admin/connect" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
         <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />

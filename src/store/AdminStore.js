@@ -109,7 +109,7 @@ class AdminStore {
     this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, false, (b) => this.simulatorConnected = b)
 
 
-    this.engineClient.subscribeTo(this.cohortAnalysisHandler.bind(this), "cohortAnalysis")
+    //this.engineClient.subscribeTo(this.cohortAnalysisHandler.bind(this), "cohortAnalysis")
 
     const lastSunday = new Date()
     lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())

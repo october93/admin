@@ -13,14 +13,11 @@ import logo from './october.svg';
 import classnames from 'classnames';
 
 const menuItems = [
-  {name: "Usage Dashboard", path: "/admin"},
   {name: "Users Dashboard", path: "/admin/users"},
-  {name: "Cards Dashboard", path: "/admin/cards"},
   {name: "Sessions", path: "/admin/sessions"},
   {name: "Invites", path: "/admin/invites"},
-  {name: "New Card", path: "/admin/newCard"},
   {name: "Connect", path: "/admin/connect"},
-  {name: "Utilities", path: "/admin/utilities"},
+  {name: "RPC Console", path: "/admin/rpcconsole"},
   {name: "Graph", path: "/admin/graph"},
   {name: "Demo", path: "/admin/demo"},
   {name: "Simulator", path: "/admin/sim"},
@@ -87,10 +84,13 @@ class AdminLayout extends Component {
           <div className="AdminLayout-profilename">
             Welcome {profile ? profile.username : null}
           </div>
-    			<div className="AdminLayout-header">
-    			    <img src={logo} className="AdminLayout-logo" alt="logo" />
-    			    <h2>October Admin</h2>
-    			</div>
+          <a href={"/admin"}>
+            <div className="AdminLayout-header">
+      			    <img src={logo} className="AdminLayout-logo" alt="logo" />
+      			    <h2>October Admin</h2>
+      			</div>
+          </a>
+
           <div className="AdminLayout-logout">
             <Link color={Colors.ALERT} onClick={this.handleOpenModal}>Report Bug</Link>
             <Link onClick={this.props.store.logout.bind(this)}>Logout</Link>
