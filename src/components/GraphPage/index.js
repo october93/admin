@@ -26,7 +26,7 @@ export default class GraphPage extends Component {
   buildGraph(graph, data) {
     for (let i = 0; i < data.graph.users.length; i++) {
       let user = data.graph.users[i];
-      graph.addNode(user.nodeId, user)
+      graph.addNode(user.node.id, user)
     }
     for (let i = 0; i < data.graph.edges.length; i++) {
       let edge = data.graph.edges[i];
@@ -166,9 +166,11 @@ export default class GraphPage extends Component {
         {
           graph {
             users {
-              nodeId
               username
               displayname
+              node {
+                id
+              }
             }
             edges {
               sourceID
