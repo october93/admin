@@ -125,7 +125,7 @@ export default class ConnectPage extends Component {
           {errorMessage}
           <form action="/" onSubmit={this.handleSubmit}>
             <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
-            <input type="submit" value="Update" />
+            <button type="submit" className="button">Update</button>
           </form>
         </div>
 

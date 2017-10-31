@@ -16,6 +16,7 @@ import ConnectPage from './components/ConnectPage'
 import GraphQLPage from './components/GraphQLPage'
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
+import ReportBugPage from "./components/ReportBugPage"
 
 import AdminStore from "./store/AdminStore"
 
@@ -43,6 +44,7 @@ const Routes = (props) => (
         <Route path="/admin/graph" component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
+        <Route path="/admin/reportbug" component={ReportBugPage} />
         <Route path="/admin/connect" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
         <Redirect from="/" to="/admin" />

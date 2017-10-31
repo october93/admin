@@ -5,19 +5,33 @@
   height: 100%;
 }
 
-.verticalMenu {
-  flex: 0 0 150px;
-  background-color: #02A8F3;
+.top {
   height: 100%;
 }
+
+.verticalMenu {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 150px;
+  background-color: #02A8F3;
+}
+
+
+.menuPadding  {
+  flex: 0 0 150px;
+  height: 100%;
+}
+
 
 .menuItem {
   margin: 15px 20px;
 }
 
 .logo {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   margin-right: 10px;
 }
 
@@ -56,11 +70,11 @@
 
 .logoText {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: lighter;
   color: #FFF;
 }
 .header {
-  margin: 20px 0px 40px 0px;
+  margin: 30px 0px 40px 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
