@@ -14,10 +14,7 @@ import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
 import UtilitiesPage from './components/UtilitiesPage'
 import ConnectPage from './components/ConnectPage'
-import DemoPage from './components/DemoPage'
-import SimulatorPage from "./components/SimulatorPage"
 import GraphQLPage from './components/GraphQLPage'
-import SettingsPage from "./components/SettingsPage"
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
 
@@ -49,10 +46,7 @@ const Routes = (props) => (
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
         <Route path="/admin/connect" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
-        <Route path="/admin/demo" onEnter={() => AdminStore.getDemoRequest()} component={DemoPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
-        <Route path="/admin/sim" onEnter={() => AdminStore.getSimulatorDataRequest()} component={SimulatorPage} />
-        <Route path="/admin/settings" component={SettingsPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
       </Route>

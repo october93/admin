@@ -6,6 +6,8 @@ import { Link } from 'react-router'
 import ReactTable from 'react-table'
 
 import './style.scss';
+import "react-table/react-table.css"
+
 
 const cardsSize = (size) => {
   if (size <= 10) {

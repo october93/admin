@@ -12,6 +12,7 @@ export default class ConnectPage extends Component {
 
     this.state = {
       users: '[""]',
+      password: '',
     }
 
     this.inputChange = this.inputChange.bind(this)
@@ -38,6 +39,27 @@ export default class ConnectPage extends Component {
     this.props.store.connectAllUsersRequest()
   }
 
+  changeText = (event) => {
+    this.props.store.demoData = event.target.value
+  }
+
+  submitDemo = (event) => {
+    event.preventDefault()
+
+    this.props.store.setDemoRequest(this.props.store.demoData)
+  }
+
+
+  handleChange = (event) => {
+    const name = event.target.name;
+    this.setState({[name]: event.target.value});
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.props.store.updateSettings(this.state.password)
+  }
+
   render() {
     const store = this.props.store
 
@@ -60,18 +82,63 @@ export default class ConnectPage extends Component {
       )
     }
 
+    let shownDemoAlert = null
+
+    if(store.setDemoStatus === "waiting") {
+      shownDemoAlert = (<FaSpinner />)
+    } else if (store.setDemoStatus === "success") {
+      shownDemoAlert = (
+        <Callout color={Colors.SUCCESS} size={Sizes.SMALL}>
+          <h5>Success!</h5>
+        </Callout>
+      )
+    } else if (store.setDemoStatus === "failure") {
+      shownDemoAlert = (
+        <Callout color={Colors.ALERT} size={Sizes.SMALL}>
+          <h5>Failed.</h5>
+        </Callout>
+      )
+    }
+
+    let errorMessage = null;
+    if (this.props.store.updateSettingsError !== null) {
+      errorMessage = <span className="danger">{this.props.store.updateSettingsError}</span>
+    }
+
     return (
       <div>
-        {shownAlert}
-        <form onSubmit={this.submit}>
-          <label>Array of users to connect by username</label>
-          <input type="text" value={this.state.users} placeholder="Name/ID" name="users" onChange={this.inputChange} required/>
-          <button type="submit" className="button">Submit</button>
-        </form>
-        <form onSubmit={this.pressConnectAll}>
-          <button type="submit" className="button">Connect All Users</button>
-        </form>
+        <div>
+          <h3>Connect Users</h3>
+          {shownAlert}
+          <form onSubmit={this.submit}>
+            <label>Array of users to connect by username</label>
+            <input type="text" value={this.state.users} placeholder="Name/ID" name="users" onChange={this.inputChange} required/>
+            <button type="submit" className="button">Submit</button>
+          </form>
+          <form onSubmit={this.pressConnectAll}>
+            <button type="submit" className="button">Connect All Users</button>
+          </form>
+        </div>
+
+        <div className="SettingsPage">
+          <h3>Change Password</h3>
+          {errorMessage}
+          <form action="/" onSubmit={this.handleSubmit}>
+            <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
+            <input type="submit" value="Update" />
+          </form>
+        </div>
+
+        <div>
+          <h3>Set Demo</h3>
+          {shownDemoAlert}
+          <form onSubmit={this.submitDemo}>
+            <textarea value={this.props.store.demoData} onChange={this.changeText}></textarea>
+            <button type="submit" className="button">Update</button>
+          </form>
+        </div>
       </div>
+
     )
   }
 }

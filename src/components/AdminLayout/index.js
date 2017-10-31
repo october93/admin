@@ -14,18 +14,12 @@ import classnames from 'classnames';
 
 const menuItems = [
   {name: "Users Dashboard", path: "/admin/users"},
-  {name: "Sessions", path: "/admin/sessions"},
   {name: "Invites", path: "/admin/invites"},
-  {name: "Connect", path: "/admin/connect"},
-  {name: "RPC Console", path: "/admin/rpcconsole"},
+  {name: "Utilities", path: "/admin/connect"},
+  {name: "Console", path: "/admin/rpcconsole"},
   {name: "Graph", path: "/admin/graph"},
-  {name: "Demo", path: "/admin/demo"},
-  {name: "Simulator", path: "/admin/sim"},
   {name: "GraphQL", path: "/admin/graphql"},
-  {name: "Settings", path: "/admin/settings"},
 ]
-
-
 
 @inject("store") @observer
 class AdminLayout extends Component {
