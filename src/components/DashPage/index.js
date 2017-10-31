@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Column, Row  } from 'react-foundation'
 
 import './style.scss'
 
@@ -10,10 +9,10 @@ class DashPage extends Component {
     from: this.props.store.dashboardFromTime,
     to: this.props.store.dashboardToTime,
   }
-  
+
   render() {
     return (
-      <div>
+      <div className="pageMargins">
         Welcome!
       </div>
     );

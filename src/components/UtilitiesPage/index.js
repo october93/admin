@@ -69,7 +69,7 @@ export default class UtilitiesPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pageMargins">
         <div>
           <h4>RPC Tester</h4>
           Response:

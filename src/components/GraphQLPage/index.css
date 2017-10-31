@@ -27,7 +27,6 @@
       -ms-flex-direction: row;
           flex-direction: row;
   height: 100%;
-  margin: -20px 0 0 -10px;
   overflow: hidden;
   width: 100%;
 }

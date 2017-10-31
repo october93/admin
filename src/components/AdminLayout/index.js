@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { Link, Colors } from 'react-foundation'
-
-import MyMenu from '../MyMenu';
-
+import { Link as FLink, Colors } from 'react-foundation'
+import { Link } from 'react-router'
 import { observer, inject } from 'mobx-react'
 import ReactModal from 'react-modal';
 
 import './style.scss';
 
-import logo from './october.svg';
+import logo from './logo-light.png';
 
 import classnames from 'classnames';
 
 const menuItems = [
-  {name: "Users Dashboard", path: "/admin/users"},
+  {name: "Users", path: "/admin/users"},
   {name: "Invites", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/connect"},
   {name: "Console", path: "/admin/rpcconsole"},
@@ -56,12 +54,38 @@ class AdminLayout extends Component {
     });
   }
 
+  renderMenuItems = () => {
+    return menuItems.map(item => (
+      <div className="menuItem">
+        <Link key={item.path} to={item.path}>{item.name}</Link>
+      </div>
+    ))
+  }
+
   render() {
     const { className } = this.props;
     const profile = JSON.parse(localStorage.getItem("session"))
 
     return (
-    		<div className={classnames("AdminLayout", className)}>
+    		<div className="container">
+          <div className="verticalMenu">
+            <div className="header">
+              <img src={logo} className="logo" alt="logo" />
+              <span className="logoText">Admin</span>
+            </div>
+            {this.renderMenuItems()}
+            <a className="menuItem" onClick={this.handleOpenModal}>Report Bug</a>
+
+            <div className="bottomMenu">
+              <div className="menuItem">
+                <div className="loggedInAs">
+                  Welcome,
+                </div>
+                {profile ? profile.username : "User"}
+              </div>
+              <a className="menuItem" onClick={this.props.store.logout.bind(this)}>Logout</a>
+            </div>
+          </div>
           <ReactModal
              isOpen={this.state.showModal}
              contentLabel="Minimal Modal Example"
@@ -71,29 +95,13 @@ class AdminLayout extends Component {
             <label>Detail:</label>
           <input type="text" value={this.state.issueDetail} name="issueDetail"   onChange={this.inputChange} required />
 
-            <Link color={Colors.SECONDARY} onClick={this.handleCloseModal}>Close Bug</Link>
-              <Link onClick={this.submitAndCloseModal}>Submit Bug</Link>
+            <FLink color={Colors.SECONDARY} onClick={this.handleCloseModal}>Close</FLink>
+            <FLink onClick={this.submitAndCloseModal}>Submit Bug</FLink>
           </ReactModal>
 
-          <div className="AdminLayout-profilename">
-            Welcome {profile ? profile.username : null}
-          </div>
-          <a href={"/admin"}>
-            <div className="AdminLayout-header">
-      			    <img src={logo} className="AdminLayout-logo" alt="logo" />
-      			    <h2>October Admin</h2>
-      			</div>
-          </a>
-
-          <div className="AdminLayout-logout">
-            <Link color={Colors.ALERT} onClick={this.handleOpenModal}>Report Bug</Link>
-            <Link onClick={this.props.store.logout.bind(this)}>Logout</Link>
-          </div>
-    			<MyMenu menuItems={menuItems} />
-    			<div className="AdminLayout-custom">
+    			<div className="page">
     				{this.props.children}
     			</div>
-
     		</div>
 
     );

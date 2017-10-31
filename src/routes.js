@@ -8,7 +8,6 @@ import AdminLayout from './components/AdminLayout';
 import LoginPage from './components/LoginPage';
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
-import SessionsPage from './components/SessionsPage';
 import NotFoundPage from './components/NotFoundPage';
 import GraphPage from './components/GraphPage';
 import NewUserPage from './components/NewUserPage'
@@ -37,10 +36,9 @@ const Routes = (props) => (
     <Router {...props}>
       <Route path="/admin/login" onEnter={checkAuth} component={LoginPage} />
       <Route path="/admin/resetpassword" onEnter={checkAuth} component={ResetPasswordPage} />
-      <Route component={AdminLayout} onEnter={requireAuth}>
+      <Route component={AdminLayout} >
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
-        <Route path="/admin/sessions" component={SessionsPage} />
         <Route path="/admin/invites" component={InvitesPage} />
         <Route path="/admin/graph" component={GraphPage} />
         <Route path="/admin/newUser" component={NewUserPage} />

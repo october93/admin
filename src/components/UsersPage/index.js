@@ -105,9 +105,7 @@ export default class UsersPage extends Component {
     const { className } = this.props;
 
     return (
-      <div className={classnames("UsersPage", className)}>
-        <h3>From <input onBlur={this.onBlur} style={{width: "120px", display: "inline"}} type="text" value={this.state.from} name="from" onChange={this.inputChange} required/> to <input onBlur={this.onBlur} style={{width: "120px", display: "inline"}} className="picker" type="text" value={this.state.to} name="to" placeholder="To" onChange={this.inputChange} required/></h3>
-
+      <div className="pageMargins">
         <Link to="/admin/newUser"><FaPlus size={30} color="#9E9"/></Link>
         <ReactTable
          data={this.props.store.usersData}

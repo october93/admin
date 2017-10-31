@@ -208,7 +208,7 @@ export default class GraphPage extends Component {
       display: this.state.show ? 'inline' : 'none',
     };
     return (
-      <div className="graph-wrapper">
+      <div className="graph-wrapper pageMargins">
         <div className="health">
           <h4>Graph Health</h4>
           <table>

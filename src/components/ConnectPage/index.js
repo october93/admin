@@ -106,7 +106,7 @@ export default class ConnectPage extends Component {
     }
 
     return (
-      <div>
+      <div className="pageMargins">
         <div>
           <h3>Connect Users</h3>
           {shownAlert}

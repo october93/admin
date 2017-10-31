@@ -65,7 +65,7 @@ export default class NewUserPage extends Component {
     }
 
     return (
-      <div>
+      <div className="pageMargins">
         {shownAlert}
         <form onSubmit={this.submit}>
           <label for="email">Email Address</label>

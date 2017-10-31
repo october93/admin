@@ -1,51 +1,74 @@
-.AdminLayout {
+
+.container {
+  display: flex;
+  flex-flow: row;
   height: 100%;
 }
 
-.AdminLayout-logo {
-  animation: AdminLayout-logo-spin infinite 20s linear;
+.verticalMenu {
+  flex: 0 0 150px;
+  background-color: #02A8F3;
+  height: 100%;
+}
+
+.menuItem {
+  margin: 15px 20px;
+}
+
+.logo {
   height: 40px;
+  width: 40px;
+  margin-right: 10px;
 }
 
-.AdminLayout-header {
-  background-color: #222;
-  height: 90px;
-  padding: 20px;
-  color: white;
-  text-align: center;
+.verticalMenu a {
+  color: #FFF;
 }
 
-.AdminLayout-custom {
-  margin-top: 20px;
-  font-size: large;
-  margin-left: 10px;
-  height: 100%;
-  background-color: "#000";
+.verticalMenu a:active {
+  font-weight: bold;
+  color: #F00;
 }
 
-@keyframes AdminLayout-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.verticalMenu a:hover {
+  font-weight: bold;
+  color: #FFF;
 }
 
-@media print, screen and (min-width: 40em) {
-  .AdminLayout-logo {
-    height: 80px;
-  }
-  .AdminLayout-header {
-    height: 175px;
-  }
+
+.bottomMenu a:hover {
+  font-weight: bold;
 }
 
-.AdminLayout-logout {
+.bottomMenu {
   position: absolute;
-  top: 0;
-  right: 0;
+  bottom: 20px;
+  color: #FFF;
 }
 
-.AdminLayout-profilename {
-  position: absolute;
-  top: 15;
-  left: 15;
-  color: white;
+.page {
+  flex: 1 1 100%;
+}
+
+.pageMargins {
+  margin: 20px;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFF;
+}
+.header {
+  margin: 20px 0px 40px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.loggedInAs {
+  font-size: 12px;
+  font-weight: lighter;
+  color: #FFF;
 }

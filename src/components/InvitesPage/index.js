@@ -30,9 +30,8 @@ class InvitesPage extends Component {
       </tr>
     )
     return (
-      <div className="InvitesPage">
+      <div className="pageMargins">
         {errorMessage}
-        <p>Create a new invite</p>
         <a className="button" onClick={this.handleNewInvite}>New Invite</a>
         <table className="inviteTable">
           <thead>
