@@ -37,7 +37,7 @@ const Routes = (props) => (
     <Router {...props}>
       <Route path="/admin/login" onEnter={checkAuth} component={LoginPage} />
       <Route path="/admin/resetpassword" onEnter={checkAuth} component={ResetPasswordPage} />
-      <Route component={AdminLayout} >
+      <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/invites" component={InvitesPage} />
