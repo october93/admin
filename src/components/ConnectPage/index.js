@@ -15,6 +15,7 @@ export default class ConnectPage extends Component {
       password: '',
     }
 
+    this.props.store.getDemoRequest()
     this.inputChange = this.inputChange.bind(this)
     this.submit = this.submit.bind(this)
   }

@@ -519,7 +519,7 @@ class AdminStore {
   }
 
   getDemoRequest(){
-    const msg = { rpc: "getDemoHand" }
+    const msg = { rpc: "getDemoHand", data: {} }
     this.engineClient.sendMsg(msg, this.getDemoResponse.bind(this))
   }
 
@@ -527,7 +527,7 @@ class AdminStore {
     if (error === undefined) {
       let cardIDs = []
       for (let i = 0; i < data.length; i++){
-        cardIDs.push(data[i].cardID)
+        cardIDs.push(data[i].card.cardID)
       }
 
       this.demoData = JSON.stringify(cardIDs)
