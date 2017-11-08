@@ -535,7 +535,7 @@ class AdminStore {
   }
 
   setDemoRequest(demoData) {
-    const msg = { rpc: "setDemo", data: {cards: JSON.parse(demoData)} }
+    const msg = { rpc: "setDemo", data: {cardIDs: JSON.parse(demoData)} }
     this.engineClient.sendMsg(msg, this.setDemoResponse.bind(this))
 
     this.setDemoStatus = "waiting"
