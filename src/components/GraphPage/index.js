@@ -11,12 +11,6 @@ export default class GraphPage extends Component {
   constructor(props) {
     super(props)
 
-    this.client = new ApolloClient({
-      networkInterface: createNetworkInterface({
-        uri: this.props.store.graphqlURL
-      }),
-    })
-
     this.renderGraph = true;
     this.buildGraph = this.buildGraph.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
@@ -161,7 +155,7 @@ export default class GraphPage extends Component {
 
   componentDidMount() {
     this.configureGraph(false)
-    this.client.query({
+    this.props.store.client.query({
       query: gql`
         {
           graph {

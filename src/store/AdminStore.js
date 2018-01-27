@@ -1,6 +1,10 @@
 import cookie from "react-cookie"
 import { observable } from 'mobx';
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import ApolloClient from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { onError } from 'apollo-link-error';
 import gql from 'graphql-tag';
 import SocketClient from "./SocketClient"
 import dateFormat from 'dateformat'
@@ -97,10 +101,27 @@ class AdminStore {
       this.graphqlURL = 'http://localhost:9000/graphql'
     }
 
+    const httpLink = createHttpLink({
+      uri: this.graphqlURL
+    });
+
+    const logoutLink = onError(({ networkError }) => {
+      if (networkError.statusCode === 401) this.logout();
+    })
+
+    const authLink = setContext((_, { headers }) => {
+      const session = JSON.parse(localStorage.getItem('session'));
+      return {
+        headers: {
+          ...headers,
+          Authorization: session.id,
+        }
+      }
+    });
+
     this.client = new ApolloClient({
-      networkInterface: createNetworkInterface({
-        uri: this.graphqlURL
-      }),
+      link: authLink.concat(logoutLink.concat(httpLink)),
+      cache: new InMemoryCache()
     })
 
     this.queuedMessages = []
@@ -358,12 +379,7 @@ class AdminStore {
   }
 
   getInvitesRequest() {
-    let client = new ApolloClient({
-      networkInterface: createNetworkInterface({
-        uri: this.graphqlURL
-      }),
-    })
-    client.query({
+    this.client.query({
       query: gql`
         {
           invites {
