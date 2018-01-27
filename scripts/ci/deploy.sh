@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-ENV=latest ./scripts/deploy.sh
-ENV=development ./scripts/deploy.sh
+if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  ENV=latest ./scripts/ci/deploy_to_env.sh
+  ENV=development ./scripts/ci/deploy_to_env.sh
+fi

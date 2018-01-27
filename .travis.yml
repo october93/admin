@@ -21,4 +21,4 @@ script:
   - ./scripts/ci/test.sh
 
 after_success:
-  - ./scripts/ci/travis_deploy.sh
+  - ./scripts/ci/deploy.sh
