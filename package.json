@@ -52,7 +52,6 @@
     "whatwg-fetch": "2.0.2"
   },
   "dependencies": {
-    "@october/web-card": "^0.0.11",
     "apollo-client": "^2.2.0",
     "apollo-client-preset": "^1.0.6",
     "apollo-link-context": "^1.0.3",
