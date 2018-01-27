@@ -2680,7 +2680,7 @@ graphql-language-service-types@0.0.21:
   version "0.0.21"
   resolved "https://registry.yarnpkg.com/graphql-language-service-types/-/graphql-language-service-types-0.0.21.tgz#b9453366fc8985765034bf34056fe93603a24b82"
   dependencies:
-    graphql "^0.10.1"
+    graphql "^0.10.5"
 
 graphql-language-service-types@0.0.23:
   version "0.0.23"
@@ -2692,7 +2692,7 @@ graphql-language-service-utils@0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/graphql-language-service-utils/-/graphql-language-service-utils-0.0.17.tgz#a8b91eca80c6aa5a0d461a0bbb63317986f9b989"
   dependencies:
-    graphql "^0.10.1"
+    graphql "^0.10.5"
     graphql-language-service-types "0.0.21"
 
 graphql-language-service-utils@0.0.21:
