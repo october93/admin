@@ -100,13 +100,13 @@ export default class SocketClient {
   }
 
   sendMsg(msg, responseHandler) {
-    if (msg.sessionID === undefined) {
+    /* if (msg.sessionID === undefined) {
       let session = localStorage.getItem("session")
       if (session !== null) {
         this.session = JSON.parse(session)
         msg.sessionID = this.session.id
       }
-    }
+    }*/
 
     var reqID = this.registerRequest(responseHandler)
     msg.requestID = reqID
