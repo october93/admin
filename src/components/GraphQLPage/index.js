@@ -6,6 +6,11 @@ import './index.css'
 
 @inject("store") @observer
 export default class GraphQLPage extends Component {
+  constructor(props) {
+    super(props);
+    this.fetch = this.fetch.bind(this)
+  }
+
   fetch(params) {
     let endpoint = `${location.origin}/graphql`
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
@@ -13,7 +18,10 @@ export default class GraphQLPage extends Component {
     }
     return fetch(endpoint, {
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': this.props.store.session.id
+      },
       body: JSON.stringify(params),
     }).then(response => response.json())
   }
