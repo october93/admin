@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react';
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import gql from 'graphql-tag';
 import Viva from 'vivagraphjs';
 

@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Link as FLink, Colors } from 'react-foundation'
 import { Link } from 'react-router'
 import { observer, inject } from 'mobx-react'
-import ReactModal from 'react-modal';
 
 import './style.scss';
 
 import logo from './logo-light.png';
-
-import classnames from 'classnames';
 
 const menuItems = [
   {name: "Users", path: "/admin/users"},

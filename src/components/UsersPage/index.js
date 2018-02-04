@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
 import { FaPlus }  from 'react-icons/lib/fa';
 import { Link } from 'react-router'
@@ -102,8 +101,6 @@ export default class UsersPage extends Component {
   }
 
   render() {
-    const { className } = this.props;
-
     return (
       <div className="pageMargins">
         <Link to="/admin/newUser"><FaPlus size={30} color="#9E9"/></Link>
