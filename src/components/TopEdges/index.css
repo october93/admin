@@ -1,0 +1,8 @@
+.TopEdges-limit[type='text'] {
+  margin-bottom: 4.5rem;
+}
+
+.TopEdges-table > tbody > tr:nth-child(even):hover,
+.TopEdges-table > tbody > tr:hover {
+  background-color: #ffff99;
+}

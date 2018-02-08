@@ -9,7 +9,7 @@ import LoginPage from './components/LoginPage';
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
-import GraphPage from './components/GraphPage';
+import GraphExplorerPage from './components/GraphExplorerPage';
 import NewUserPage from './components/NewUserPage'
 import UtilitiesPage from './components/UtilitiesPage'
 import ConnectPage from './components/ConnectPage'
@@ -17,8 +17,8 @@ import GraphQLPage from './components/GraphQLPage'
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
 import ReportBugPage from "./components/ReportBugPage"
-
 import AdminStore from "./store/AdminStore"
+
 
 const requireAuth = (nextState, replace) => {
   if (!AdminStore.loggedIn()) {
@@ -41,7 +41,7 @@ const Routes = (props) => (
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/invites" component={InvitesPage} />
-        <Route path="/admin/graph" component={GraphPage} />
+        <Route path="/admin/graphexplorer" component={GraphExplorerPage} />
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
         <Route path="/admin/reportbug" component={ReportBugPage} />

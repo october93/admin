@@ -1,0 +1,20 @@
+.GraphExplorerPage {
+  height: 100%;
+  margin: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.GraphExplorerPage > .TopEdges {
+  flex-grow: 1;
+  padding-right: 1rem;
+}
+
+.GraphExplorerPage > .DPC {
+  flex-grow: 1;
+}
+
+.error {
+  background-color: #ff9494;
+  padding: 1rem;
+}

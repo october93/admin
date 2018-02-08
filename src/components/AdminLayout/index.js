@@ -11,7 +11,7 @@ const menuItems = [
   {name: "Invites", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/connect"},
   {name: "Console", path: "/admin/rpcconsole"},
-  {name: "Graph", path: "/admin/graph"},
+  {name: "Graph", path: "/admin/graphexplorer"},
   {name: "GraphQL", path: "/admin/graphql"},
   {name: "Report Bug", path: "/admin/reportbug"},
 ]
@@ -26,7 +26,7 @@ class AdminLayout extends Component {
 
   renderMenuItems = () => {
     return menuItems.map(item => (
-      <div className="menuItem">
+      <div key={item.path} className="menuItem">
         <Link key={item.path} to={item.path}>{item.name}</Link>
       </div>
     ))
