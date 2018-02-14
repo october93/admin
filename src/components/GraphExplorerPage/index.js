@@ -10,7 +10,12 @@ import './index.css'
 class GraphExplorerPage extends Component {
   constructor(props) {
     super(props)
-    this.props.queryGraph('http://localhost:9000/graphql')
+
+    let endpoint = `${location.origin}/graphql`
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      endpoint = 'http://localhost:9000/graphql'
+    }
+    this.props.queryGraph(endpoint)
   }
 
   render() {
