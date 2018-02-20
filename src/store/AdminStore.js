@@ -129,9 +129,6 @@ class AdminStore {
 
     this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, false, (b) => this.simulatorConnected = b)
 
-
-    //this.engineClient.subscribeTo(this.cohortAnalysisHandler.bind(this), "cohortAnalysis")
-
     const lastSunday = new Date()
     lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
     const nextSunday = new Date()
@@ -406,9 +403,16 @@ class AdminStore {
   }
 
   newUserRequest(email, username, displayname, password){
-    const msg = { rpc: "newUser", data: {email: email, username: username, displayName: displayname, password: password}}
+    this.client.mutate({
+      mutation: gql`
+      mutation {
+        newUser(username:"${username}", email:"${email}", password: "${password}", displayname: "${displayname}")
+      }
+      `,
+    })
+    .then(data => this.newUserResponse(data))
+    .catch(error => console.error(error));
 
-    this.engineClient.sendMsg(msg, this.newUserResponse.bind(this))
     this.newUserWaiting = true
   }
 
@@ -471,8 +475,8 @@ class AdminStore {
   reportBugResponse(error, data){
   }
 
-  newUserResponse(error, data){
-    if (error === undefined){
+  newUserResponse = (data) => {
+    if (!data.error){
       this.newUserSuccess = true
     } else {
       this.newUserSuccess = false
@@ -480,38 +484,20 @@ class AdminStore {
     this.newUserWaiting = false
   }
 
-  newCardRequest(userid, body, url, anon, ld, replyid) {
-    const msg = { rpc: "newCard", data: {nodeId: userid, postBody: body, postUrl: url, anonymous: anon, layoutdata: ld, replyID: replyid}}
-    this.engineClient.sendMsg(msg, this.newCardResponse.bind(this))
-    this.newCardStatus = "waiting"
-    this.newCardID = ""
-  }
-
-  newCardResponse(error, data) {
-    if (error === undefined){
-      this.newCardStatus = "success"
-      this.newCardID = data.cardid
-      console.log(`asdfasdfasdf ${this.newCardID}`)
-    } else {
-      this.newCardStatus = "failure"
-    }
-
-  }
-
-  inviteRequest(users){
-    const followersArray = JSON.parse(users)
-
+  connectUsersRequest(users){
     this.inviteStatus = "waiting"
-    const msg = { rpc: "connectUsers", data: {users: followersArray}}
-    this.engineClient.sendMsg(msg, this.inviteResponse.bind(this))
-  }
-
-  inviteResponse(error, data){
-    if (error === undefined) {
-      this.inviteStatus = "success"
-    } else {
+    this.client.mutate({
+      mutation: gql`
+      mutation {
+        connectUsers(usernames:${users})
+      }
+      `,
+    })
+    .then(data => this.inviteStatus = "success")
+    .catch(error => {
+      console.error(error)
       this.inviteStatus = "failure"
-    }
+    });
   }
 
   connectAllUsersRequest(){
@@ -522,43 +508,56 @@ class AdminStore {
     }
 
     this.inviteStatus = "waiting"
-    const msg = { rpc: "connectUsers", data: {users: followersArray}}
-    this.engineClient.sendMsg(msg, this.connectAllResponse.bind(this))
+    this.client.mutate({
+      mutation: gql`
+      mutation {
+        connectUsers(usernames:${JSON.stringify(followersArray)})
+      }
+      `,
+    })
+    .then(data => this.inviteStatus = "success")
+    .catch(error => {
+      console.error(error)
+      this.inviteStatus = "failure"
+    });
   }
 
-  connectAllResponse(error, data){
-    if (error === undefined) {
-      this.inviteStatus = "success"
-    } else {
-      this.inviteStatus = "failure"
-    }
-  }
+
 
   getDemoRequest(){
-    const msg = { rpc: "getDemoHand", data: {} }
-    this.engineClient.sendMsg(msg, this.getDemoResponse.bind(this))
+    this.client.query({
+      query: gql`
+        {
+          demoHand
+        }
+      `,
+    })
+      .then(data => this.getDemoResponse(data))
+      .catch(error => console.error(error));
   }
 
-  getDemoResponse(error, data){
-    if (error === undefined) {
-      let cardIDs = []
-      for (let i = 0; i < data.length; i++){
-        cardIDs.push(data[i].card.cardID)
-      }
-
-      this.demoData = JSON.stringify(cardIDs)
+  getDemoResponse(data){
+    if (!data.error) {
+      this.demoData = JSON.stringify(data.data.demoHand)
     }
   }
 
   setDemoRequest(demoData) {
-    const msg = { rpc: "setDemo", data: {cardIDs: JSON.parse(demoData)} }
-    this.engineClient.sendMsg(msg, this.setDemoResponse.bind(this))
+    this.client.mutate({
+      mutation: gql`
+      mutation {
+        setDemo(cards:${demoData})
+      }
+      `,
+    })
+    .then(data => this.setDemoResponse(data))
+    .catch(error => console.error(error));
 
     this.setDemoStatus = "waiting"
   }
 
-  setDemoResponse(error, data) {
-    if (error === undefined) {
+  setDemoResponse = (data) => {
+    if (data.error === undefined) {
       this.setDemoStatus = "success"
     } else {
       this.setDemoStatus = "failure"
@@ -575,70 +574,6 @@ class AdminStore {
     const dataString = JSON.stringify(data, null, 2)
     console.log(dataString)
     this.commandResponse = `Error: ${error}\nData:\n${dataString}`
-  }
-
-  sendSimulatorCommandRequest(cmd){
-    var msg = { cmd }
-    this.simulatorClient.sendMsg(msg, this.simulatorCommandResponseHandler.bind(this))
-  }
-
-  simulatorCommandResponseHandler(err, data) {
-    console.log(data)
-  }
-
-  getSimulatorDataRequest() {
-    var msg = { cmd: "dump" }
-    this.simulatorClient.sendMsg(msg, this.simulatorDataResponseHandler.bind(this))
-  }
-
-  connectToSim() {
-    this.simulatorClient.connect()
-  }
-
-  simulatorDataResponseHandler(err, data) {
-    this.simUsers = this.mergeCohortAnalytics(data.users)
-
-
-    console.log(this.simUsers.toJS())
-  }
-
-  requestCohortAnalysis(success, number, mass) {
-    var msg = {
-      rpc: "publish",
-      data: {
-        topic: "analyzeCohorts",
-        message: {
-          RequiredNodeSuccess: success,
-          RequiredMemberNumber: number,
-          RequiredCohortMass: mass,
-        }
-      }
-    }
-
-    this.engineClient.sendMsg(msg, () => null)
-  }
-
-  mergeCohortAnalytics(users) {
-    for (var i = 0; i < users.length; i++) {
-      let userid = users[i].nodeID
-
-      if (typeof (this.simUserAnalysis[userid]) !== "undefined") {
-        users[i].analysis = this.simUserAnalysis[userid]
-      } else {
-        users[i].analysis = {}
-      }
-    }
-
-    return users
-  }
-
-  cohortAnalysisHandler(err, data) {
-    this.simUserAnalysis = JSON.parse(JSON.stringify(data.message.pernoderesults))
-
-    this.cohortAnalysisSummary = data.message
-    this.cohortAnalysisSummary.pernoderesults = null
-
-    this.getSimulatorDataRequest()
   }
 
   // misc helpers

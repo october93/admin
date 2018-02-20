@@ -32,7 +32,7 @@ export default class ConnectPage extends Component {
 
   submit(event){
     event.preventDefault()
-    this.props.store.inviteRequest(this.state.users)
+    this.props.store.connectUsersRequest(this.state.users)
   }
 
   pressConnectAll = (event) => {
