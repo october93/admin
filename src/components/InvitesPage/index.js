@@ -12,7 +12,12 @@ class InvitesPage extends Component {
 
   handleNewInvite(event) {
     event.preventDefault()
-    this.props.store.newInviteRequest()
+
+    var nodeID = prompt("ID for Inviting Node (REQUIRED):")
+
+    if (nodeID) {
+      this.props.store.newInviteRequest(nodeID)
+    }
   }
 
   render() {

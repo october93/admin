@@ -387,19 +387,21 @@ class AdminStore {
           }
         }
       `,
-    }).then(data => { console.log(data.data.invites.length); this.invitesData = data.data.invites })
+      fetchPolicy: 'network-only',
+    }).then(data => this.invitesData = data.data.invites)
       .catch(error => console.error(error));
   }
 
-  newInviteRequest() {
-    const msg = {rpc: "newInvite"}
-    this.engineClient.sendMsg(msg, this.newInviteResponse.bind(this))
-  }
-
-  newInviteResponse(error, data) {
-    if (error === undefined) {
-      this.getInvitesRequest()
-    }
+  newInviteRequest(nodeID) {
+    this.client.mutate({
+      mutation: gql`
+      mutation {
+        newInvite(nodeID:"${nodeID}")
+      }
+      `,
+    })
+    .then(() => this.getInvitesRequest())
+    .catch(error => console.error(error));
   }
 
   newUserRequest(email, username, displayname, password){
