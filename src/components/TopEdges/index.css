@@ -10,3 +10,14 @@
 .TopEdges > select {
   padding-right: 0;
 }
+
+.TopEdges-table > thead > tr > .sort-th:hover {
+  cursor: pointer;
+  background-color: #6cc2db;
+}
+
+.TopEdges-table > thead > tr > th,
+.TopEdges-table > tbody > tr > td {
+  min-width: 10rem;
+  max-width: 10rem;
+}

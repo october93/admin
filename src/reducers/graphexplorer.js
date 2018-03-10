@@ -106,12 +106,10 @@ export function unhighlightedEdge(state = null, action) {
   }
 }
 
-export function sortEdges(state = {value: 'upWeight-asc'}, action) {
+export function sortEdges(state = {sortBy: 'upWeight', direction: 'asc'}, action) {
   switch (action.type) {
     case SORT_EDGES:
-      const sortBy = action.sortBy.split('-')[0]
-      const direction = action.sortBy.split('-')[1]
-      return { sortBy, direction, value: action.sortBy }
+      return action.sortBy
     default:
       return state
   }
