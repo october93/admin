@@ -25,7 +25,6 @@ class GraphExplorerPage extends Component {
   }
 
   render() {
-    console.log(this.props.usernames)
     if (this.props.error !== null) {
       return <p className="error">{this.props.error.message}</p>
     }
@@ -37,12 +36,13 @@ class GraphExplorerPage extends Component {
         <label htmlFor="filter">Filter</label>
         <input type="text" name="filter" value={this.props.usernames} onChange={this.handleFilter} placeholder="username1,username2,username3,..." />
         <TopEdges data={this.props.data.graph} filter={this.props.usernames} />
-        <DPC users={this.props.data.graph.users} />
         <Graph data={this.props.data} />
       </div>
     )
   }
 }
+
+// <DPC users={this.props.data.graph.users} />
 
 const mapStateToProps = (state) => {
   return {

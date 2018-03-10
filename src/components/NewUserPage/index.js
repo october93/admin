@@ -26,7 +26,6 @@ export default class NewUserPage extends Component {
 
   submit(event){
     event.preventDefault()
-    console.log("submitpressed")
     this.props.store.newUserRequest(this.state.email, this.state.username, this.state.displayname, this.state.password)
   }
 

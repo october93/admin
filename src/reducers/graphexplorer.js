@@ -38,7 +38,7 @@ export function graphLoadingFailure(state = null, action) {
   }
 }
 
-export function limitTopEdges(state = 5, action) {
+export function limitTopEdges(state = 10, action) {
   switch (action.type) {
     case LIMIT_TOP_EDGES:
       return action.limit

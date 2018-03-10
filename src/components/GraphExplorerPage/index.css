@@ -6,12 +6,12 @@
 }
 
 .GraphExplorerPage > .TopEdges {
-  flex-grow: 1;
   padding-right: 1rem;
 }
 
-.GraphExplorerPage > .DPC {
+.GraphExplorerPage > .Graph {
   flex-grow: 1;
+  width: auto;
 }
 
 .error {

@@ -82,7 +82,6 @@ class TopEdges extends Component {
         </tr>
       ))
     )
-    console.log(this.props.sort.value)
     return (
       <div className="TopEdges">
         <label htmlFor="limit">Top Edges</label>
