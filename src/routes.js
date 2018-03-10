@@ -1,4 +1,3 @@
-// src/routes.js
 import React from 'react';
 import { Router, Route, Redirect } from 'react-router';
 
@@ -9,7 +8,7 @@ import LoginPage from './components/LoginPage';
 import DashPage from './components/DashPage';
 import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
-import GraphExplorerPage from './components/GraphExplorerPage';
+import GraphExplorer from './scenes/GraphExplorer';
 import NewUserPage from './components/NewUserPage'
 import UtilitiesPage from './components/UtilitiesPage'
 import ConnectPage from './components/ConnectPage'
@@ -41,7 +40,7 @@ const Routes = (props) => (
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/invites" component={InvitesPage} />
-        <Route path="/admin/graphexplorer" component={GraphExplorerPage} />
+        <Route path="/admin/graph" component={GraphExplorer} />
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
         <Route path="/admin/reportbug" component={ReportBugPage} />

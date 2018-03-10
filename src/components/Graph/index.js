@@ -9,22 +9,6 @@ class Graph extends Component {
   constructor(props) {
     super(props)
     this.graph = Viva.Graph.graph()
-
-    this.usersByID = this.props.data.graph.users.reduce((map, user) => {
-      map[user.nodeId] = user
-      return map
-    }, {})
-
-    this.neighborUsernamesByID = {}
-
-    if (this.props.data.graph !== undefined) {
-      this.props.data.graph.edges.forEach((edge, i) => {
-        if (this.neighborUsernamesByID[edge.sourceID] === undefined) {
-          this.neighborUsernamesByID[edge.sourceID] = []
-        }
-        this.neighborUsernamesByID[edge.sourceID].push(this.usersByID[edge.targetID].username)
-      })
-    }
   }
 
   componentDidMount() {
@@ -52,42 +36,55 @@ class Graph extends Component {
     });
   }
 
-  filterNodes() {
-    let users = this.props.data.graph.users.filter(user => {
+  filterUser(user) {
+    const usernames = this.props.usernameFilter
+    const followersByID = this.props.followersByID
+    if (this.props.usernames.length === 0) {
+      // no filter, include everyone
+      return true
+    } else if (usernames.length === 1) {
+      // include all nodes with a direct edge to the user
+      return usernames[0] === user.username || followersByID[user.nodeId].includes(usernames[0])
+    } else {
+      // include only the users listed in the filter
+      return usernames.includes(user.username)
+    }
+  }
+
+  filterEdge(edge) {
       if (this.props.usernames.length === 0) {
         return true
       } else if (this.props.usernames.length === 1) {
-        return this.props.usernames[0] === user.username || this.neighborUsernamesByID[user.nodeId].includes(this.props.usernames[0])
+        return this.props.followersByID[edge.sourceID].includes(this.props.usernames[0]) || this.props.followersByID[edge.targetID].includes(this.props.usernames[0])
       } else {
-        return this.props.usernames.includes(user.username)
+        return this.props.usernames.includes(this.props.usersByID[edge.sourceID].username) && this.props.usernames.includes(this.props.usersByID[edge.targetID].username)
       }
-    })
+  }
 
-    let edges = this.props.data.graph.edges.filter(edge => {
-      if (this.props.usernames.length === 0) {
-        return true
-      } else if (this.props.usernames.length === 1) {
-        return this.neighborUsernamesByID[edge.sourceID].includes(this.props.usernames[0]) || this.neighborUsernamesByID[edge.targetID].includes(this.props.usernames[0])
-      } else {
-        return this.props.usernames.includes(this.usersByID[edge.sourceID].username) && this.props.usernames.includes(this.usersByID[edge.targetID].username)
-      }
-    })
+  createGraph() {
+    let users = this.props.graph.users.filter(user => this.filterUser(user))
+    let edges = this.props.graph.edges.filter(edge => this.filterEdge(edge))
 
-    this.removeAll(users.map(u => u.nodeId), edges.map(e => e.sourceID + "👉 " + e.targetID))
+    this.removeFiltered(users, edges)
 
     users.forEach(user => {
+      // skip if the node already exists
       if (this.graph.getNode(user.nodeId) === undefined) {
         this.graph.addNode(user.nodeId, user)
       }
     })
     edges.forEach(edge => {
+      // skip if the edge already exists
       if (!this.graph.hasLink(edge.sourceID, edge.targetID)) {
         this.graph.addLink(edge.sourceID, edge.targetID, edge)
       }
     })
   }
 
-  removeAll(users, edges) {
+  removeFiltered(users, edges) {
+    users = users.map(u => u.nodeId)
+    edges = edges.map(e => e.sourceID + "👉 " + e.targetID)
+
     this.graph.forEachLink(link => {
       if (!edges.includes(link.id)) {
         this.graph.removeLink(link.id)
@@ -101,9 +98,7 @@ class Graph extends Component {
   }
 
   render() {
-    if (this.props.unhighlightedEdge !== null) {
-      this.filterNodes()
-    }
+    this.createGraph()
     if (this.renderer !== undefined) {
       const linkHighlightUI = this.graphics.getLinkUI(this.props.highlightEdge)
       if (linkHighlightUI !== undefined) {
@@ -125,7 +120,8 @@ const mapStateToProps = (state) => {
   return {
     highlightEdge: state.highlightedEdge,
     unhighlightEdge: state.unhighlightedEdge,
-    usernames: state.filteredUsers
+    usernames: state.filteredUsers,
+    usernameFilter: state.filteredUsers
   }
 }
 

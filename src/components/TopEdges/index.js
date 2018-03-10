@@ -10,22 +10,6 @@ class TopEdges extends Component {
     this.handleHighlight = this.handleHighlight.bind(this)
     this.handleUnhighlight = this.handleUnhighlight.bind(this)
     this.handleSort = this.handleSort.bind(this)
-
-    this.edgesByUpWeight = []
-    this.edgesByDownWeight = []
-
-    if (this.props.data !== undefined) {
-      this.usersByID = this.props.data.users.reduce((map, user) => {
-        map[user.nodeId] = user
-        return map
-      }, {})
-      this.edgesByUpWeight = this.props.data.edges.map((k, v) => k).sort((a, b) => {
-        return a.upWeight - b.upWeight
-      })
-      this.edgesByDownWeight = this.props.data.edges.map((k, v) => k).sort((a, b) => {
-        return a.downWeight - b.downWeight
-      })
-    }
   }
 
   handleChange(event) {
@@ -48,26 +32,30 @@ class TopEdges extends Component {
     this.props.dispatch(sortEdges(event.target.value))
   }
 
-  predicate(edge) {
-    const source = this.usersByID[edge.sourceID].username
-    const target = this.usersByID[edge.targetID].username
+  filterEdge(edge) {
+    const source = this.props.data.usersByID[edge.sourceID].username
+    const target = this.props.data.usersByID[edge.targetID].username
+    const usernames = this.props.usernameFilter
 
-    if (this.props.usernames.length === 0) {
+    if (this.props.usernameFilter.length === 0) {
+      // no filter, include everyone
       return true
-    } else if (this.props.usernames.length === 1) {
-      return this.props.usernames.includes(source) || this.props.usernames.includes(target)
+    } else if (this.props.usernameFilter.length === 1) {
+      // include all nodes with a direct edge to the user
+      return usernames.includes(source) || usernames.includes(target)
     } else {
-      return this.props.usernames.includes(source) && this.props.usernames.includes(target)
+      // include only the nodes listed in the filter
+      return usernames.includes(source) && usernames.includes(target)
     }
   }
 
   render() {
-    let weights = this.edgesByUpWeight
+    let weights = this.props.data.edgesByUpWeight
     if (this.props.sort.sortBy === 'downWeight') {
-      weights = this.edgesByDownWeight
+      weights = this.props.data.edgesByDownWeight
     }
 
-    weights = weights.filter(item => this.predicate(item))
+    weights = weights.filter(edge => this.filterEdge(edge))
     if (this.props.sort.direction === 'desc') {
       weights.reverse()
     }
@@ -75,8 +63,8 @@ class TopEdges extends Component {
     const Weights = (
       weights.slice(0, this.props.limit).map((edge, i) => (
         <tr key={i} onMouseEnter={this.handleHighlight(edge.sourceID, edge.targetID)} onMouseLeave={this.handleUnhighlight(edge.sourceID, edge.targetID)}>
-          <td>{this.usersByID[edge.sourceID].username}</td>
-          <td>{this.usersByID[edge.targetID].username}</td>
+          <td>{this.props.data.usersByID[edge.sourceID].username}</td>
+          <td>{this.props.data.usersByID[edge.targetID].username}</td>
           <td>{edge.upWeight}</td>
           <td>{edge.downWeight}</td>
         </tr>
@@ -116,7 +104,7 @@ const mapStateToProps = (state) => {
     limit: state.limitTopEdges,
     highlightEdge: state.highlightedEdge,
     sort: state.sortEdges,
-    usernames: state.filteredUsers
+    usernameFilter: state.filteredUsers,
   }
 }
 

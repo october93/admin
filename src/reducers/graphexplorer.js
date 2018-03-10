@@ -23,7 +23,30 @@ export function graphIsLoading(state = true, action) {
 export function graphLoadingSuccess(state = {}, action) {
   switch (action.type) {
     case GRAPH_LOADING_SUCCESS:
-      return action.data
+      const usersByID = action.data.graph.users.reduce((map, user) => {
+        map[user.nodeId] = user
+        return map
+      }, {})
+      const edgesByUpWeight = action.data.graph.edges.map((k, v) => k).sort((a, b) => {
+        return a.upWeight - b.upWeight
+      })
+      const edgesByDownWeight = action.data.graph.edges.map((k, v) => k).sort((a, b) => {
+        return a.downWeight - b.downWeight
+      })
+      const followersByID = action.data.graph.edges.reduce((obj, edge) => {
+        if (obj[edge.sourceID] === undefined) {
+          obj[edge.sourceID] = []
+        }
+        obj[edge.sourceID].push(usersByID[edge.targetID].username)
+        return obj
+      }, {})
+      return {
+        usersByID,
+        edgesByUpWeight,
+        edgesByDownWeight,
+        followersByID,
+        graph: action.data.graph
+      }
     default:
       return state
   }

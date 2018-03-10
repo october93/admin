@@ -11,7 +11,7 @@ const menuItems = [
   {name: "Invites", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/connect"},
   {name: "Console", path: "/admin/rpcconsole"},
-  {name: "Graph", path: "/admin/graphexplorer"},
+  {name: "Graph", path: "/admin/graph"},
   {name: "GraphQL", path: "/admin/graphql"},
   {name: "Report Bug", path: "/admin/reportbug"},
 ]

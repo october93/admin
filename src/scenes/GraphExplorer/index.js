@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import Graph from '../../components/Graph'
 import TopEdges from '../../components/TopEdges'
-import DPC from '../../components/DPC'
 import { queryGraph, filterUsers } from '../../actions/graphexplorer'
 import { connect } from 'react-redux'
 
 import './index.css' 
 
-class GraphExplorerPage extends Component {
+class GraphExplorer extends Component {
   constructor(props) {
     super(props)
-
     this.handleFilter = this.handleFilter.bind(this)
 
     let endpoint = `${location.origin}/graphql`
@@ -34,22 +32,24 @@ class GraphExplorerPage extends Component {
     return (
       <div className="GraphExplorerPage">
         <label htmlFor="filter">Filter</label>
-        <input type="text" name="filter" value={this.props.usernames} onChange={this.handleFilter} placeholder="username1,username2,username3,..." />
-        <TopEdges data={this.props.data.graph} filter={this.props.usernames} />
-        <Graph data={this.props.data} />
+        <input type="text" name="filter" value={this.props.usernameFilter} onChange={this.handleFilter} placeholder="paul,eugene,chris,…" />
+        <TopEdges data={this.props.data} />
+        <Graph
+          usersByID={this.props.data.usersByID}
+          graph={this.props.data.graph}
+          followersByID={this.props.data.followersByID} 
+        />
       </div>
     )
   }
 }
-
-// <DPC users={this.props.data.graph.users} />
 
 const mapStateToProps = (state) => {
   return {
     data: state.graphLoadingSuccess,
     error: state.graphLoadingFailure,
     isLoading: state.graphIsLoading,
-    usernames: state.filteredUsers
+    usernameFilter: state.filteredUsers
   }
 }
 
@@ -60,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GraphExplorerPage)
+export default connect(mapStateToProps, mapDispatchToProps)(GraphExplorer)
