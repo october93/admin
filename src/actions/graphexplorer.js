@@ -114,3 +114,21 @@ export function unhighlightEdge(sourceID, targetID) {
     targetID
   }
 }
+
+export const SORT_EDGES = 'SORT_EDGES'
+
+export function sortEdges(sortBy) {
+  return {
+    type: SORT_EDGES,
+    sortBy
+  }
+}
+
+export const FILTER_USERS = 'FILTER_USERS'
+
+export function filterUsers(usernames) {
+  return {
+    type: FILTER_USERS,
+    usernames: usernames
+  }
+}

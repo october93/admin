@@ -42,7 +42,7 @@ class DPC extends Component {
 
     return (
       <div className="DPC">
-        <label htmlFor="username">Card Rank</label>
+        <label htmlFor="username"></label>
         <select onChange={this.handleChange} value={this.props.username}>
           {usernameOptions}
         </select>

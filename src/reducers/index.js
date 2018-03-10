@@ -7,7 +7,9 @@ import {
   selectedUsername,
   limited,
   highlightedEdge,
-  unhighlightedEdge
+  unhighlightedEdge,
+  sortEdges,
+  filteredUsers
 } from './graphexplorer'
 
 export default combineReducers({
@@ -18,5 +20,7 @@ export default combineReducers({
   selectedUsername,
   limited,
   highlightedEdge,
-  unhighlightedEdge
+  unhighlightedEdge,
+  sortEdges,
+  filteredUsers
 })

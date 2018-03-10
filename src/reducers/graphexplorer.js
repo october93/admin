@@ -6,7 +6,9 @@ import {
   SELECT_USERNAME,
   LIMIT,
   HIGHLIGHT_EDGE,
-  UNHIGHLIGHT_EDGE
+  UNHIGHLIGHT_EDGE,
+  SORT_EDGES,
+  FILTER_USERS
 } from '../actions/graphexplorer'
 
 export function graphIsLoading(state = true, action) {
@@ -76,6 +78,30 @@ export function unhighlightedEdge(state = null, action) {
   switch (action.type) {
     case UNHIGHLIGHT_EDGE:
       return action.sourceID + "👉 " + action.targetID
+    default:
+      return state
+  }
+}
+
+export function sortEdges(state = {value: 'upWeight-asc'}, action) {
+  switch (action.type) {
+    case SORT_EDGES:
+      const sortBy = action.sortBy.split('-')[0]
+      const direction = action.sortBy.split('-')[1]
+      return { sortBy, direction, value: action.sortBy }
+    default:
+      return state
+  }
+}
+
+export function filteredUsers(state = '', action) {
+  switch (action.type) {
+    case FILTER_USERS:
+      if (action.usernames === '') {
+        return []
+      } else {
+        return action.usernames.split(',')
+      }
     default:
       return state
   }
