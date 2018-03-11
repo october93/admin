@@ -15,7 +15,7 @@ export function queryGraph(url) {
               username
               displayname
               node {
-                dpc {
+                votes {
                   cardID
                   positiveScore
                   negativeScore
@@ -77,11 +77,11 @@ export function limitTopEdges(limit) {
   }
 }
 
-export const LIMIT = 'LIMIT'
+export const LIMIT_VOTES = 'LIMIT_VOTES'
 
-export function limit(limit) {
+export function limitVotes(limit) {
   return {
-    type: LIMIT,
+    type: LIMIT_VOTES,
     limit
   }
 }
@@ -130,5 +130,14 @@ export function filterUsers(usernames) {
   return {
     type: FILTER_USERS,
     usernames: usernames
+  }
+}
+
+export const SORT_VOTES = 'SORT_VOTEs'
+
+export function sortVotes(sortBy) {
+  return {
+    type: SORT_VOTES,
+    sortBy
   }
 }

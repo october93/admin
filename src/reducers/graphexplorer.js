@@ -4,11 +4,12 @@ import {
   GRAPH_LOADING_FAILURE,
   LIMIT_TOP_EDGES,
   SELECT_USERNAME,
-  LIMIT,
+  LIMIT_VOTES,
   HIGHLIGHT_EDGE,
   UNHIGHLIGHT_EDGE,
   SORT_EDGES,
-  FILTER_USERS
+  FILTER_USERS,
+  SORT_VOTES
 } from '../actions/graphexplorer'
 
 export function graphIsLoading(state = true, action) {
@@ -61,7 +62,7 @@ export function graphLoadingFailure(state = null, action) {
   }
 }
 
-export function limitTopEdges(state = 10, action) {
+export function limitTopEdges(state = 13, action) {
   switch (action.type) {
     case LIMIT_TOP_EDGES:
       return action.limit
@@ -70,7 +71,7 @@ export function limitTopEdges(state = 10, action) {
   }
 }
 
-export function selectedUsername(state = "", action) {
+export function selectedUsername(state = null, action) {
   switch (action.type) {
     case SELECT_USERNAME:
       return action.username
@@ -79,9 +80,9 @@ export function selectedUsername(state = "", action) {
   }
 }
 
-export function limited(state = 5, action) {
+export function limitedVotes(state = 14, action) {
   switch (action.type) {
-    case LIMIT:
+    case LIMIT_VOTES:
       return action.limit
     default:
       return state
@@ -123,6 +124,15 @@ export function filteredUsers(state = '', action) {
       } else {
         return action.usernames.split(',')
       }
+    default:
+      return state
+  }
+}
+
+export function sortVotes(state = {sortBy: 'positiveScore', direction: 'asc'}, action) {
+  switch (action.type) {
+    case SORT_VOTES:
+      return action.sortBy
     default:
       return state
   }

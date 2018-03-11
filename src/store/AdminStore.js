@@ -278,9 +278,6 @@ class AdminStore {
           users {
             username
             displayname
-            likesThisWeek(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
-            postsThisWeek(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
-            reactionsThisWeek(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}")
             countGivenReacts
           }
         }

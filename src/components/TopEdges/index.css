@@ -4,7 +4,7 @@
 
 .TopEdges-table > tbody > tr:nth-child(even):hover,
 .TopEdges-table > tbody > tr:hover {
-  background-color: #ffff99;
+  background-color: #6cc2db;
 }
 
 .TopEdges > select {

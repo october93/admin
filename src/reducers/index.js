@@ -5,11 +5,12 @@ import {
   graphLoadingFailure,
   limitTopEdges,
   selectedUsername,
-  limited,
+  limitedVotes,
   highlightedEdge,
   unhighlightedEdge,
   sortEdges,
-  filteredUsers
+  filteredUsers,
+  sortVotes
 } from './graphexplorer'
 
 export default combineReducers({
@@ -18,9 +19,10 @@ export default combineReducers({
   graphLoadingFailure,
   limitTopEdges,
   selectedUsername,
-  limited,
+  limitedVotes,
   highlightedEdge,
   unhighlightedEdge,
   sortEdges,
-  filteredUsers
+  filteredUsers,
+  sortVotes
 })

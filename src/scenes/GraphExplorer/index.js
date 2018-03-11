@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Graph from '../../components/Graph'
 import TopEdges from '../../components/TopEdges'
+import VoteTable from '../../components/VoteTable'
 import { queryGraph, filterUsers } from '../../actions/graphexplorer'
 import { connect } from 'react-redux'
 
@@ -33,7 +35,21 @@ class GraphExplorer extends Component {
       <div className="GraphExplorerPage">
         <label htmlFor="filter">Filter</label>
         <input type="text" name="filter" value={this.props.usernameFilter} onChange={this.handleFilter} placeholder="paul,eugene,chris,…" />
-        <TopEdges data={this.props.data} />
+        <Tabs>
+          <TabList>
+            <Tab>Attention Rank</Tab>
+            <Tab>Card Rank</Tab>
+            <Tab>Vote Table</Tab>
+          </TabList>
+          <TabPanel>
+            <TopEdges data={this.props.data} />
+          </TabPanel>
+          <TabPanel>
+          </TabPanel>
+          <TabPanel>
+            <VoteTable usersByID={this.props.data.usersByID} users={this.props.data.graph.users} />
+          </TabPanel>
+        </Tabs>
         <Graph
           usersByID={this.props.data.usersByID}
           graph={this.props.data.graph}

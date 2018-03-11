@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
 import { limitTopEdges, highlightEdge, unhighlightEdge, sortEdges } from '../../actions/graphexplorer'
 import './index.css'
@@ -52,6 +53,15 @@ class TopEdges extends Component {
     }
   }
 
+  limitLabel() {
+    const count = this.props.data.graph.edges.length
+    let limit = this.props.limit
+    if (limit > count) {
+      limit = count
+    }
+    return `${limit} / ${count}`
+  }
+
   render() {
     let weights = this.props.data.edgesByUpWeight
     if (this.props.sort.sortBy === 'downWeight') {
@@ -84,14 +94,14 @@ class TopEdges extends Component {
         <tr key={i} onMouseEnter={this.handleHighlight(edge.sourceID, edge.targetID)} onMouseLeave={this.handleUnhighlight(edge.sourceID, edge.targetID)}>
           <td>{this.props.data.usersByID[edge.sourceID].username}</td>
           <td>{this.props.data.usersByID[edge.targetID].username}</td>
-          <td>{parseFloat(edge.upWeight.toFixed(2))}</td>
-          <td>{parseFloat(edge.downWeight.toFixed(2))}</td>
+          <td><Tooltip title={edge.upWeight}>{parseFloat(edge.upWeight.toFixed(2))}</Tooltip></td>
+          <td><Tooltip title={edge.downWeight}>{parseFloat(edge.downWeight.toFixed(2))}</Tooltip></td>
         </tr>
       ))
     )
     return (
       <div className="TopEdges">
-        <label htmlFor="limit">Top Edges ({this.props.limit} / {this.props.data.graph.edges.length})</label>
+        <label htmlFor="limit">Top Edges ({this.limitLabel()})</label>
         <input className="TopEdges-limit" type="text" name="limit" onChange={this.handleChange} value={this.props.limit} />
         <table className="TopEdges-table">
           <thead>
