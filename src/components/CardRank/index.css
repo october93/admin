@@ -9,6 +9,12 @@
 
 .CardRank-table > thead > tr > th:first-child,
 .CardRank-table > tbody > tr > td:first-child {
+  min-width: 2rem;
+  max-width: 2rem;
+}
+
+.CardRank-table > thead > tr > th:nth-child(2),
+.CardRank-table > tbody > tr > td:nth-child(2) {
   min-width: 21rem;
   max-width: 21rem;
 }

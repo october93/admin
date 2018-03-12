@@ -44,6 +44,7 @@ class CardRank extends Component {
     const Entries = (
       this.props.usersByID[this.props.selectedUser].node.cardRankTable.slice(0, this.props.limit).map((entry, i) => (
         <tr key={i}>
+          <td>{i+1}</td>
           <td><CardLink cardID={entry.card.cardID} cards={this.props.cards} /></td>
           <td><Tooltip title={entry.score}>{parseFloat(entry.score.toFixed(2))}</Tooltip></td>
         </tr>
@@ -61,6 +62,7 @@ class CardRank extends Component {
         <table className="CardRank-table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Card ID</th>
               <th>Score</th> 
             </tr>
