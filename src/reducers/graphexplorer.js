@@ -1,7 +1,10 @@
-import { 
+import {
   GRAPH_IS_LOADING,
   GRAPH_LOADING_SUCCESS,
   GRAPH_LOADING_FAILURE,
+  CARDS_ARE_LOADING,
+  CARDS_LOADING_SUCCESS,
+  CARDS_LOADING_FAILURE,
   LIMIT_TOP_EDGES,
   SELECT_USERNAME,
   LIMIT_VOTES,
@@ -9,7 +12,9 @@ import {
   UNHIGHLIGHT_EDGE,
   SORT_EDGES,
   FILTER_USERS,
-  SORT_VOTES
+  SORT_VOTES,
+  LIMIT_CARD_RANK,
+  SELECT_CARD_RANK_USER
 } from '../actions/graphexplorer'
 
 export function graphIsLoading(state = true, action) {
@@ -57,6 +62,37 @@ export function graphLoadingFailure(state = null, action) {
   switch (action.type) {
     case GRAPH_LOADING_FAILURE:
       return action.error
+    default:
+      return state
+  }
+}
+
+export function cardsAreLoading(state = true, action) {
+  switch (action.type) {
+    case CARDS_ARE_LOADING:
+      return action.isLoading
+    default:
+      return state
+  }
+}
+
+export function cardsLoadingFailure(state = null, action) {
+  switch (action.type) {
+    case CARDS_LOADING_FAILURE:
+      return action.error
+    default:
+      return state
+  }
+}
+
+export function cardsLoadingSuccess(state = {}, action) {
+  switch (action.type) {
+    case CARDS_LOADING_SUCCESS:
+      const data = action.data.cards.reduce((cards, card) => {
+        cards[card.card.cardID] = card
+        return cards
+      }, {})
+      return data
     default:
       return state
   }
@@ -133,6 +169,24 @@ export function sortVotes(state = {sortBy: 'positiveScore', direction: 'asc'}, a
   switch (action.type) {
     case SORT_VOTES:
       return action.sortBy
+    default:
+      return state
+  }
+}
+
+export function limitedCardRank(state = 13, action) {
+  switch (action.type) {
+    case LIMIT_CARD_RANK:
+      return action.limit
+    default:
+      return state
+  }
+}
+
+export function selectedCardRankUser(state = null, action) {
+  switch (action.type) {
+    case SELECT_CARD_RANK_USER:
+      return action.username
     default:
       return state
   }

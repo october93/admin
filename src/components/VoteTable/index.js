@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CardLink from '../../components/CardLink'
 import { connect } from 'react-redux'
 import { selectUsername, limitVotes, sortVotes } from '../../actions/graphexplorer'
 import './index.css'
@@ -62,7 +63,7 @@ class VoteTable extends Component {
     const Votes = (
       this.sortVotes().slice(0, this.props.limit).map((vote, i) => (
         <tr key={i}>
-          <td>{vote.cardID}</td>
+          <td><CardLink cardID={vote.cardID} cards={this.props.cards} /></td>
           <td>{vote.positiveScore}</td>
           <td>{vote.negativeScore}</td>
         </tr>

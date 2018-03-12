@@ -3,6 +3,9 @@ import {
   graphIsLoading,
   graphLoadingSuccess,
   graphLoadingFailure,
+  cardsAreLoading,
+  cardsLoadingSuccess,
+  cardsLoadingFailure,
   limitTopEdges,
   selectedUsername,
   limitedVotes,
@@ -10,13 +13,18 @@ import {
   unhighlightedEdge,
   sortEdges,
   filteredUsers,
-  sortVotes
+  sortVotes,
+  selectedCardRankUser,
+  limitedCardRank
 } from './graphexplorer'
 
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
   graphLoadingFailure,
+  cardsAreLoading,
+  cardsLoadingSuccess,
+  cardsLoadingFailure,
   limitTopEdges,
   selectedUsername,
   limitedVotes,
@@ -24,5 +32,7 @@ export default combineReducers({
   unhighlightedEdge,
   sortEdges,
   filteredUsers,
-  sortVotes
+  sortVotes,
+  selectedCardRankUser,
+  limitedCardRank
 })

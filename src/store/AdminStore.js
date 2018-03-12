@@ -278,7 +278,6 @@ class AdminStore {
           users {
             username
             displayname
-            countGivenReacts
           }
         }
       }

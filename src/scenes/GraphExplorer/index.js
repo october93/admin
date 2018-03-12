@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Graph from '../../components/Graph'
 import TopEdges from '../../components/TopEdges'
+import CardRank from '../../components/CardRank'
 import VoteTable from '../../components/VoteTable'
-import { queryGraph, filterUsers } from '../../actions/graphexplorer'
+import { queryGraph, queryGraphAndCards, filterUsers } from '../../actions/graphexplorer'
 import { connect } from 'react-redux'
 
 import './index.css' 
@@ -17,7 +18,7 @@ class GraphExplorer extends Component {
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       endpoint = 'http://localhost:9000/graphql'
     }
-    this.props.queryGraph(endpoint)
+    this.props.queryGraphAndCards(endpoint)
   }
 
   handleFilter(event) {
@@ -25,10 +26,13 @@ class GraphExplorer extends Component {
   }
 
   render() {
-    if (this.props.error !== null) {
-      return <p className="error">{this.props.error.message}</p>
+    if (this.props.graphError !== null) {
+      return <p className="error">{this.props.graphError.message}</p>
     }
-    if (this.props.isLoading) {
+    if (this.props.cardsError !== null) {
+      return <p className="error">{this.props.cardsError.message}</p>
+    }
+    if (this.props.isGraphLoading || this.props.cardsAreLoading) {
       return <p>Loading…</p>
     }
     return (
@@ -42,12 +46,21 @@ class GraphExplorer extends Component {
             <Tab>Vote Table</Tab>
           </TabList>
           <TabPanel>
-            <TopEdges data={this.props.data} />
+            <TopEdges data={this.props.data} />  
           </TabPanel>
           <TabPanel>
+            <CardRank
+              usersByID={this.props.data.usersByID}
+              users={this.props.data.graph.users}
+              cards={this.props.cards}
+            />
           </TabPanel>
           <TabPanel>
-            <VoteTable usersByID={this.props.data.usersByID} users={this.props.data.graph.users} />
+            <VoteTable
+              usersByID={this.props.data.usersByID}
+              users={this.props.data.graph.users}
+              cards={this.props.cards} 
+            />
           </TabPanel>
         </Tabs>
         <Graph
@@ -63,8 +76,11 @@ class GraphExplorer extends Component {
 const mapStateToProps = (state) => {
   return {
     data: state.graphLoadingSuccess,
-    error: state.graphLoadingFailure,
-    isLoading: state.graphIsLoading,
+    cards: state.cardsLoadingSuccess,
+    graphError: state.graphLoadingFailure,
+    cardsError: state.cardsLoadingFailure,
+    isGraphLoading: state.graphIsLoading,
+    cardsLoading: state.cardsAreLoading,
     usernameFilter: state.filteredUsers
   }
 }
@@ -72,6 +88,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     queryGraph: (url) => dispatch(queryGraph(url)),
+    queryGraphAndCards: (url) => dispatch(queryGraphAndCards(url)),
     dispatch
   }
 }
