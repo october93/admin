@@ -217,7 +217,7 @@ export function filterUsers(usernames) {
   }
 }
 
-export const SORT_VOTES = 'SORT_VOTEs'
+export const SORT_VOTES = 'SORT_VOTES'
 
 export function sortVotes(sortBy) {
   return {

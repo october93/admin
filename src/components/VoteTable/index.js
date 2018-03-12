@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CardLink from '../../components/CardLink'
+import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
 import { selectUsername, limitVotes, sortVotes } from '../../actions/graphexplorer'
 import './index.css'
@@ -28,6 +29,7 @@ class VoteTable extends Component {
 
   sortVotes() {
     let votes = this.props.usersByID[this.props.selectedUser].node.votes
+    console.log(votes)
     if (this.props.sort.sortBy === 'positiveScore') {
       votes = votes.map((k, v) => k).sort((a, b) => a.positiveScore - b.positiveScore)
     } else {
@@ -64,8 +66,8 @@ class VoteTable extends Component {
       this.sortVotes().slice(0, this.props.limit).map((vote, i) => (
         <tr key={i}>
           <td><CardLink cardID={vote.cardID} cards={this.props.cards} /></td>
-          <td>{vote.positiveScore}</td>
-          <td>{vote.negativeScore}</td>
+          <td><Tooltip title={vote.positiveScore}>{parseFloat(vote.positiveScore.toFixed(2))}</Tooltip></td>
+          <td><Tooltip title={vote.negativeScore}>{parseFloat(vote.negativeScore.toFixed(2))}</Tooltip></td>
         </tr>
       ))
     )

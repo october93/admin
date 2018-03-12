@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Tooltip from 'rc-tooltip'
+import './index.css'
 
 class CardLink extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class CardLink extends Component {
   }
 
   tooltip() {
-    return `Content: ${this.props.cards[this.props.cardID].card.body}`
+    return this.props.cards[this.props.cardID].card.body
   }
 
   render() {
@@ -22,7 +23,7 @@ class CardLink extends Component {
       <Tooltip
         arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
         placement="right"
-        overlay={<span>{this.tooltip()}</span>}>
+        overlay={<div className="CardLink-tooltip">{this.tooltip()}</div>}>
         <a href={`${this.url}/${this.props.cardID}`}>{this.props.cardID}</a>
       </Tooltip>
     )
