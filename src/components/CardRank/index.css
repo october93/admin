@@ -10,7 +10,7 @@
 .CardRank-table > thead > tr > th:first-child,
 .CardRank-table > tbody > tr > td:first-child {
   min-width: 2rem;
-  max-width: 2rem;
+  text-align: right;
 }
 
 .CardRank-table > thead > tr > th:nth-child(2),

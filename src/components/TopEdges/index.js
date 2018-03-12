@@ -53,8 +53,7 @@ class TopEdges extends Component {
     }
   }
 
-  limitLabel() {
-    const count = this.props.data.graph.edges.length
+  limitLabel(count) {
     let limit = this.props.limit
     if (limit > count) {
       limit = count
@@ -89,6 +88,7 @@ class TopEdges extends Component {
       return (<th className="sort-th" onClick={this.handleSort('downWeight')}>Down Weight {sortIndicator}</th>) 
     }
 
+    const count = weights.length
     const Weights = (
       weights.slice(0, this.props.limit).map((edge, i) => (
         <tr key={i} onMouseEnter={this.handleHighlight(edge.sourceID, edge.targetID)} onMouseLeave={this.handleUnhighlight(edge.sourceID, edge.targetID)}>
@@ -101,7 +101,7 @@ class TopEdges extends Component {
     )
     return (
       <div className="TopEdges">
-        <label htmlFor="limit">Top Edges ({this.limitLabel()})</label>
+        <label htmlFor="limit">Top Edges ({this.limitLabel(count)})</label>
         <input className="TopEdges-limit" type="text" name="limit" onChange={this.handleChange} value={this.props.limit} />
         <table className="TopEdges-table">
           <thead>
