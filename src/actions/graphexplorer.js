@@ -62,7 +62,7 @@ export function queryCards(url, cardIDs) {
               post_timestamp
             }
             author {
-              displayName
+              displayname
               isAnonymous
               nodeId
               profileImagePath

@@ -1,0 +1,13 @@
+.Cards {
+  padding: 3rem;
+}
+
+.Cards > select {
+  padding-right: 0;
+}
+
+.Cards-table > thead > tr > th:first-child,
+.Cards-table > tbody > tr > td:first-child {
+  min-width: 10rem;
+  max-width: 10rem;
+}

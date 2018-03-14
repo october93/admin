@@ -11,8 +11,6 @@ import dateFormat from 'dateformat'
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":9000" : location.hostname}`
 
-const defaultSimulatorSocketURL = "localhost:8083"
-
 class AdminStore {
   @observable importerStatus = ""
   @observable graphNodeData = []
@@ -126,8 +124,6 @@ class AdminStore {
 
     this.queuedMessages = []
     this.requests = {}
-
-    this.simulatorClient = new SocketClient(`${wsProtocol}//${defaultSimulatorSocketURL}`, false, (b) => this.simulatorConnected = b)
 
     const lastSunday = new Date()
     lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
