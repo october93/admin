@@ -16,6 +16,7 @@ import GraphQLPage from './components/GraphQLPage'
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
 import ReportBugPage from "./components/ReportBugPage"
+import ModerationPage from "./components/ModerationPage"
 import AdminStore from "./store/AdminStore"
 
 
@@ -40,6 +41,7 @@ const Routes = (props) => (
         <Route path="/admin" onEnter={() => AdminStore.getDashboardMetrics()} component={DashPage} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/invites" component={InvitesPage} />
+        <Route path="/admin/moderation" component={ModerationPage} />
         <Route path="/admin/graph" component={GraphExplorer} />
         <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />

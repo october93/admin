@@ -25,6 +25,7 @@ class AdminStore {
 
 
   @observable invitesData = []
+  @observable blacklistedCards = []
   @observable sessionsData = []
 
   //this is a weird way to do this, but I don't feel like figuring out a better way right now
@@ -36,6 +37,7 @@ class AdminStore {
   @observable inviteStatus = null
 
   @observable demoData = ""
+  @observable blacklistData = ""
   @observable setDemoStatus = ""
   @observable newCardID = ""
 
@@ -398,6 +400,32 @@ class AdminStore {
     })
     .then(() => this.getInvitesRequest())
     .catch(error => console.error(error));
+  }
+
+  setBlacklistedRequest(ids) {
+    this.client.mutate({
+      mutation: gql`
+      mutation {
+        blacklistCards(ids:${ids})
+      }
+      `,
+    })
+    .then(() => this.getBlacklistedCards())
+    .catch(error => console.error(error));
+  }
+
+  getBlacklistedCards() {
+    this.client.query({
+      query: gql`
+        {
+          graph {
+            blacklist
+          }
+        }
+      `,
+      fetchPolicy: 'network-only',
+    }).then(data => this.blacklistedCards = data.data.graph.blacklist)
+      .catch(error => console.error(error));
   }
 
   newUserRequest(email, username, displayname, password){
