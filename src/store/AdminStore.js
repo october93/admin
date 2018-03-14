@@ -379,7 +379,7 @@ class AdminStore {
             token
             issuer
             expires
-            redeemed
+            remainingUses
           }
         }
       `,

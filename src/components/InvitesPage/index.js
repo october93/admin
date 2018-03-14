@@ -26,12 +26,13 @@ class InvitesPage extends Component {
       errorMessage = <span className="danger">{this.props.store.inviteError}</span>
     }
     let invitesData = this.props.store.invitesData.toJS()
+    console.log(invitesData)
     const inviteList = invitesData.map((data, i) =>
       <tr key={i}>
         <td>{data.token}</td>
         <td>{data.issuer}</td>
         <td><Timestamp time={data.expires} precision={2} /></td>
-        <td>{data.redeemed ? "Yes" : "No"}</td>
+        <td>{data.remainingUses}</td>
       </tr>
     )
     return (
@@ -44,7 +45,7 @@ class InvitesPage extends Component {
               <th>Token</th>
               <th>Created by</th>
               <th>Expires in</th>
-              <th>Redeemed</th>
+              <th>Uses Left</th>
             </tr>
           </thead>
           <tbody>
