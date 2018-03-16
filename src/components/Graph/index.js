@@ -52,13 +52,11 @@ class Graph extends Component {
   }
 
   filterEdge(edge) {
-    const followers = this.props.followersByID
-    const followees = this.props.followeesByID
     if (this.props.usernames.length === 0) {
       return true
     } else if (this.props.usernames.length === 1) {
       const username = this.props.usernames[0]
-      return this.props.usersByID[edge.sourceID] == username || this.props.usersByID[edge.targetID] == username
+      return this.props.usersByID[edge.sourceID] === username || this.props.usersByID[edge.targetID] === username
     } else {
       return this.props.usernames.includes(this.props.usersByID[edge.sourceID].username) && this.props.usernames.includes(this.props.usersByID[edge.targetID].username)
     }

@@ -29,7 +29,6 @@ class VoteTable extends Component {
 
   sortVotes() {
     let votes = this.props.usersByID[this.props.selectedUser].node.votes
-    console.log(votes)
     if (this.props.sort.sortBy === 'positiveScore') {
       votes = votes.map((k, v) => k).sort((a, b) => a.positiveScore - b.positiveScore)
     } else {

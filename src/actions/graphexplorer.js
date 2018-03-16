@@ -55,14 +55,14 @@ export function queryCards(url, cardIDs) {
       errorPolicy: "ignore",
       query: gql`
         {
-          cards(ids: [${cardIDs.map(id => `"${id}"`)}]) {
+          cards {
             card {
               body
               cardID
               post_timestamp
             }
             author {
-              displayName
+              displayname
               isAnonymous
               nodeId
               profileImagePath

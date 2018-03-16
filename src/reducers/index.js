@@ -15,8 +15,15 @@ import {
   filteredUsers,
   sortVotes,
   selectedCardRankUser,
-  limitedCardRank
+  limitedCardRank,
 } from './graphexplorer'
+
+import {
+  cardsCardsAreLoading,
+  cardsCardsLoadingSuccess,
+  cardsCardsLoadingFailure,
+  cardsSortedBy
+} from './cards'
 
 export default combineReducers({
   graphIsLoading,
@@ -34,5 +41,10 @@ export default combineReducers({
   filteredUsers,
   sortVotes,
   selectedCardRankUser,
-  limitedCardRank
+  limitedCardRank,
+
+  cardsCardsAreLoading,
+  cardsCardsLoadingSuccess,
+  cardsCardsLoadingFailure,
+  cardsSortedBy
 })

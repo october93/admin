@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Tooltip from 'rc-tooltip'
+import Markdown from 'react-markdown'
 import './index.css'
 
 class CardLink extends Component {
@@ -15,7 +16,9 @@ class CardLink extends Component {
   }
 
   tooltip() {
-    return this.props.cards[this.props.cardID].card.body
+    return (
+      <Markdown source={this.props.cards[this.props.cardID].card.body} />
+    )
   }
 
   render() {

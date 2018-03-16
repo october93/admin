@@ -8,6 +8,7 @@ import logo from './logo-light.png';
 
 const menuItems = [
   {name: "Users", path: "/admin/users"},
+  {name: "Cards", path: "/admin/cards"},
   {name: "Invites", path: "/admin/invites"},
   {name: "Utilities", path: "/admin/connect"},
   {name: "Moderation", path: "/admin/moderation"},
