@@ -61,7 +61,7 @@ class Cards extends Component {
       <div className="Cards">
         <label htmlFor="sortBy">Sort by:</label>
         <select onChange={this.handleSort} value={this.props.sortBy} name="sortBy">
-          <option value="boost">Boosts</option>
+          <option value="boosts">Boosts</option>
           <option value="buries">Buries</option>
           <option value="hifives">Hifives</option>
           <option value="views">Views</option>
