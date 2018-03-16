@@ -26,7 +26,6 @@ class InvitesPage extends Component {
       errorMessage = <span className="danger">{this.props.store.inviteError}</span>
     }
     let invitesData = this.props.store.invitesData.toJS()
-    console.log(invitesData)
     const inviteList = invitesData.map((data, i) =>
       <tr key={i}>
         <td>{data.token}</td>

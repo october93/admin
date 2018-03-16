@@ -55,7 +55,7 @@ export function queryCards(url, cardIDs) {
       errorPolicy: "ignore",
       query: gql`
         {
-          cards(ids: [${cardIDs.map(id => `"${id}"`)}]) {
+          cards {
             card {
               body
               cardID
