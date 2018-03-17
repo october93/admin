@@ -40,10 +40,12 @@ class AdminLayout extends Component {
     return (
     		<div className="top">
           <div className="verticalMenu">
-            <div className="header">
-              <img src={logo} className="logo" alt="logo" />
-              <span className="logoText">Admin</span>
-            </div>
+            <Link to="/">
+              <div className="header">
+                <img src={logo} className="logo" alt="logo" />
+                <span className="logoText">Admin</span>
+              </div>
+            </Link>
             {this.renderMenuItems()}
             <div className="bottomMenu">
               <div className="menuItem">

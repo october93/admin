@@ -25,6 +25,12 @@ import {
   cardsSortedBy
 } from './cards'
 
+import {
+  homeFreezeSignupsSwitched,
+  homeMaintenanceModeSwitched,
+  homeGetSettingsSuccess
+} from './home'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -46,5 +52,9 @@ export default combineReducers({
   cardsCardsAreLoading,
   cardsCardsLoadingSuccess,
   cardsCardsLoadingFailure,
-  cardsSortedBy
+  cardsSortedBy,
+
+  homeFreezeSignupsSwitched,
+  homeMaintenanceModeSwitched,
+  homeGetSettingsSuccess
 })
