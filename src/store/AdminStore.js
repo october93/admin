@@ -7,7 +7,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import gql from 'graphql-tag';
 import SocketClient from "./SocketClient"
-import dateFormat from 'dateformat'
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":9000" : location.hostname}`
 
@@ -71,9 +70,6 @@ class AdminStore {
   @observable allCardsWithMetrics = []
   @observable cardHitRateMetricsData = []
 
-  @observable dashboardFromTime = null
-  @observable dashboardToTime = null
-
   serverURL
   simulatorclient
   engineclient
@@ -129,9 +125,6 @@ class AdminStore {
     lastSunday.setDate(lastSunday.getDate() - lastSunday.getDay())
     const nextSunday = new Date()
     nextSunday.setDate(nextSunday.getDate() + 7 - nextSunday.getDay())
-
-    this.dashboardFromTime = dateFormat(lastSunday, "yyyy-mm-dd")
-    this.dashboardToTime = dateFormat(nextSunday, "yyyy-mm-dd")
 	}
 
   // server data requests
