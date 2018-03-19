@@ -19,6 +19,7 @@ import AdminStore from "./store/AdminStore"
 
 import Home from './scenes/Home';
 import Cards from './scenes/Cards';
+import Tags from './scenes/Tags';
 import GraphExplorer from './scenes/GraphExplorer';
 import FeatureSwitches from './scenes/FeatureSwitches';
 
@@ -44,6 +45,7 @@ const Routes = (props) => (
         <Route path="/admin" component={Home} />
         <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
         <Route path="/admin/cards" component={Cards} />
+        <Route path="/admin/tags" component={Tags} />
         <Route path="/admin/featureswitches" component={FeatureSwitches} />
         <Route path="/admin/invites" component={InvitesPage} />
         <Route path="/admin/moderation" component={ModerationPage} />

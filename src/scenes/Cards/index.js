@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import CardLink from '../../components/CardLink'
 import { connect } from 'react-redux'
 import { getCards, cardsSortBy } from '../../actions/cards'
+import boost from './boost.png'
+import bury from './bury.png'
 import './index.css'
 
 class Cards extends Component {
@@ -71,8 +73,8 @@ class Cards extends Component {
             <tr>
               <th>Card ID</th>
               <th>Author</th>
-              <th>Boosts</th>
-              <th>Buries</th>
+              <th>Boosts <img className="Cards-icon" src={boost} alt="thunderbolt" /></th>
+              <th>Buries <img className="Cards-icon" src={bury} alt="cross" /></th>
               <th>Hifives</th>
               <th>Views</th>
             </tr>

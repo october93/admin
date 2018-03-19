@@ -1,0 +1,13 @@
+.Tags {
+  margin: 3rem;
+}
+
+.Tags-form {
+  width: 20rem;
+  margin-bottom: 3rem;
+}
+
+.error {
+  background-color: #ff9494;
+  padding: 1rem;
+}

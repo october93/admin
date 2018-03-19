@@ -1,6 +1,11 @@
 import GraphQLClient from '../store/GraphQLClient'
 import gql from 'graphql-tag';
 
+export const CARDS_CARDS_ARE_LOADING = 'CARDS_CARDS_ARE_LOADING'
+export const CARDS_CARDS_LOADING_SUCCESS = 'CARDS_CARDS_LOADING_SUCCESS'
+export const CARDS_CARDS_LOADING_FAILURE = 'CARDS_CARDS_LOADING_FAILURE'
+export const CARDS_SORT_BY = 'CARDS_SORT_BY'
+
 export function getCards(url) {
   return (dispatch) => {
     dispatch(cardsCardsAreLoading(true))
@@ -37,17 +42,12 @@ export function getCards(url) {
   }
 }
 
-export const CARDS_CARDS_ARE_LOADING = 'CARDS_CARDS_ARE_LOADING'
-
 export function cardsCardsAreLoading(isLoading) {
   return {
     type: CARDS_CARDS_ARE_LOADING,
     isLoading: isLoading
   }
 }
-
-
-export const CARDS_CARDS_LOADING_SUCCESS = 'CARDS_CARDS_LOADING_SUCCESS'
 
 export function cardsCardsLoadingSuccess(data) {
   return {
@@ -56,16 +56,12 @@ export function cardsCardsLoadingSuccess(data) {
   }
 }
 
-export const CARDS_CARDS_LOADING_FAILURE = 'CARDS_CARDS_LOADING_FAILURE'
-
 export function cardsCardsLoadingFailure(error) {
   return {
     type: CARDS_CARDS_LOADING_FAILURE,
     error
   }
 }
-
-export const CARDS_SORT_BY = 'CARDS_SORT_BY'
 
 export function cardsSortBy(sortBy) {
   return {
