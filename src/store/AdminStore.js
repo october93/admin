@@ -33,6 +33,8 @@ class AdminStore {
 
   @observable inviteStatus = null
 
+  @observable updateSettingsStatus = null
+
   @observable demoData = ""
   @observable blacklistData = ""
   @observable setDemoStatus = ""
@@ -468,6 +470,9 @@ class AdminStore {
   }
 
   updateSettingsResponse(error, data) {
+    if (error === undefined) {
+      this.updateSettingsStatus = 'success'
+    }
   }
 
   loggedIn() {

@@ -66,10 +66,11 @@ export default class ConnectPage extends Component {
 
     let shownAlert = null
 
+    console.log(store.updateSettings)
     //the === true check is because newusersuccess can be null in which case we should show nothing
     if(store.inviteStatus === "waiting") {
       shownAlert = (<FaSpinner />)
-    } else if (store.inviteStatus === "success") {
+    } else if (store.inviteStatus === "success" || store.updateSettingsStatus === "success") {
       shownAlert = (
         <Callout color={Colors.SUCCESS} size={Sizes.SMALL}>
           <h5>Success!</h5>
