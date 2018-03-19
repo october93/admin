@@ -16,6 +16,7 @@ const menuItems = [
   {name: "Graph", path: "/admin/graph"},
   {name: "GraphQL", path: "/admin/graphql"},
   {name: "Report Bug", path: "/admin/reportbug"},
+  {name: "Feature Switches", path: "/admin/featureswitches"},
 ]
 
 @inject("store") @observer

@@ -31,6 +31,11 @@ import {
   homeGetSettingsSuccess
 } from './home'
 
+import {
+  featureSwitchesLoading,
+  featureSwitches,
+} from './featureswitches'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -56,5 +61,8 @@ export default combineReducers({
 
   homeFreezeSignupsSwitched,
   homeMaintenanceModeSwitched,
-  homeGetSettingsSuccess
+  homeGetSettingsSuccess,
+
+  featureSwitchesLoading,
+  featureSwitches,
 })
