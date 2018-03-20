@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import RPCHistoryItem from '../../components/RPCHistoryItem';
-
+import Textarea from "../textarea"
 import './style.scss'
 
 const defaultRPC = '{"rpc": "", "sessionID": "", "data": {}}'
@@ -79,7 +79,7 @@ export default class UtilitiesPage extends Component {
             </pre>
           </div>
           <form onSubmit={this.submit}>
-            <textarea className="rpcInput" name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
+            <Textarea className="rpcInput" name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
             <select onChange={this.handleSessionChange}>
               <option value="" disabled selected>Use session of…</option>
               {this.props.store.sessionsData.toJS().map((data) =>

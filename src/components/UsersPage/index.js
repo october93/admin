@@ -102,9 +102,9 @@ export default class UsersPage extends Component {
 
   render() {
     return (
-      <div className="pageMargins">
-        <Link to="/admin/newUser"><FaPlus size={30} color="#9E9"/></Link>
+      <div style={{ width: "100%", margin: "10px"}}>
         <ReactTable
+
          data={this.props.store.usersData}
          columns={columns}
          defaultPageSize={20}

@@ -13,10 +13,20 @@ class Graph extends Component {
 
   componentDidMount() {
     const container = ReactDOM.findDOMNode(this)
-    this.graphics = Viva.Graph.View.svgGraphics();
+    this.graphics = Viva.Graph.View.svgGraphics()
+
+    var layout = Viva.Graph.Layout.forceDirected(this.graph, {
+      springLength : 70,
+      springCoeff : 0.00005,
+      dragCoeff : 0.3,
+      gravity : -2.5,
+    });
+
+
     this.renderer = Viva.Graph.View.renderer(this.graph, {
       container: container,
-      graphics: this.graphics
+      graphics: this.graphics,
+      layout: layout,
     })
     this.configureLabels()
     this.renderer.run()

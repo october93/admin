@@ -3,9 +3,9 @@ import { createHttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
 
 export default class GraphQLClient {
+  instance = null
 
   client = null
 
@@ -34,9 +34,61 @@ export default class GraphQLClient {
     })
   }
 
-  query(query) {
-    this.client.query({
-      query: gql``
+  static init(host) {
+    const httpLink = createHttpLink({
+      uri: host,
     })
+
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
+      if (networkError) {
+        if (networkError.statusCode === 401)
+          console.log("unauthorized")
+        else
+          console.log(`[Network error]: ${networkError}`)
+        return
+      }
+
+      if (graphQLErrors){
+        graphQLErrors.map(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+          ),
+        )
+      }
+    })
+
+    const authLink = setContext((_, { headers }) => {
+      const session = JSON.parse(localStorage.getItem('session'));
+      return {
+        headers: {
+          ...headers,
+          Authorization: session.id,
+        }
+      }
+    })
+
+    const inst = new GraphQLClient()
+
+    inst.client = new ApolloClient({
+      link: authLink.concat(errorLink.concat(httpLink)),
+      cache: new InMemoryCache()
+    })
+
+    this.instance = inst
+  }
+
+  static Client() {
+    return this.instance
+  }
+
+  query = async (query) => {
+    return this.client.query({
+      ...query,
+      fetchPolicy: 'network-only',
+    })
+  }
+
+  mutate = async (mutation) => {
+    return this.client.mutate(mutation)
   }
 }

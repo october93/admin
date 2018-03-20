@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { FaSpinner }  from 'react-icons/lib/fa';
-
 import {Callout, Colors, Sizes } from 'react-foundation';
+
+import Textarea from "../../components/textarea"
 
 
 @inject("store") @observer
@@ -32,11 +33,11 @@ export default class ConnectPage extends Component {
     const store = this.props.store
 
     return (
-      <div className="pageMargins">
+      <div style={{ width: "100%" }}>
         <div>
           <h3>Blacklist Cards</h3>
-          <form onSubmit={this.submitDemo}>
-            <textarea value={this.props.store.blacklistData} onChange={this.changeText}></textarea>
+          <form style={{ width: "100%" }} onSubmit={this.submitDemo}>
+            <Textarea value={this.props.store.blacklistData} onChange={this.changeText}></Textarea>
             <button type="submit" className="button">Blacklist</button>
           </form>
         </div>

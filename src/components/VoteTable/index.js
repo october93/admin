@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CardLink from '../../components/CardLink'
 import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
-import { selectUsername, limitVotes, sortVotes } from '../../actions/graphexplorer'
+import { selectUsername, limitVotes, sortVotes } from '../../store/actions/graphexplorer'
 import './index.css'
 
 class VoteTable extends Component {
@@ -76,7 +76,7 @@ class VoteTable extends Component {
       if (this.props.sort.sortBy === 'positiveScore') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('positiveScore')}>Positive Score {sortIndicator}</th>) 
+      return (<th className="sort-th" onClick={this.handleSort('positiveScore')}>Positive Score {sortIndicator}</th>)
     }
 
     const NegativeTableHeader = () => {
@@ -84,7 +84,7 @@ class VoteTable extends Component {
       if (this.props.sort.sortBy === 'negativeScore') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('negativeScore')}>Negative Score {sortIndicator}</th>) 
+      return (<th className="sort-th" onClick={this.handleSort('negativeScore')}>Negative Score {sortIndicator}</th>)
     }
 
     return (

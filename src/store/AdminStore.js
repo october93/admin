@@ -182,141 +182,6 @@ class AdminStore {
     this.graphLoaded = true
   }
 
-  getCardData(cardID){
-    this.cardPreviewLayoutdata = null
-    this.cardPreviewFeedback = null
-
-    this.client.query({
-      query: gql`
-      {
-      	card(card_id:"${cardID}") {
-          layoutdata
-          feedback {
-            rating
-            comment
-          }
-      	}
-      }
-      `,
-    })
-      .then(data => this.cardDataRecieved(data))
-      .catch(error => console.error(error));
-  }
-
-  cardDataRecieved(data) {
-    this.cardPreviewLayoutdata = data.data.card.layoutdata
-    this.cardPreviewFeedback = data.data.card.feedback
-    console.log(this.cardPreviewFeedback);
-  }
-
-  getCardsData(from, to){
-    if (typeof from !== "undefined") {
-      this.dashboardFromTime = from
-    }
-    if (typeof to !== "undefined") {
-      this.dashboardToTime = to
-    }
-  this.client.query({
-    query: gql`
-    {
-    	cards(from:"${this.dashboardFromTime}", to:"${this.dashboardToTime}") {
-    	  cardID
-    	  post_timestamp
-    	  total_likes
-    	  total_reacts
-        layoutdata
-        feedback {
-          rating
-          comment
-        }
-    	}
-    }
-    `,
-  })
-    .then(data => this.cardsDataRecieved(data))
-    .catch(error => console.error(error));
-  }
-
-  cardsDataRecieved(data) {
-    this.allCardsWithMetrics = data.data.cards
-
-    let z = new Array(101)
-
-    for (let i = 0; i <= 100; i++) {
-      z[i] = {hitRate: i, number: 0}
-    }
-
-    for (let i = 0; i < this.allCardsWithMetrics.length; i++) {
-      const d = this.allCardsWithMetrics[i]
-      const hr = d.total_reacts > 0 ? Math.floor(d.total_likes / d.total_reacts * 100) : 0
-      z[hr] = { hitRate: hr, number: z[hr].number + 1}
-    }
-
-    this.cardHitRateMetricsData = z
-    console.log(this.cardHitRateMetricsData.toJS())
-  }
-
-  getDashboardMetrics(from, to){
-    if (typeof from !== "undefined") {
-      this.dashboardFromTime = from
-    }
-    if (typeof to !== "undefined") {
-      this.dashboardToTime = to
-    }
-
-    this.client.query({
-      query: gql`
-      {
-        graph {
-          users {
-            username
-            displayname
-          }
-        }
-      }
-      `,
-    })
-      .then(data => this.dashboardMetricsRecieved(data))
-      .catch(error => console.error(error));
-  }
-
-  dashboardMetricsRecieved(data){
-    const users = data.data.graph.users
-    let totalReacts = 0
-
-    this.totalPosts = 0
-    this.totalLikes = 0
-    this.postRankings = []
-    this.likeRankings = []
-    this.hitRateRankings = []
-
-    for(let i = 0; i < users.length; i++) {
-      const usr = users[i]
-      this.postRankings.push({name: usr.displayname, metric: usr.postsThisWeek})
-      this.likeRankings.push({name: usr.displayname, metric: usr.likesThisWeek})
-      let hr = usr.likesThisWeek / usr.reactionsThisWeek
-      this.hitRateRankings.push({name: usr.displayname, metric: usr.reactionsThisWeek > 0 ? hr : 0 })
-
-      this.totalPosts += usr.postsThisWeek
-      this.totalLikes += usr.likesThisWeek
-      totalReacts += usr.reactionsThisWeek
-    }
-
-    const sortFn = (a, b) => {
-      if (a.metric > b.metric) {
-        return -1
-      } else if (a.metric < b.metric) {
-        return 1
-      }
-      return 0
-    }
-
-    this.postRankings = this.postRankings.toJS().sort(sortFn)
-    this.likeRankings = this.likeRankings.toJS().sort(sortFn)
-    this.hitRateRankings = this.hitRateRankings.toJS().sort(sortFn)
-    this.totalHitrate = totalReacts > 0 ? this.totalLikes / totalReacts : 0
-  }
-
   getUsersData(from, to){
     if (typeof from !== "undefined") {
       this.dashboardFromTime = from
@@ -419,20 +284,6 @@ class AdminStore {
       .catch(error => console.error(error));
   }
 
-  newUserRequest(email, username, displayname, password){
-    this.client.mutate({
-      mutation: gql`
-      mutation {
-        newUser(username:"${username}", email:"${email}", password: "${password}", displayname: "${displayname}")
-      }
-      `,
-    })
-    .then(data => this.newUserResponse(data))
-    .catch(error => console.error(error));
-
-    this.newUserWaiting = true
-  }
-
   reportBugRequest(summary, description){
     const msg = { rpc: "reportBug", data: { source: "admin", summary, description }}
 
@@ -495,14 +346,6 @@ class AdminStore {
   reportBugResponse(error, data){
   }
 
-  newUserResponse = (data) => {
-    if (!data.error){
-      this.newUserSuccess = true
-    } else {
-      this.newUserSuccess = false
-    }
-    this.newUserWaiting = false
-  }
 
   connectUsersRequest(users){
     this.inviteStatus = "waiting"
@@ -543,47 +386,6 @@ class AdminStore {
   }
 
 
-
-  getDemoRequest(){
-    this.client.query({
-      query: gql`
-        {
-          demoHand
-        }
-      `,
-    })
-      .then(data => this.getDemoResponse(data))
-      .catch(error => console.error(error));
-  }
-
-  getDemoResponse(data){
-    if (!data.error) {
-      this.demoData = JSON.stringify(data.data.demoHand)
-    }
-  }
-
-  setDemoRequest(demoData) {
-    this.client.mutate({
-      mutation: gql`
-      mutation {
-        setDemo(cards:${demoData})
-      }
-      `,
-    })
-    .then(data => this.setDemoResponse(data))
-    .catch(error => console.error(error));
-
-    this.setDemoStatus = "waiting"
-  }
-
-  setDemoResponse = (data) => {
-    if (data.error === undefined) {
-      this.setDemoStatus = "success"
-    } else {
-      this.setDemoStatus = "failure"
-    }
-  }
-
   sendCommandRequest(command){
     const msg = JSON.parse(command)
 
@@ -594,21 +396,6 @@ class AdminStore {
     const dataString = JSON.stringify(data, null, 2)
     console.log(dataString)
     this.commandResponse = `Error: ${error}\nData:\n${dataString}`
-  }
-
-  // misc helpers
-  getNodeData(nodeid){
-    for(var i = 0; i< this.graphNodeData.length; i++){
-      if(this.graphNodeData[i].id === nodeid){
-        return this.graphNodeData[i]
-      }
-    }
-  }
-
-  changeEndpoint(end){
-    this.serverURL = end
-    cookie.save('serverurl', end, { path: '/' });
-    this.openSocket(`${this.serverURL}/deck_endpoint/`)
   }
 
 }

@@ -1,23 +1,33 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router'
+import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 
-import './style.scss';
+import {
+  Container,
+	MenuLink,
+	MenuItem,
+	TitleHeader,
+	Logo,
+	LogoText,
+	SideMenu,
+	UserMenuInfo,
+	LoggedInAs,
+	MenuPadding,
+	PageContainer,
+	Page,
+} from "./styled-components"
 
-import logo from './logo-light.png';
+import logo from './logo-light.png'
 
 const menuItems = [
+  {name: "Moderation", path: "/admin/moderation"},
   {name: "Users", path: "/admin/users"},
   {name: "Cards", path: "/admin/cards"},
   {name: "Tags", path: "/admin/tags"},
   {name: "Invites", path: "/admin/invites"},
-  {name: "Utilities", path: "/admin/connect"},
-  {name: "Moderation", path: "/admin/moderation"},
+  {name: "Feature Switches", path: "/admin/featureswitches"},
   {name: "Console", path: "/admin/rpcconsole"},
   {name: "Graph", path: "/admin/graph"},
   {name: "GraphQL", path: "/admin/graphql"},
-  {name: "Report Bug", path: "/admin/reportbug"},
-  {name: "Feature Switches", path: "/admin/featureswitches"},
 ]
 
 @inject("store") @observer
@@ -30,9 +40,9 @@ class AdminLayout extends Component {
 
   renderMenuItems = () => {
     return menuItems.map(item => (
-      <div key={item.path} className="menuItem">
-        <Link key={item.path} to={item.path}>{item.name}</Link>
-      </div>
+      <MenuItem key={item.path}>
+        <MenuLink active={this.props.location.pathname === item.path} key={item.path} to={item.path}>{item.name}</MenuLink>
+      </MenuItem>
     ))
   }
 
@@ -40,35 +50,34 @@ class AdminLayout extends Component {
     const profile = JSON.parse(localStorage.getItem("session"))
 
     return (
-    		<div className="top">
-          <div className="verticalMenu">
-            <Link to="/">
-              <div className="header">
-                <img src={logo} className="logo" alt="logo" />
-                <span className="logoText">Admin</span>
-              </div>
-            </Link>
+    		<Container>
+          <SideMenu>
+            <TitleHeader to="/">
+                <Logo src={logo} alt="logo"/>
+                <LogoText>Admin</LogoText>
+            </TitleHeader>
             {this.renderMenuItems()}
-            <div className="bottomMenu">
-              <div className="menuItem">
-                <div className="loggedInAs">
-                  Welcome,
-                </div>
-                {profile ? profile.username : "User"}
-              </div>
-              <a className="menuItem" onClick={this.props.store.logout.bind(this)}>Logout</a>
-            </div>
-          </div>
-          <div className="container">
-            <div className="menuPadding" />
+            <UserMenuInfo>
+              <MenuItem>
+                <MenuLink to="/admin/profile">
+                  <LoggedInAs>
+                    Welcome,
+                  </LoggedInAs>
+                  {profile ? profile.username : "User"}
+                </MenuLink>
+              </MenuItem>
+              <MenuItem onClick={this.props.store.logout.bind(this)}>Logout</MenuItem>
+            </UserMenuInfo>
+          </SideMenu>
+          <PageContainer>
+            <MenuPadding />
+      			<Page>
+              {this.props.children}
+            </Page>
+          </PageContainer>
+    		</Container>
 
-      			<div className="page">
-      				{this.props.children}
-      			</div>
-          </div>
-    		</div>
-
-    );
+    )
   }
 }
-export default AdminLayout;
+export default AdminLayout

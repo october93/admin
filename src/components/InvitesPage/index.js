@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer, inject  } from 'mobx-react'
 import Timestamp from 'react-timestamp'
-
+import Button from "../button"
 @inject("store") @observer
 class InvitesPage extends Component {
   constructor(props) {
@@ -35,9 +35,9 @@ class InvitesPage extends Component {
       </tr>
     )
     return (
-      <div className="pageMargins">
+      <div style={{ width: "100%" }}>
         {errorMessage}
-        <a className="button" onClick={this.handleNewInvite}>New Invite</a>
+        <Button onClick={this.handleNewInvite}>New Invite</Button>
         <table className="inviteTable">
           <thead>
             <tr>

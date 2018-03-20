@@ -14,7 +14,7 @@ import {
   FILTER_USERS,
   SORT_VOTES,
   LIMIT_CARD_RANK,
-  SELECT_CARD_RANK_USER
+  SELECT_CARD_RANK_USER,
 } from '../actions/graphexplorer'
 
 export function graphIsLoading(state = true, action) {

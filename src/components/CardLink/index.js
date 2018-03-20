@@ -16,8 +16,14 @@ class CardLink extends Component {
   }
 
   tooltip() {
+    if (this.props.card && this.props.card.body) {
+      return (
+        <Markdown source={this.props.card.body} />
+      )
+    }
     return (
-      <Markdown source={this.props.cards[this.props.cardID].card.body} />
+      <div>
+      </div>
     )
   }
 
@@ -27,7 +33,7 @@ class CardLink extends Component {
         arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
         placement="right"
         overlay={<div className="CardLink-tooltip">{this.tooltip()}</div>}>
-        <a href={`${this.url}/${this.props.cardID}`}>{this.props.cardID}</a>
+        <a href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</a>
       </Tooltip>
     )
   }

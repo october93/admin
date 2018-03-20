@@ -1,8 +1,13 @@
-import { createStore, applyMiddleware } from 'redux' 
+import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import rootReducer from '../reducers'
+import rootReducer from './reducers'
 
-export default function configureStore(initialState) {
+import GraphQLClient from './GraphQLClient'
+
+
+export default function configureStore(graphQLHost, initialState) {
+  GraphQLClient.init(graphQLHost)
+
   return createStore(
     rootReducer,
     initialState,
