@@ -7,14 +7,11 @@ import AdminLayout from './components/AdminLayout';
 import LoginPage from './components/LoginPage';
 import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
-import NewUserPage from './components/NewUserPage'
 import UtilitiesPage from './components/UtilitiesPage'
 import ConnectPage from './components/ConnectPage'
 import GraphQLPage from './components/GraphQLPage'
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
-import ReportBugPage from "./components/ReportBugPage"
-import ModerationPage from "./components/ModerationPage"
 import AdminStore from "./store/AdminStore"
 
 import Home from './scenes/Home';
@@ -22,7 +19,7 @@ import Cards from './scenes/Cards';
 import Tags from './scenes/Tags';
 import GraphExplorer from './scenes/GraphExplorer';
 import FeatureSwitches from './scenes/FeatureSwitches';
-
+import Moderation from './scenes/Moderation';
 
 const requireAuth = (nextState, replace) => {
   if (!AdminStore.loggedIn()) {
@@ -48,12 +45,10 @@ const Routes = (props) => (
         <Route path="/admin/tags" component={Tags} />
         <Route path="/admin/featureswitches" component={FeatureSwitches} />
         <Route path="/admin/invites" component={InvitesPage} />
-        <Route path="/admin/moderation" component={ModerationPage} />
+        <Route path="/admin/moderation" component={Moderation} />
         <Route path="/admin/graph" component={GraphExplorer} />
-        <Route path="/admin/newUser" component={NewUserPage} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
-        <Route path="/admin/reportbug" component={ReportBugPage} />
-        <Route path="/admin/connect" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
+        <Route path="/admin/profile" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Switch from 'rc-switch'
 import { connect } from 'react-redux'
-import { getSettings, setSignupsFrozen, setMaintenanceMode } from '../../actions/home'
+import { getSettings, setSignupsFrozen, setMaintenanceMode } from '../../store/actions/home'
 import './index.css'
 
 class DangerZone extends Component {
@@ -44,7 +44,7 @@ class DangerZone extends Component {
             onClick={this.handleFreezeSignup}
             checked={freezeSignupChecked}
           />
-        </div>       
+        </div>
         <div className="DangerZone-item">
           <span className="DangerZone-title">Maintenance Mode</span>
           <div className="DangerZone-description">Puts the backend into maintenance mode in which no new connections are accepted.</div>
@@ -52,7 +52,7 @@ class DangerZone extends Component {
             onClick={this.handleMaintenanceMode}
             checked={maintenanceModeChecked}
           />
-        </div>       
+        </div>
       </div>
     )
   }

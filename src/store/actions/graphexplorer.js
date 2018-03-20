@@ -1,11 +1,13 @@
-import GraphQLClient from '../store/GraphQLClient'
+import GraphQLClient from '../GraphQLClient'
 import gql from 'graphql-tag';
 
-export function queryGraph(url) {
-  return (dispatch) => {
-    dispatch(graphIsLoading(true))
-    const client = new GraphQLClient(url)
-    return client.client.query({
+import * as create from "./creators/graphexplorer"
+
+export const queryGraph = () => async (dispatch) => {
+  dispatch(graphIsLoading(true))
+
+  try {
+    const { data } = await GraphQLClient.Client().query({
       errorPolicy: "ignore",
       query: gql`
         {
@@ -38,20 +40,19 @@ export function queryGraph(url) {
         }
       `
     })
-    .then(response => response.data)
-    .then(data => {
-      dispatch(graphLoadingSuccess(data))
-      dispatch(graphIsLoading(false))
-    })
-    .catch(error => dispatch(graphLoadingFailure(error)))
+
+    dispatch(graphLoadingSuccess(data))
+    dispatch(graphIsLoading(false))
+  } catch (e) {
+    dispatch(graphLoadingFailure(e))
   }
 }
 
-export function queryCards(url, cardIDs) {
-  return (dispatch) => {
-    dispatch(cardsAreLoading(true))
-    const client = new GraphQLClient(url)
-    return client.client.query({
+export const queryCards = cardIDs => async (dispatch) => {
+  dispatch(cardsAreLoading(true))
+
+  try {
+    const { data } = await GraphQLClient.Client().query({
       errorPolicy: "ignore",
       query: gql`
         {
@@ -72,30 +73,49 @@ export function queryCards(url, cardIDs) {
         }
       `
     })
-    .then(response => response.data)
-    .then(data => {
-      dispatch(cardsLoadingSuccess(data))
-      dispatch(cardsAreLoading(false))
-    })
-    .catch(error => dispatch(cardsLoadingFailure(error)))
+
+    dispatch(cardsLoadingSuccess(data))
+    dispatch(cardsAreLoading(false))
+  } catch (e) {
+    dispatch(cardsLoadingFailure(e))
   }
 }
 
-export function queryGraphAndCards(url) {
-return (dispatch, getState) => {
-    return dispatch(queryGraph(url)).then(() => {
-      const cardIDs = getState().graphLoadingSuccess.graph.users.reduce((cards, user) => {
-        user.node.cardRankTable.forEach(card => {
-          cards.push(card.card.cardID)
-        })
-        user.node.votes.forEach(vote => {
-          cards.push(vote.cardID)
-        })
-        return cards
-      }, [])
-      return dispatch(queryCards(url, cardIDs))
-    })
+export const queryGraphAndCards = () => async (dispatch, getState) => {
+  try {
+    await dispatch(queryGraph())
+    const cardIDs = getState().graphLoadingSuccess.graph.users.reduce((cards, user) => {
+      user.node.cardRankTable.forEach(card => {
+        cards.push(card.card.cardID)
+      })
+      user.node.votes.forEach(vote => {
+        cards.push(vote.cardID)
+      })
+      return cards
+    }, [])
+    await dispatch(queryCards(cardIDs))
+  } catch (e) {
+    console.log("graph query error")
+    console.log(e)
   }
+}
+
+export const connectUsers = users => async (dispatch) => {
+    dispatch(create.connectUsersRequest(users))
+    try {
+      await GraphQLClient.Client().mutate({
+        mutation: gql`
+        mutation {
+          connectUsers(usernames:${JSON.stringify(users)} )
+        }
+        `,
+      })
+
+      dispatch(create.connectUsersSuccess())
+    } catch (e) {
+      console.log(e)
+      dispatch(create.connectUsersError(e))
+    }
 }
 
 export const CARDS_ARE_LOADING = 'CARDS_ARE_LOADING'

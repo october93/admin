@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
-import { limitTopEdges, highlightEdge, unhighlightEdge, sortEdges } from '../../actions/graphexplorer'
+import { limitTopEdges, highlightEdge, unhighlightEdge, sortEdges } from '../../store/actions/graphexplorer'
 import './index.css'
 
 class TopEdges extends Component {
@@ -77,7 +77,7 @@ class TopEdges extends Component {
       if (this.props.sort.sortBy === 'upWeight') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('upWeight')}>Up Weight {sortIndicator}</th>) 
+      return (<th className="sort-th" onClick={this.handleSort('upWeight')}>Up Weight {sortIndicator}</th>)
     }
 
     const DownTableHeader = () => {
@@ -85,7 +85,7 @@ class TopEdges extends Component {
       if (this.props.sort.sortBy === 'downWeight') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('downWeight')}>Down Weight {sortIndicator}</th>) 
+      return (<th className="sort-th" onClick={this.handleSort('downWeight')}>Down Weight {sortIndicator}</th>)
     }
 
     const count = weights.length

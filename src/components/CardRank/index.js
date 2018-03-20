@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
 import CardLink from '../../components/CardLink'
-import { selectCardRankUser, limitCardRank } from '../../actions/graphexplorer'
+import { selectCardRankUser, limitCardRank } from '../../store/actions/graphexplorer'
 import './index.css'
 
 class CardRank extends Component {
@@ -64,7 +64,7 @@ class CardRank extends Component {
             <tr>
               <th>#</th>
               <th>Card ID</th>
-              <th>Score</th> 
+              <th>Score</th>
             </tr>
           </thead>
           <tbody>

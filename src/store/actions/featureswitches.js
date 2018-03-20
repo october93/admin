@@ -1,4 +1,4 @@
-import GraphQLClient from '../store/GraphQLClient'
+import GraphQLClient from '../GraphQLClient'
 import gql from 'graphql-tag';
 
 export const GET_FEATURE_SWITCHES_REQUEST = 'GET_FEATURE_SWITCHES_REQUEST'
