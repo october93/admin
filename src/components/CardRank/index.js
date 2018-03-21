@@ -52,14 +52,14 @@ class CardRank extends Component {
     )
 
     return (
-      <div className="CardRank">
+      <div style={{ width: "100%" }}>
         <label htmlFor="username">User</label>
         <select onChange={this.handleChange} value={this.props.username}>
           {usernameOptions}
         </select>
         <label htmlFor="limit">Top Cards ({this.limitLabel()})</label>
-        <input className="CardRank-limit" type="text" name="limit" onChange={this.handleLimitChange} value={this.props.limit} />
-        <table className="CardRank-table">
+        <input type="text" name="limit" onChange={this.handleLimitChange} value={this.props.limit} />
+        <table style={{ width: "100%" }}>
           <thead>
             <tr>
               <th>#</th>
