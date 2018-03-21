@@ -1,4 +1,3 @@
-import cookie from "react-cookie"
 import { observable } from 'mobx';
 import ApolloClient from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';

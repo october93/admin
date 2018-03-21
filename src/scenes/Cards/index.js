@@ -17,13 +17,11 @@ const columns = [{
   Header: 'Author',
   accessor: 'author.displayname',
 }, {
-  Header: 'Boost',
   accessor: 'stats.boosts',
   sortable: true,
   defaultSortDesc: true,
   Header: props => <span>Boosts <img className="Cards-icon" src={boost} alt="thunderbolt" /></span>
 }, {
-  Header: 'Burries',
   accessor: 'stats.buries',
   sortable: true,
   defaultSortDesc: true,

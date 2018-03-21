@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-import { FaPlus }  from 'react-icons/lib/fa';
-import { Link } from 'react-router'
 import ReactTable from 'react-table'
 
 import './style.scss';
