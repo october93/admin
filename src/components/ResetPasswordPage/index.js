@@ -1,6 +1,37 @@
 import React, { Component } from 'react';
 import { observer, inject  } from 'mobx-react'
-import './style.scss';
+import glamorous from "glamorous"
+
+const ResetPasswordContainer = glamorous.div({
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+})
+
+const ResetPasswordForm = glamorous.div({
+  marginBottom: "20em",
+})
+
+const Submit = glamorous.input({
+  cursor: "pointer",
+  border: "none",
+  width: "10em",
+  color: "#fff",
+  borderRadius: "5px",
+  display: "block",
+  margin: "0 auto",
+  backgroundColor: "#1aafdb",
+  textAlign: "center",
+  padding: "1em",
+  "&:hover": {
+    backgroundColor: "#1a9fdb",
+  },
+  "&:active": {
+    backgroundColor: "#1a88db",
+  },
+})
+
 
 @inject("store") @observer
 class ResetPasswordPage extends Component {
@@ -26,14 +57,14 @@ class ResetPasswordPage extends Component {
 
   render() {
     return (
-      <div className="ResetPasswordPage">
-        <div className="ResetPasswordForm">
+      <ResetPasswordContainer>
+        <ResetPasswordForm>
           <form action="/" onSubmit={this.handleSubmit}>
             <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
-            <input type="submit" value="Reset Password" />
+            <Submit type="submit" value="Reset Password" />
           </form>
-        </div>
-      </div>
+        </ResetPasswordForm>
+      </ResetPasswordContainer>
     );
   }
 }

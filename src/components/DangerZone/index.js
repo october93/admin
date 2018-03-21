@@ -2,7 +2,15 @@ import React, { Component } from 'react'
 import Switch from 'rc-switch'
 import { connect } from 'react-redux'
 import { getSettings, setSignupsFrozen, setMaintenanceMode } from '../../store/actions/home'
-import './index.css'
+import glamorous from "glamorous"
+
+const Title = glamorous.span({
+  fontWeight: "bold",
+})
+
+const Item = glamorous.div({
+  marginBottom: "2rem",
+})
 
 class DangerZone extends Component {
   constructor(props) {
@@ -36,23 +44,23 @@ class DangerZone extends Component {
       maintenanceModeChecked = this.props.settings.maintenanceMode
     }
     return (
-      <div className="DangerZone">
-        <div className="DangerZone-item">
-          <span className="DangerZone-title">Freeze Signups</span>
-          <div className="DangerZone-description">Makes it impossible to sign up while this switch is active.</div>
+      <div>
+        <Item>
+          <Title>Freeze Signups</Title>
+          <div>Makes it impossible to sign up while this switch is active.</div>
           <Switch
             onClick={this.handleFreezeSignup}
             checked={freezeSignupChecked}
           />
-        </div>
-        <div className="DangerZone-item">
-          <span className="DangerZone-title">Maintenance Mode</span>
-          <div className="DangerZone-description">Puts the backend into maintenance mode in which no new connections are accepted.</div>
+        </Item>
+        <Item>
+          <Title>Maintenance Mode</Title>
+          <div>Puts the backend into maintenance mode in which no new connections are accepted.</div>
           <Switch
             onClick={this.handleMaintenanceMode}
             checked={maintenanceModeChecked}
           />
-        </div>
+        </Item>
       </div>
     )
   }

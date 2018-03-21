@@ -3,7 +3,7 @@ import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
 import CardLink from '../../components/CardLink'
 import { selectCardRankUser, limitCardRank } from '../../store/actions/graphexplorer'
-import './index.css'
+
 
 class CardRank extends Component {
   constructor(props) {

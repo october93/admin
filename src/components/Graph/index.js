@@ -2,8 +2,17 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Viva from 'vivagraphjs';
 import { connect } from 'react-redux'
+import glamorous from "glamorous"
 
-import './index.css'
+const StyledGraph = glamorous.div("Graph", {
+  width: "100%",
+  height: "100%",
+
+    "& > svg": {
+    width: "100%",
+    height: "100%",
+  }
+})
 
 class Graph extends Component {
   constructor(props) {
@@ -123,7 +132,7 @@ class Graph extends Component {
       this.renderer.run()
     }
     return(
-      <div className="Graph"></div>
+      <StyledGraph></StyledGraph>
     )
   }
 }

@@ -2,7 +2,53 @@ import React, { Component } from 'react';
 import { Link } from 'react-router'
 import { observer, inject  } from 'mobx-react'
 import logo from './logo.png';
-import './style.scss';
+import glamorous from "glamorous"
+import Error from "../error"
+
+const LoginPageContainer = glamorous.div({
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+})
+
+const LoginForm = glamorous.div({
+  marginBottom: "20em",
+})
+
+const Logo = glamorous.img({
+  width: "250px",
+  marginBottom: "2em",
+})
+
+const ResetPasswordLink = glamorous(Link)({
+  display: "block",
+  textAlign: "center",
+  marginBottom: "1rem",
+})
+
+const Password = glamorous.input({
+  marginBottom: "1.5em",
+})
+
+const Submit = glamorous.input({
+  cursor: "pointer",
+  border: "none",
+  width: "10em",
+  color: "#fff",
+  borderRadius: "5px",
+  display: "block",
+  margin: "0 auto",
+  backgroundColor: "#1aafdb",
+  textAlign: "center",
+  padding: "1em",
+  "&:hover": {
+    backgroundColor: "#1a9fdb",
+  },
+  "&:active": {
+    backgroundColor: "#1a88db",
+  },
+})
 
 @inject("store") @observer
 class LoginPage extends Component {
@@ -29,21 +75,21 @@ class LoginPage extends Component {
   render() {
     let errorMessage = null;
     if (this.props.store.loginError !== null) {
-      errorMessage = <span className="danger">Not authorized</span>
+      errorMessage = <Error>Not authorized</Error>
     }
     return (
-      <div className="LoginPage">
-        <div className="LoginForm">
-          <img className="logo" role="presentation" src={logo} />
+      <LoginPageContainer>
+        <LoginForm>
+          <Logo role="presentation" src={logo} />
           {errorMessage}
           <form action="/" onSubmit={this.handleSubmit}>
             <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
-            <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
-            <Link className="resetPasswordLink" to={"/admin/resetpassword"}>Forgot your password?</Link>
-            <input type="submit" value="Sign in" />
+            <Password type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
+            <ResetPasswordLink to={"/admin/resetpassword"}>Forgot your password?</ResetPasswordLink>
+            <Submit type="submit" value="Sign in" />
           </form>
-        </div>
-      </div>
+        </LoginForm>
+      </LoginPageContainer>
     );
   }
 }
