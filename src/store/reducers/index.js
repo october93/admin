@@ -36,6 +36,14 @@ import {
   featureSwitches,
 } from './featureswitches'
 
+import {
+  tagsLoading,
+  getTagsSuccessful,
+  getTagsFailed,
+  createTagSuccessful,
+  createTagFailed,
+} from './tags'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -65,4 +73,10 @@ export default combineReducers({
 
   featureSwitchesLoading,
   featureSwitches,
+
+  tagsLoading,
+  getTagsSuccessful,
+  getTagsFailed,
+  createTagSuccessful,
+  createTagFailed,
 })

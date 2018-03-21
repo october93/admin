@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getTags, createTag } from '../../actions/tags'
+import { getTags, createTag } from '../../store/actions/tags'
 import { connect } from 'react-redux'
 import endpoint from '../../endpoint'
 import './index.css'
@@ -36,7 +36,7 @@ class Tags extends Component {
       return <p className="error">{this.props.createError.message}</p>
     }
     const Tags = (
-      this.props.tags.map((tag, i) => (
+      (this.props.tags.tags || []).map((tag, i) => (
         <tr key={i}>
           <td>{tag.handle}</td>
           <td>{tag.name}</td>
@@ -45,7 +45,7 @@ class Tags extends Component {
     ))
     )
     return (
-      <div className="Tags">
+      <div style={{ width: "100%" }}>
         <p>New Tag</p>
         <form className="Tags-form">
           <input type="text" name="handle" placeholder="Handle" onChange={this.handleChange} />
@@ -73,7 +73,7 @@ class Tags extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoading: state.tagsLoading,
-    tags: state.getTagsSuccessful.tags,
+    tags: state.getTagsSuccessful,
     loadError: state.getTagsFailed,
     createSuccess: state.createTagSuccess,
     createError: state.createTagFailed,
