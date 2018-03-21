@@ -21,7 +21,6 @@ class AdminStore {
 
 
   @observable invitesData = []
-  @observable blacklistedCards = []
   @observable sessionsData = []
 
   //this is a weird way to do this, but I don't feel like figuring out a better way right now
@@ -35,7 +34,6 @@ class AdminStore {
   @observable updateSettingsStatus = null
 
   @observable demoData = ""
-  @observable blacklistData = ""
   @observable setDemoStatus = ""
   @observable newCardID = ""
 
@@ -257,38 +255,6 @@ class AdminStore {
     .catch(error => console.error(error));
   }
 
-  setBlacklistedRequest(ids) {
-    this.client.mutate({
-      mutation: gql`
-      mutation {
-        blacklistCards(ids:${ids})
-      }
-      `,
-    })
-    .then(() => this.getBlacklistedCards())
-    .catch(error => console.error(error));
-  }
-
-  getBlacklistedCards() {
-    this.client.query({
-      query: gql`
-        {
-          graph {
-            blacklist
-          }
-        }
-      `,
-      fetchPolicy: 'network-only',
-    }).then(data => this.blacklistedCards = data.data.graph.blacklist)
-      .catch(error => console.error(error));
-  }
-
-  reportBugRequest(summary, description){
-    const msg = { rpc: "reportBug", data: { source: "admin", summary, description }}
-
-    this.engineClient.sendMsg(msg, this.reportBugResponse.bind(this))
-    this.newUserWaiting = true
-  }
 
   sendLoginRequest(username, password, token) {
     const msg = {rpc: "login", data: {username, password, token}}
@@ -341,50 +307,6 @@ class AdminStore {
     localStorage.removeItem("session")
     window.location.replace('/admin/login')
   }
-
-  reportBugResponse(error, data){
-  }
-
-
-  connectUsersRequest(users){
-    this.inviteStatus = "waiting"
-    this.client.mutate({
-      mutation: gql`
-      mutation {
-        connectUsers(usernames:${users})
-      }
-      `,
-    })
-    .then(data => this.inviteStatus = "success")
-    .catch(error => {
-      console.error(error)
-      this.inviteStatus = "failure"
-    });
-  }
-
-  connectAllUsersRequest(){
-    let followersArray = []
-
-    for (let i = 0; i < this.usersData.length; i++) {
-      followersArray.push(this.usersData[i].username)
-    }
-
-    this.inviteStatus = "waiting"
-    this.client.mutate({
-      mutation: gql`
-      mutation {
-        connectUsers(usernames:${JSON.stringify(followersArray)})
-      }
-      `,
-    })
-    .then(data => this.inviteStatus = "success")
-    .catch(error => {
-      console.error(error)
-      this.inviteStatus = "failure"
-    });
-  }
-
-
   sendCommandRequest(command){
     const msg = JSON.parse(command)
 
