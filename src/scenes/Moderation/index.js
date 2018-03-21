@@ -36,7 +36,7 @@ export default class Moderation extends Component {
           </InstantSearch>
           <form style={{ width: "100%" }} onSubmit={this.submitDemo}>
             <Textarea value={this.props.store.blacklistData} onChange={this.changeText}></Textarea>
-            <button type="submit" className="button">Blacklist</button>
+            <button type="submit">Blacklist</button>
           </form>
         </div>
         <div>

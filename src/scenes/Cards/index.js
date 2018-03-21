@@ -5,12 +5,18 @@ import boost from './boost.png'
 import bury from './bury.png'
 import { getCardsWithStats } from '../../store/actions/cards'
 import ReactTable from 'react-table'
+<<<<<<< Updated upstream
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { InstantSearch } from 'react-instantsearch/dom';
 import Search from '../../components/Search'
+=======
+import glamorous from "glamorous"
+>>>>>>> Stashed changes
 
-import './index.css'
-
+const Emblem = glamorous.img({
+  width: "1rem",
+  height: "1rem",
+})
 
 const columns = [{
   Header: 'Card ID',
@@ -23,12 +29,12 @@ const columns = [{
   accessor: 'stats.boosts',
   sortable: true,
   defaultSortDesc: true,
-  Header: props => <span>Boosts <img className="Cards-icon" src={boost} alt="thunderbolt" /></span>
+  Header: props => <span>Boosts <Emblem src={boost} alt="thunderbolt" /></span>
 }, {
   accessor: 'stats.buries',
   sortable: true,
   defaultSortDesc: true,
-  Header: props => <span>Buries <img className="Cards-icon" src={bury} alt="cross" /></span>
+  Header: props => <span>Buries <Emblem src={bury} alt="cross" /></span>
 
 }, {
   Header: 'Views',

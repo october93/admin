@@ -8,12 +8,12 @@ import TopEdges from '../../components/TopEdges'
 import CardRank from '../../components/CardRank'
 import VoteTable from '../../components/VoteTable'
 import TextInput from '../../components/textinput'
+import Error from '../../components/error'
+
 import { queryGraph, queryGraphAndCards, filterUsers, connectUsers } from '../../store/actions/graphexplorer'
 
 import { vw } from '../../utils/media'
 
-
-import './index.css'
 import ConnectUsers from "./connect-users"
 
 const Container = glamorous.div({
@@ -74,10 +74,10 @@ class GraphExplorer extends Component {
 
   render() {
     if (this.props.graphError !== null) {
-      return <p className="error">{this.props.graphError.message}</p>
+      return <Error>{this.props.graphError.message}</Error>
     }
     if (this.props.cardsError !== null) {
-      return <p className="error">{this.props.cardsError.message}</p>
+      return <Error>{this.props.cardsError.message}</Error>
     }
     if (this.props.isGraphLoading || this.props.cardsAreLoading) {
       return <p>Loading…</p>

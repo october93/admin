@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import { getTags, createTag } from '../../store/actions/tags'
 import { connect } from 'react-redux'
 import endpoint from '../../endpoint'
-import './index.css'
+
+import Error from '../../components/error'
+import glamorous from "glamorous"
+
+const StyledForm = glamorous.form({
+  width: "20rem",
+  marginBottom: "3rem",
+})
 
 class Tags extends Component {
   constructor(props) {
@@ -30,10 +37,10 @@ class Tags extends Component {
       return "Loading…"
     }
     if (this.props.loadError) {
-      return <p className="error">{this.props.loadError.message}</p>
+      return <Error>{this.props.loadError.message}</Error>
     }
     if (this.props.createError) {
-      return <p className="error">{this.props.createError.message}</p>
+      return <Error>{this.props.createError.message}</Error>
     }
     const Tags = (
       (this.props.tags.tags || []).map((tag, i) => (
@@ -47,12 +54,12 @@ class Tags extends Component {
     return (
       <div style={{ width: "100%" }}>
         <p>New Tag</p>
-        <form className="Tags-form">
+        <StyledForm>
           <input type="text" name="handle" placeholder="Handle" onChange={this.handleChange} />
           <input type="text" name="name" placeholder="Name" onChange={this.handleChange} />
           <input type="text" name="info" placeholder="Info" onChange={this.handleChange} />
           <input type="submit" value="Create" onClick={this.handleSubmit} />
-        </form>
+        </StyledForm>
         <table>
           <thead>
             <tr>

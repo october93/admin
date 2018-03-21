@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Switch from 'rc-switch'
 
 import { getSwitches, setFeatureSwitchState, newFeatureSwitch, deleteFeatureSwitch } from '../../store/actions/featureswitches'
-import './index.css'
 
 class FeatureSwitches extends Component {
   constructor(props) {

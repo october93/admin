@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import DangerZone from '../../components/DangerZone'
-import './index.css'
 
 class Home extends Component {
   render() {
     return (
-      <div className="Home">
+      <div style={{ width: "100%" }}>
         <DangerZone />
       </div>
     );

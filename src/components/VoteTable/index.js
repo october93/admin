@@ -3,7 +3,12 @@ import CardLink from '../../components/CardLink'
 import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
 import { selectUsername, limitVotes, sortVotes } from '../../store/actions/graphexplorer'
-import './index.css'
+import glamorous from "glamorous"
+
+const SortTH = glamorous.th({
+  cursor: "pointer",
+  backgroundColor: "#11a6f3",
+})
 
 class VoteTable extends Component {
   constructor(props) {
@@ -76,7 +81,7 @@ class VoteTable extends Component {
       if (this.props.sort.sortBy === 'positiveScore') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('positiveScore')}>Positive Score {sortIndicator}</th>)
+      return (<SortTH onClick={this.handleSort('positiveScore')}>Positive Score {sortIndicator}</SortTH>)
     }
 
     const NegativeTableHeader = () => {
@@ -84,18 +89,18 @@ class VoteTable extends Component {
       if (this.props.sort.sortBy === 'negativeScore') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('negativeScore')}>Negative Score {sortIndicator}</th>)
+      return (<SortTH onClick={this.handleSort('negativeScore')}>Negative Score {sortIndicator}</SortTH>)
     }
 
     return (
-      <div className="VoteTable">
+      <div style={{width: "100%"}}>
         <label htmlFor="username">User</label>
         <select onChange={this.handleChange} value={this.props.username}>
           {usernameOptions}
         </select>
         <label htmlFor="limit">Top Votes ({this.limitLabel()})</label>
-        <input className="VoteTable-limit" type="text" name="limit" onChange={this.handleLimitChange} value={this.props.limit} />
-        <table className="VoteTable-table">
+        <input type="text" name="limit" onChange={this.handleLimitChange} value={this.props.limit} />
+        <table>
           <thead>
             <tr>
               <th>Card ID</th>

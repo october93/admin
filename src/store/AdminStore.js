@@ -393,8 +393,11 @@ class AdminStore {
 
   sendCommandResponse(error, data) {
     const dataString = JSON.stringify(data, null, 2)
-    console.log(dataString)
-    this.commandResponse = `Error: ${error}\nData:\n${dataString}`
+    this.commandResponse = {
+      string: `Error: ${error}\nData:\n${dataString}`,
+      error,
+      data,
+    }
   }
 
 }

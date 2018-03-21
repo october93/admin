@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import RPCHistoryItem from '../../components/RPCHistoryItem';
+import Button from '../../components/button'
 import Textarea from "../textarea"
-import './style.scss'
+import glamorous from "glamorous"
+
+const CommandResponse = glamorous.div({
+  whiteSpace: "pre",
+  fontSize: "11px",
+  fontFamily: "monospace",
+})
 
 const defaultRPC = '{"rpc": "", "sessionID": "", "data": {}}'
 
@@ -69,33 +76,32 @@ export default class UtilitiesPage extends Component {
 
   render() {
     return (
-      <div className="pageMargins">
+      <div style={{ width: "100%" }}>
         <div>
           <h4>RPC Tester</h4>
           Response:
-          <div className="commandResponse">
-            <pre>
-              {this.props.store.commandResponse}
-            </pre>
-          </div>
+          <CommandResponse>
+              {this.props.store.commandResponse.string}
+          </CommandResponse>
+
           <form onSubmit={this.submit}>
-            <Textarea className="rpcInput" name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
+            <Textarea style={{ fontFamily: "monospace" }} name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
             <select onChange={this.handleSessionChange}>
               <option value="" disabled selected>Use session of…</option>
               {this.props.store.sessionsData.toJS().map((data) =>
                   <option value={data.id}>{data.username} ({data.id})</option>
               )}
             </select>
-            <button type="submit" className="button">Submit</button>
+            <Button type="submit">Submit</Button>
           </form>
           {this.state.history && this.state.history.length > 0 &&
             <div>
               <h4>History</h4>
               <p>Select past RPC to restore input above:</p>
-                <ul className="historyList">
+                <Button onClick={this.handleHistoryClear}>Delete History</Button>
+                <ul>
                   {this.state.history.map(rpc => <RPCHistoryItem content={rpc} handleClick={this.handleHistoryClick}/>)}
                 </ul>
-                <a className="button" onClick={this.handleHistoryClear}>Delete History</a>
               </div>
           }
         </div>
