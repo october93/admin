@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { Tooltip } from 'react-tippy'
 import { connect } from 'react-redux'
 import { limitTopEdges, highlightEdge, unhighlightEdge, sortEdges } from '../../store/actions/graphexplorer'
-import './index.css'
+import glamorous from "glamorous"
+
+const SortTH = glamorous.th({
+  cursor: "pointer",
+  backgroundColor: "#11a6f3",
+})
 
 class TopEdges extends Component {
   constructor(props) {
@@ -77,7 +82,7 @@ class TopEdges extends Component {
       if (this.props.sort.sortBy === 'upWeight') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('upWeight')}>Up Weight {sortIndicator}</th>)
+      return (<SortTH onClick={this.handleSort('upWeight')}>Up Weight {sortIndicator}</SortTH>)
     }
 
     const DownTableHeader = () => {
@@ -85,7 +90,7 @@ class TopEdges extends Component {
       if (this.props.sort.sortBy === 'downWeight') {
         sortIndicator = (this.props.sort.direction === 'asc') ? '▲' : '▼'
       }
-      return (<th className="sort-th" onClick={this.handleSort('downWeight')}>Down Weight {sortIndicator}</th>)
+      return (<SortTH onClick={this.handleSort('downWeight')}>Down Weight {sortIndicator}</SortTH>)
     }
 
     const count = weights.length
@@ -100,10 +105,10 @@ class TopEdges extends Component {
       ))
     )
     return (
-      <div className="TopEdges">
+      <div style={{ paddingRight: 0 }}>
         <label htmlFor="limit">Top Edges ({this.limitLabel(count)})</label>
-        <input className="TopEdges-limit" type="text" name="limit" onChange={this.handleChange} value={this.props.limit} />
-        <table className="TopEdges-table">
+        <input style={{ marginBottom: 0 }} type="text" name="limit" onChange={this.handleChange} value={this.props.limit} />
+        <table>
           <thead>
             <tr>
               <th>From</th>

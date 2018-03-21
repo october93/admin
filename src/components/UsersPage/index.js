@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import ReactTable from 'react-table'
-
-import './style.scss';
 import "react-table/react-table.css"
 
-
-const cardsSize = (size) => {
-  if (size <= 10) {
-    return "tableBad"
-  }
-
-  if (size >= 30) {
-    return "tableGood"
-  }
-
-  return "tableNeutral"
-}
-
 const msInDay = 86400000
+
+const daysSince = (time) => {
+  if (time === 0) {
+    return -1
+  } else {
+    return (Math.floor((Date.now() - (time*1000)) / msInDay))
+  }
+}
 
 const daysSinceString = (since) => {
   if (since === -1) {
@@ -27,27 +20,7 @@ const daysSinceString = (since) => {
     return "Today"
   }
 
-  return `${Math.floor(since)} day${since > 1 ? "s" : ""}`
-}
-
-const daysSinceColor = (since) => {
-  if (since === -1) {
-    return "tableBad"
-  } else if (since <= 3) {
-    return "tableGood"
-  } else if (since <= 10) {
-    return "tableNeutral"
-  }
-
-  return "tableBad"
-}
-
-const daysSince = (time) => {
-  if (time === 0) {
-    return -1
-  } else {
-    return (Math.floor((Date.now() - (time*1000)) / msInDay))
-  }
+  return `${daysSince(since)} day${since > 1 ? "s" : ""}`
 }
 
 const columns = [{
@@ -65,14 +38,13 @@ const columns = [{
 }, {
   Header: 'Last Action',
   accessor: 'lastactiontime',
-  Cell: row => (<span className={daysSinceColor(daysSince(row.value))}>{daysSinceString(daysSince(row.value))}</span>)
+  Cell: row => daysSinceString(daysSince(row.value))
 }, {
   Header: 'Consumed',
   accessor: 'countGivenReacts',
 }, {
   Header: "Unseen Cards",
   accessor: 'node.cardRankTableSize',
-  Cell: row => (<span className={cardsSize(row.value)}>{row.value}</span>)
 }]
 
 

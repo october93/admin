@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import { Hits, SearchBox } from 'react-instantsearch/dom'
 import Card from '../../components/Card'
-import './index.css'
+import glamorous from "glamorous"
+
+const StyledHits = glamorous(Hits)({
+    listStyleType: "none",
+    margin: 0,
+    padding: 0,
+})
 
 class Search extends Component {
   constructor(props) {
@@ -17,7 +23,7 @@ class Search extends Component {
       <div className="container">
         <SearchBox onChange={this.handleChange} />
         <div style={this.state.showHits ? null : {display: 'none'}}>
-        <Hits hitComponent={Card} />
+        <StyledHits hitComponent={Card} />
       </div>
       </div>
     )
