@@ -78,6 +78,7 @@
     "react-dom": "^16.2.0",
     "react-foundation": "^0.9.0",
     "react-icons": "^2.2.3",
+    "react-instantsearch": "^5.0.1",
     "react-markdown": "^3.3.0",
     "react-modal": "^2.2.2",
     "react-redux": "^5.0.6",

@@ -5,6 +5,9 @@ import boost from './boost.png'
 import bury from './bury.png'
 import { getCardsWithStats } from '../../store/actions/cards'
 import ReactTable from 'react-table'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { InstantSearch } from 'react-instantsearch/dom';
+import Search from '../../components/Search'
 
 import './index.css'
 
@@ -36,6 +39,17 @@ const columns = [{
 ]
 
 class Cards extends Component {
+  constructor(props) {
+    super(props)
+    const environment = location.hostname.split('.')[0]
+    this.indexName = `${environment}_engine`
+    if (environment === 'engine') {
+      this.indexName = 'engine'
+    }
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      this.indexName = 'local_engine'
+    }
+  }
   componentDidMount() {
     this.props.getCardsWithStats()
   }
@@ -45,13 +59,30 @@ class Cards extends Component {
       return "Loading…"
     }
     return (
-      <div style={{ height: "100%", width: "100%" }}>
-        <ReactTable
-          data={Object.values(this.props.cards)}
-          columns={columns}
-          defaultPageSize={25}
-        />
-      </div>
+      <Tabs style={{ height: "100%", width: "100%" }}>
+        <TabList>
+          <Tab>Cards</Tab>
+          <Tab>Stats</Tab>
+        </TabList>
+        <TabPanel>
+          <InstantSearch
+            appId="0Z498T9C13"
+            apiKey="b5dcca10ada97954dfc6b4d5b77786a4"
+            indexName={this.indexName}
+            >
+            <Search />
+          </InstantSearch>
+        </TabPanel>
+        <TabPanel>
+          <div>
+            <ReactTable
+              data={Object.values(this.props.cards)}
+              columns={columns}
+              defaultPageSize={25}
+            />
+          </div>
+        </TabPanel>
+      </Tabs>
     )
   }
 }

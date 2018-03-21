@@ -10,7 +10,7 @@ export const Container = glamorous.div({
 export const MenuLink = glamorous(Link)(({ active }) => ({
   textDecoration: "none",
   color: "white",
-  fontWeight: active ? "bold" : "inherit",
+  fontWeight: active === 'true' ? "bold" : "inherit",
 
   "&:active": {
     color: "white",

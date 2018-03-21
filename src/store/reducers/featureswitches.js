@@ -18,8 +18,6 @@ export function featureSwitchesLoading(state = true, action) {
 
 
 export function featureSwitches(state = [], action) {
-  console.log(action)
-
   switch (action.type) {
     case GET_FEATURE_SWITCHES_SUCCESS:
       return action.switches.featureSwitches
