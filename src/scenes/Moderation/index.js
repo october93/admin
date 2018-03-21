@@ -1,28 +1,31 @@
 import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
 import { InstantSearch } from 'react-instantsearch/dom';
+import { connect } from 'react-redux'
+
 import Textarea from '../../components/textarea'
 import Search from '../../components/Search'
+import Button from '../../components/button'
 
-@inject("store") @observer
-export default class Moderation extends Component {
-  constructor(props) {
-    super(props)
-    this.props.store.getBlacklistedCards()
+import { getBlacklist, setBlacklist } from '../../store/actions/blacklist'
+
+class Moderation extends Component {
+  state = {
+    blacklist: "",
+  }
+  componentDidMount() {
+    this.props.getBlacklist()
   }
 
   changeText = (event) => {
-    this.props.store.blacklistData = event.target.value
+    this.setState({ blacklist: event.target.value })
   }
 
-  submitDemo = (event) => {
-    event.preventDefault()
-    this.props.store.setBlacklistedRequest(this.props.store.blacklistData)
+  submitDemo = async () => {
+    await this.props.setBlacklist(this.state.blacklist)
+    await this.props.getBlacklist()
   }
 
   render() {
-    const store = this.props.store
-
     return (
       <div style={{ width: "100%" }}>
         <div>
@@ -34,17 +37,26 @@ export default class Moderation extends Component {
             >
             <Search />
           </InstantSearch>
-          <form style={{ width: "100%" }} onSubmit={this.submitDemo}>
-            <Textarea value={this.props.store.blacklistData} onChange={this.changeText}></Textarea>
-            <button type="submit">Blacklist</button>
-          </form>
+          <Textarea value={this.state.blacklist} onChange={this.changeText}></Textarea>
+          <Button onClick={this.submitDemo}>Blacklist</Button>
         </div>
         <div>
           <h3>CurrentBlacklist</h3>
-          {store.blacklistedCards.map((card, i) => <div key={i}>{card}</div>)}
+          {(this.props.blacklist || []).map((card, i) => <div key={i}>{card}</div>)}
         </div>
       </div>
 
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  blacklist: state.cardBlacklist
+})
+
+const mapDispatchToProps = {
+  getBlacklist,
+  setBlacklist,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Moderation)
