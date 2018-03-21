@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { InstantSearch } from 'react-instantsearch/dom';
 import { connect } from 'react-redux'
 
 import Textarea from '../../components/textarea'
-import Search from '../../components/Search'
 import Button from '../../components/button'
 
 import { getBlacklist, setBlacklist } from '../../store/actions/blacklist'
@@ -30,13 +28,6 @@ class Moderation extends Component {
       <div style={{ width: "100%" }}>
         <div>
           <h3>Blacklist Cards</h3>
-          <InstantSearch
-            appId="0Z498T9C13"
-            apiKey="b5dcca10ada97954dfc6b4d5b77786a4"
-            indexName="local_engine"
-            >
-            <Search />
-          </InstantSearch>
           <Textarea value={this.state.blacklist} onChange={this.changeText}></Textarea>
           <Button onClick={this.submitDemo}>Blacklist</Button>
         </div>
