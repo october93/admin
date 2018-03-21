@@ -5,13 +5,10 @@ import boost from './boost.png'
 import bury from './bury.png'
 import { getCardsWithStats } from '../../store/actions/cards'
 import ReactTable from 'react-table'
-<<<<<<< Updated upstream
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { InstantSearch } from 'react-instantsearch/dom';
 import Search from '../../components/Search'
-=======
 import glamorous from "glamorous"
->>>>>>> Stashed changes
 
 const Emblem = glamorous.img({
   width: "1rem",

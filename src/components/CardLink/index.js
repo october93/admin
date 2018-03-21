@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
 import Tooltip from 'rc-tooltip'
 import Markdown from 'react-markdown'
-import './index.css'
+import glamorous from "glamorous"
+
+const CardLinkTooltip = glamorous.div({
+  backgroundColor: "#fff",
+  maxWidth: "10rem",
+  maxHeight: "10rem",
+  textOverflow: "ellipsis",
+  wordWrap: "break-word",
+  overflow: "hidden",
+})
 
 class CardLink extends Component {
   constructor(props) {
@@ -32,7 +41,7 @@ class CardLink extends Component {
       <Tooltip
         arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
         placement="right"
-        overlay={<div className="CardLink-tooltip">{this.tooltip()}</div>}>
+        overlay={<CardLinkTooltip>{this.tooltip()}</CardLinkTooltip>}>
         <a href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</a>
       </Tooltip>
     )
