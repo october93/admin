@@ -46,7 +46,7 @@ class CardRank extends Component {
         <tr key={i}>
           <td>{i+1}</td>
           <td><CardLink cardID={entry.card.cardID} cards={this.props.cards} /></td>
-          <td><Tooltip title={entry.score}>{parseFloat(entry.score.toFixed(2))}</Tooltip></td>
+          <td><Tooltip title={entry.score}>{parseFloat((entry.score || 0.0).toFixed(2))}</Tooltip></td>
         </tr>
       ))
     )

@@ -5,7 +5,6 @@ import { Provider } from "mobx-react"
 
 import AdminLayout from './components/AdminLayout';
 import LoginPage from './components/LoginPage';
-import UsersPage from './components/UsersPage';
 import NotFoundPage from './components/NotFoundPage';
 import UtilitiesPage from './components/UtilitiesPage'
 import ConnectPage from './components/ConnectPage'
@@ -20,6 +19,8 @@ import Tags from './scenes/Tags';
 import GraphExplorer from './scenes/GraphExplorer';
 import FeatureSwitches from './scenes/FeatureSwitches';
 import Moderation from './scenes/Moderation';
+import UsersPage from './scenes/Users';
+
 
 const requireAuth = (nextState, replace) => {
   if (!AdminStore.loggedIn()) {

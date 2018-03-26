@@ -42,12 +42,15 @@ const GraphContainer = glamorous.div({
 class GraphExplorer extends Component {
   state = {
     usersToConnectText: "",
+    usernameFilter: "",
+    filterArray: [],
   }
   componentDidMount() {
     this.props.queryGraphAndCards()
   }
 
   handleFilter = event => {
+    this.setState({usernameFilter: event.target.value, filterArray: event.target.value.length <= 0 ? [] : (event.target.value || "").split(',')})
     this.props.dispatch(filterUsers(event.target.value))
   }
 
@@ -84,7 +87,7 @@ class GraphExplorer extends Component {
     }
     return (
       <Container>
-        <div style={{flex: 1, overflowY: "scroll"}}>
+        <div style={{flex: 2, overflowY: "scroll"}}>
           <ConnectUsers
             value={this.state.usersToConnectText}
             onChange={this.onChangeConnectUsers}
@@ -93,7 +96,7 @@ class GraphExplorer extends Component {
           />
           <TextInput
             label={"Filter"}
-            value={this.props.usernameFilter}
+            value={this.state.usernameFilter}
             onChange={this.handleFilter}
             placeholder="paul,eugene,chris,…"
           />
@@ -105,7 +108,7 @@ class GraphExplorer extends Component {
               <Tab>Vote Table</Tab>
             </TabList>
             <TabPanel>
-              <TopEdges data={this.props.data} />
+              <TopEdges data={this.props.data} filters={this.state.filterArray} />
             </TabPanel>
             <TabPanel>
               <CardRank

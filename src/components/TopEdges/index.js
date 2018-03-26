@@ -95,14 +95,17 @@ class TopEdges extends Component {
 
     const count = weights.length
     const Weights = (
-      weights.slice(0, this.props.limit).map((edge, i) => (
-        <tr key={i} onMouseEnter={this.handleHighlight(edge.sourceID, edge.targetID)} onMouseLeave={this.handleUnhighlight(edge.sourceID, edge.targetID)}>
-          <td>{this.props.data.usersByID[edge.sourceID].username}</td>
-          <td>{this.props.data.usersByID[edge.targetID].username}</td>
-          <td><Tooltip title={edge.upWeight}>{parseFloat(edge.upWeight.toFixed(2))}</Tooltip></td>
-          <td><Tooltip title={edge.downWeight}>{parseFloat(edge.downWeight.toFixed(2))}</Tooltip></td>
-        </tr>
-      ))
+      weights
+        .slice(0, this.props.limit)
+        .filter(edge => this.props.filters.length === 0 || (this.props.filters.includes(this.props.data.usersByID[edge.sourceID].username) || this.props.filters.includes(this.props.data.usersByID[edge.targetID].username)))
+        .map((edge, i) => (
+          <tr key={i} onMouseEnter={this.handleHighlight(edge.sourceID, edge.targetID)} onMouseLeave={this.handleUnhighlight(edge.sourceID, edge.targetID)}>
+            <td>{this.props.data.usersByID[edge.sourceID].username}</td>
+            <td>{this.props.data.usersByID[edge.targetID].username}</td>
+            <td><Tooltip title={edge.upWeight}>{parseFloat(edge.upWeight.toFixed(2))}</Tooltip></td>
+            <td><Tooltip title={edge.downWeight}>{parseFloat(edge.downWeight.toFixed(2))}</Tooltip></td>
+          </tr>
+        ))
     )
     return (
       <div style={{ paddingRight: 0 }}>
@@ -111,8 +114,8 @@ class TopEdges extends Component {
         <table>
           <thead>
             <tr>
-              <th>From</th>
-              <th>To</th>
+              <th>Attention Source</th>
+              <th>Attention Target</th>
               <UpTableHeader/>
               <DownTableHeader />
             </tr>

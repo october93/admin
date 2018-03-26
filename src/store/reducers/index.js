@@ -48,6 +48,11 @@ import {
   cardBlacklist,
 } from './blacklist'
 
+import {
+  users,
+  usersLoading,
+} from './users'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -85,4 +90,7 @@ export default combineReducers({
   createTagFailed,
 
   cardBlacklist,
+
+  users,
+  usersLoading,
 })
