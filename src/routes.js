@@ -41,7 +41,7 @@ const Routes = (props) => (
       <Route path="/admin/resetpassword" onEnter={checkAuth} component={ResetPasswordPage} />
       <Route component={AdminLayout} onEnter={requireAuth}>
         <Route path="/admin" component={Home} />
-        <Route path="/admin/users" onEnter={() => AdminStore.getUsersData()} component={UsersPage} />
+        <Route path="/admin/users" component={UsersPage} />
         <Route path="/admin/cards" component={Cards} />
         <Route path="/admin/tags" component={Tags} />
         <Route path="/admin/featureswitches" component={FeatureSwitches} />
@@ -49,7 +49,7 @@ const Routes = (props) => (
         <Route path="/admin/moderation" component={Moderation} />
         <Route path="/admin/graph" component={GraphExplorer} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
-        <Route path="/admin/profile" onEnter={() => AdminStore.getUsersData()} component={ConnectPage} />
+        <Route path="/admin/profile" component={ConnectPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
