@@ -5,15 +5,12 @@ import {
   CARDS_ARE_LOADING,
   CARDS_LOADING_SUCCESS,
   CARDS_LOADING_FAILURE,
-  LIMIT_TOP_EDGES,
   SELECT_USERNAME,
-  LIMIT_VOTES,
   HIGHLIGHT_EDGE,
   UNHIGHLIGHT_EDGE,
   SORT_EDGES,
   FILTER_USERS,
   SORT_VOTES,
-  LIMIT_CARD_RANK,
   SELECT_CARD_RANK_USER,
 } from '../actions/graphexplorer'
 
@@ -25,6 +22,48 @@ export function graphIsLoading(state = true, action) {
       return state
   }
 }
+
+const attachUsersToCardRanks = (user, cardRanks) => {
+  return cardRanks.map((cr, index) => ({
+      ...cr,
+      userID: user.nodeId,
+      username: user.username,
+      index,
+    })
+  )
+}
+
+export const allCardRankEntries = (state = [], action) => {
+  switch (action.type) {
+    case GRAPH_LOADING_SUCCESS:
+      return action.data.graph.users.reduce((acc, user) => {
+        return [...acc, ...attachUsersToCardRanks(user, user.node.cardRankTable)]
+      }, [])
+    default:
+      return state
+  }
+}
+
+const attachUsersToVotes = (user, votes) => {
+  return votes.map((vote, index) => ({
+      ...vote,
+      userID: user.nodeId,
+      username: user.username,
+    })
+  )
+}
+
+export const allVoteEntries = (state = [], action) => {
+  switch (action.type) {
+    case GRAPH_LOADING_SUCCESS:
+      return action.data.graph.users.reduce((acc, user) => {
+        return [...acc, ...attachUsersToVotes(user, user.node.votes)]
+      }, [])
+    default:
+      return state
+  }
+}
+
 
 export function graphLoadingSuccess(state = {}, action) {
   switch (action.type) {
@@ -98,28 +137,10 @@ export function cardsLoadingSuccess(state = {}, action) {
   }
 }
 
-export function limitTopEdges(state = 13, action) {
-  switch (action.type) {
-    case LIMIT_TOP_EDGES:
-      return action.limit
-    default:
-      return state
-  }
-}
-
 export function selectedUsername(state = null, action) {
   switch (action.type) {
     case SELECT_USERNAME:
       return action.username
-    default:
-      return state
-  }
-}
-
-export function limitedVotes(state = 14, action) {
-  switch (action.type) {
-    case LIMIT_VOTES:
-      return action.limit
     default:
       return state
   }
@@ -169,15 +190,6 @@ export function sortVotes(state = {sortBy: 'positiveScore', direction: 'asc'}, a
   switch (action.type) {
     case SORT_VOTES:
       return action.sortBy
-    default:
-      return state
-  }
-}
-
-export function limitedCardRank(state = 13, action) {
-  switch (action.type) {
-    case LIMIT_CARD_RANK:
-      return action.limit
     default:
       return state
   }

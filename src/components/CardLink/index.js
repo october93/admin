@@ -24,27 +24,22 @@ class CardLink extends Component {
     this.url = url
   }
 
-  tooltip() {
-    if (this.props.card && this.props.card.body) {
-      return (
-        <Markdown source={this.props.card.body} />
-      )
-    }
-    return (
-      <div>
-      </div>
-    )
-  }
-
   render() {
-    return (
-      <Tooltip
-        arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-        placement="right"
-        overlay={<CardLinkTooltip>{this.tooltip()}</CardLinkTooltip>}>
-        <a href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</a>
-      </Tooltip>
-    )
+    console.log(this.props)
+    const link = <a href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</a>
+
+    return this.props.card && this.props.card.body ? (
+        <Tooltip
+          arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+          placement="right"
+          overlay={
+            <CardLinkTooltip>
+              <Markdown source={this.props.card.body} />
+            </CardLinkTooltip>
+          }>
+          {link}
+        </Tooltip>
+      ) : link
   }
 }
 

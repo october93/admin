@@ -7,7 +7,11 @@ const Button = glamorous.button(({ color, backgroundColor }) => ({
   borderRadius: "5px",
   padding: "6px",
   height: "auto",
-  
+
+  "&:focus": {
+    outline: 0,
+  }
+
 }))
 
 export default Button

@@ -20,6 +20,7 @@ export const queryGraph = () => async (dispatch) => {
                 cardRankTable {
                   card {
                     cardID
+                    body
                   }
                   score
                 }
@@ -172,24 +173,6 @@ export function graphLoadingFailure(error) {
   }
 }
 
-export const LIMIT_TOP_EDGES = 'LIMIT_TOP_EDGES'
-
-export function limitTopEdges(limit) {
-  return {
-    type: LIMIT_TOP_EDGES,
-    limit
-  }
-}
-
-export const LIMIT_VOTES = 'LIMIT_VOTES'
-
-export function limitVotes(limit) {
-  return {
-    type: LIMIT_VOTES,
-    limit
-  }
-}
-
 export const SELECT_USERNAME = 'SELECT_USERNAME'
 
 export function selectUsername(username) {
@@ -243,15 +226,6 @@ export function sortVotes(sortBy) {
   return {
     type: SORT_VOTES,
     sortBy
-  }
-}
-
-export const LIMIT_CARD_RANK = 'LIMIT_CARD_RANK'
-
-export function limitCardRank(limit) {
-  return {
-    type: LIMIT_CARD_RANK,
-    limit
   }
 }
 

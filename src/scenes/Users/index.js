@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 
-import { getUsers, getPreviewFeed } from '../../store/actions/users'
+import { getUsers, getPreviewFeed, getPreviewInviteFeed } from '../../store/actions/users'
 import Button from "../../components/button"
 
 import "react-table/react-table.css"
@@ -43,9 +43,20 @@ class UsersPage extends Component {
     window.open(`${this.appEndpoint}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
+  viewUserInviteFeedInApp = async nodeID => {
+    const ids = await this.props.getPreviewInviteFeed(nodeID)
+    console.log(ids)
+    window.open(`${this.appEndpoint}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
+  }
+
   makeButtonColumn = () => {
     return
   }
+
+  /*
+  <div style={{width: "10px"}} />
+  <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
+  */
 
   render() {
     const cols = [...columns]
@@ -54,7 +65,10 @@ class UsersPage extends Component {
       cols.push({
         Header: "",
         accessor: "nodeId",
-        Cell: props => <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
+        Cell: props => (
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
+          </div>)
       })
     }
 
@@ -81,6 +95,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getUsers,
   getPreviewFeed,
+  getPreviewInviteFeed,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)
