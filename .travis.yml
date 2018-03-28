@@ -5,9 +5,8 @@ node_js:
 
 addons:
   ssh_known_hosts:
-  - latest.october.news
-  - development.october.news
-  - engine.october.news
+  - engine.internal.october.news
+  - engine.internal.development.october.news
 
 notifications:
   email: false
