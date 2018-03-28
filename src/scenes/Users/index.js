@@ -53,11 +53,6 @@ class UsersPage extends Component {
     return
   }
 
-  /*
-  <div style={{width: "10px"}} />
-  <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
-  */
-
   render() {
     const cols = [...columns]
 
@@ -77,7 +72,9 @@ class UsersPage extends Component {
         <ReactTable
          data={this.props.users}
          columns={cols}
-         defaultPageSize={20}
+         defaultPageSize={100}
+         showPagination={this.props.users.length > 100}
+         minRows={0}
         />
       </div>
     );

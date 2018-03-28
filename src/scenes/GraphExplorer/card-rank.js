@@ -47,7 +47,8 @@ class CardRank extends Component {
       Header: '#',
       id: "index",
       filterable: this.state.advancedFiltering === true,
-      accessor: d => d.index + 1,
+      filterMethod: (filter, row) => row[filter.id] === filter.value,
+      accessor: d => `${d.index + 1}`,
       width: 50,
     }, {
       Header: 'Card ID',

@@ -18,10 +18,12 @@ const Emblem = glamorous.img({
 const columns = [{
   Header: 'Card ID',
   accessor: 'card',
+  width: 400,
   Cell: props => <CardLink cardID={props.value.cardID} card={props.value} />
 }, {
   Header: 'Author',
   accessor: 'author.displayname',
+  filterable: true,
 }, {
   accessor: 'stats.boosts',
   sortable: true,
@@ -81,7 +83,8 @@ class Cards extends Component {
             <ReactTable
               data={Object.values(this.props.cards)}
               columns={columns}
-              defaultPageSize={25}
+              defaultPageSize={100}
+              minRows={0}
             />
           </div>
         </TabPanel>
