@@ -3,6 +3,8 @@ import Tooltip from 'rc-tooltip'
 import Markdown from 'react-markdown'
 import glamorous from "glamorous"
 
+import Link from "../link"
+
 const CardLinkTooltip = glamorous.div({
   backgroundColor: "#fff",
   maxWidth: "10rem",
@@ -26,7 +28,7 @@ class CardLink extends Component {
 
   render() {
     console.log(this.props)
-    const link = <a href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</a>
+    const link = <Link href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</Link>
 
     return this.props.card && this.props.card.body ? (
         <Tooltip

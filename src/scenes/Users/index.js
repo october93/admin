@@ -63,6 +63,7 @@ class UsersPage extends Component {
         Cell: props => (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
+            <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Feed</Button>
           </div>)
       })
     }
