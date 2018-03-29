@@ -21,7 +21,9 @@ class CardLink extends Component {
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       url = 'http://localhost:3000/post'
     } else if (location.hostname === 'engine.october.news') {
-      url = 'https://web.development.october.news/post'
+      url = 'https://october.news/post'
+    } else if (location.hostname === 'engine.development.october.news') {
+      url = 'https://development.october.news/post'
     }
     this.url = url
   }
