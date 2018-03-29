@@ -5,6 +5,9 @@ import {
   SET_BLACKLIST_REQUEST,
   SET_BLACKLIST_SUCCESS,
   SET_BLACKLIST_ERROR,
+  REMOVE_BLACKLIST_REQUEST,
+  REMOVE_BLACKLIST_SUCCESS,
+  REMOVE_BLACKLIST_ERROR,
 } from "./types"
 
 export const getBlacklistRequest = () => ({
@@ -31,5 +34,19 @@ export const setBlacklistSuccess = () => ({
 
 export const setBlacklistError = error => ({
   type: SET_BLACKLIST_ERROR,
+  error,
+})
+
+
+export const removeBlacklistRequest = () => ({
+  type: REMOVE_BLACKLIST_REQUEST,
+})
+
+export const removeBlacklistSuccess = () => ({
+  type: REMOVE_BLACKLIST_SUCCESS,
+})
+
+export const removeBlacklistError = error => ({
+  type: REMOVE_BLACKLIST_ERROR,
   error,
 })

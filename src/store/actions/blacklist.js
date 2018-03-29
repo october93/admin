@@ -37,3 +37,21 @@ export const setBlacklist = ids => async (dispatch) => {
     dispatch(create.setBlacklistError(e))
   }
 }
+
+
+export const removeFromBlacklist = ids => async (dispatch) => {
+  dispatch(create.removeBlacklistRequest())
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+      mutation {
+        removeFromBlacklist(ids:${ids})
+      }
+      `,
+    })
+    dispatch(create.removeBlacklistSuccess())
+  } catch (e) {
+    console.log(e)
+    dispatch(create.removeBlacklistError(e))
+  }
+}

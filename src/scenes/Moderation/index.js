@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Textarea from '../../components/textarea'
 import Button from '../../components/button'
 
-import { getBlacklist, setBlacklist } from '../../store/actions/blacklist'
+import { getBlacklist, setBlacklist, removeFromBlacklist } from '../../store/actions/blacklist'
 
 class Moderation extends Component {
   state = {
@@ -23,6 +23,12 @@ class Moderation extends Component {
     await this.props.getBlacklist()
   }
 
+  removeFromBlacklist = async card => {
+    await this.props.removeFromBlacklist(`["${card}"]`)
+    await this.props.getBlacklist()
+
+  }
+
   render() {
     return (
       <div style={{ width: "100%" }}>
@@ -33,7 +39,11 @@ class Moderation extends Component {
         </div>
         <div>
           <h3>CurrentBlacklist</h3>
-          {(this.props.blacklist || []).map((card, i) => <div key={i}>{card}</div>)}
+          {(this.props.blacklist || []).map((card, i) =>
+            <div key={i}>
+              <Button onClick={() => this.removeFromBlacklist(card)}>X</Button>
+              {card}
+            </div>)}
         </div>
       </div>
 
@@ -48,6 +58,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getBlacklist,
   setBlacklist,
+  removeFromBlacklist,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Moderation)
