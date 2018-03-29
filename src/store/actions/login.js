@@ -1,4 +1,6 @@
 import APIClient from '../SocketClient'
+import gql from 'graphql-tag';
+import GraphQLClient from '../GraphQLClient'
 
 import * as create from "./creators/login"
 
@@ -43,3 +45,20 @@ export const logout = () => dispatch =>
 			resetApp(dispatch, resolve)
 		}
 	})
+
+	export const resetPassword = usernames => async (dispatch) => {
+	  dispatch(create.resetPasswordRequest(true))
+
+	  try {
+	    const response = await GraphQLClient.Client().mutate({
+	      query: gql`
+	        {
+	          resetPassword(usernames:${usernames})
+	        }
+	      `
+	    })
+	    dispatch(create.resetPasswordSuccess(response.data))
+	  } catch (e) {
+	    dispatch(create.resetPasswordError(e))
+	  }
+	}

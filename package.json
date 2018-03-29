@@ -67,8 +67,6 @@
     "graphql": "git://github.com/graphql/graphql-js.git#npm",
     "graphql-language-service-interface": "^0.0.23",
     "graphql-tag": "^2.6.1",
-    "mobx": "^3.1.2",
-    "mobx-react": "^4.1.1",
     "rc-switch": "^1.6.0",
     "rc-tooltip": "^3.7.0",
     "react": "^16.2.0",

@@ -61,6 +61,10 @@ import {
   loginError,
 } from './login'
 
+import {
+  invites,
+} from './invites'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -105,4 +109,6 @@ export default combineReducers({
   commandResponses,
 
   loginError,
+
+  invites,
 })

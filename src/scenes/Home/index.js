@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import DangerZone from '../../components/DangerZone'
+import DangerZone from './danger-zone'
 
 class Home extends Component {
   render() {

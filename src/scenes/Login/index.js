@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router'
 import logo from './logo.png';
 import glamorous from "glamorous"
-import Error from "../error"
 import { connect } from 'react-redux'
 
+import Error from "../../components/error"
 import { login } from '../../store/actions/login'
 
 const LoginPageContainer = glamorous.div({

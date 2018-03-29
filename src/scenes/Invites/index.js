@@ -1,32 +1,28 @@
 import React, { Component } from 'react';
-import { observer, inject  } from 'mobx-react'
 import Timestamp from 'react-timestamp'
-import Button from "../button"
-@inject("store") @observer
+import Button from "../../components/button"
+import { connect } from 'react-redux'
+
+import { getInvites, newInvite } from '../../store/actions/invites'
+
 class InvitesPage extends Component {
-  constructor(props) {
-    super(props);
-    this.handleNewInvite = this.handleNewInvite.bind(this);
-    this.props.store.getInvitesRequest()
+  componentDidMount() {
+    this.props.getInvites()
   }
 
-  handleNewInvite(event) {
+  handleNewInvite = async (event) => {
     event.preventDefault()
 
     var nodeID = prompt("ID for Inviting Node (REQUIRED):")
 
     if (nodeID) {
-      this.props.store.newInviteRequest(nodeID)
+      await this.props.newInvite(nodeID)
+      await this.props.getInvites()
     }
   }
 
   render() {
-    let errorMessage = null;
-    if (this.props.store.newInviteError !== null) {
-      errorMessage = <span className="danger">{this.props.store.inviteError}</span>
-    }
-    let invitesData = this.props.store.invitesData.toJS()
-    const inviteList = invitesData.map((data, i) =>
+    const inviteList = this.props.invites.map((data, i) =>
       <tr key={i}>
         <td>{data.token}</td>
         <td>{data.issuer}</td>
@@ -36,7 +32,6 @@ class InvitesPage extends Component {
     )
     return (
       <div style={{ width: "100%" }}>
-        {errorMessage}
         <Button onClick={this.handleNewInvite}>New Invite</Button>
         <table className="inviteTable">
           <thead>
@@ -56,4 +51,13 @@ class InvitesPage extends Component {
   }
 }
 
-export default InvitesPage;
+const mapStateToProps = (state) => ({
+  invites: state.invites,
+})
+
+const mapDispatchToProps = {
+  getInvites,
+  newInvite,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InvitesPage)
