@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router'
-import { observer, inject  } from 'mobx-react'
 import logo from './logo.png';
 import glamorous from "glamorous"
 import Error from "../error"
+import { connect } from 'react-redux'
+
+import { login } from '../../store/actions/login'
 
 const LoginPageContainer = glamorous.div({
   height: "100%",
@@ -50,31 +52,25 @@ const Submit = glamorous.input({
   },
 })
 
-@inject("store") @observer
 class LoginPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {email: '', password: '', token: this.props.location.query.token};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    if (this.state.token !== undefined) {
-      this.props.store.sendLoginRequest(this.state.email, this.state.password, this.state.token)
-    }
+  state = {
+    username: "",
+    password: "",
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const name = event.target.name;
     this.setState({[name]: event.target.value});
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault()
-    this.props.store.sendLoginRequest(this.state.email, this.state.password)
+    this.props.login({username: this.state.username, password: this.state.password})
   }
 
   render() {
     let errorMessage = null;
-    if (this.props.store.loginError !== null) {
+    if (this.props.loginError !== "") {
       errorMessage = <Error>Not authorized</Error>
     }
     return (
@@ -83,7 +79,7 @@ class LoginPage extends Component {
           <Logo role="presentation" src={logo} />
           {errorMessage}
           <form action="/" onSubmit={this.handleSubmit}>
-            <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
+            <input type="text" placeholder="username" name="username" value={this.state.username} onChange={this.handleChange} />
             <Password type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange} />
             <ResetPasswordLink to={"/admin/resetpassword"}>Forgot your password?</ResetPasswordLink>
             <Submit type="submit" value="Sign in" />
@@ -94,4 +90,12 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => ({
+  loginError: state.loginError,
+})
+
+const mapDispatchToProps = {
+  login,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

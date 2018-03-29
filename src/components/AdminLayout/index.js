@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
+import { connect } from 'react-redux'
 
 import {
   Container,
@@ -18,6 +18,9 @@ import {
 
 import logo from './logo-light.png'
 
+import { logout } from '../../store/actions/login'
+
+
 const menuItems = [
   {name: "Moderation", path: "/admin/moderation"},
   {name: "Users", path: "/admin/users"},
@@ -30,7 +33,6 @@ const menuItems = [
   {name: "GraphQL", path: "/admin/graphql"},
 ]
 
-@inject("store") @observer
 class AdminLayout extends Component {
   state = {
     showModal: false,
@@ -59,14 +61,12 @@ class AdminLayout extends Component {
             {this.renderMenuItems()}
             <UserMenuInfo>
               <MenuItem>
-                <MenuLink to="/admin/profile">
-                  <LoggedInAs>
-                    Welcome,
-                  </LoggedInAs>
-                  {profile ? profile.username : "User"}
-                </MenuLink>
+                <LoggedInAs>
+                  Welcome,
+                </LoggedInAs>
+                {profile ? profile.username : "User"}
               </MenuItem>
-              <MenuItem onClick={this.props.store.logout.bind(this)}>Logout</MenuItem>
+              <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
             </UserMenuInfo>
           </SideMenu>
           <PageContainer>
@@ -80,4 +80,9 @@ class AdminLayout extends Component {
     )
   }
 }
-export default AdminLayout
+
+const mapDispatchToProps = {
+  logout,
+}
+
+export default connect(state => state, mapDispatchToProps)(AdminLayout)

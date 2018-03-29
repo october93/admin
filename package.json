@@ -76,6 +76,7 @@
     "react-cookie": "^1.0.4",
     "react-dom": "^16.2.0",
     "react-foundation": "^0.9.0",
+    "react-highlight": "^0.12.0",
     "react-icons": "^2.2.3",
     "react-instantsearch": "^5.0.1",
     "react-markdown": "^3.3.0",

@@ -52,6 +52,15 @@ import {
   usersLoading,
 } from './users'
 
+import {
+  sessions,
+  commandResponses,
+} from './rpcconsole'
+
+import {
+  loginError,
+} from './login'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -68,7 +77,7 @@ export default combineReducers({
   selectedCardRankUser,
   allCardRankEntries,
   allVoteEntries,
-  
+
   cardsCardsAreLoading,
   cardsCardsLoadingSuccess,
   cardsCardsLoadingFailure,
@@ -91,4 +100,9 @@ export default combineReducers({
 
   users,
   usersLoading,
+
+  sessions,
+  commandResponses,
+
+  loginError,
 })

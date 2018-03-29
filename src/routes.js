@@ -1,25 +1,24 @@
-import React from 'react';
-import { Router, Route, Redirect } from 'react-router';
+import React from 'react'
+import { Router, Route, Redirect } from 'react-router'
 
 import { Provider } from "mobx-react"
 
-import AdminLayout from './components/AdminLayout';
-import LoginPage from './components/LoginPage';
-import NotFoundPage from './components/NotFoundPage';
-import UtilitiesPage from './components/UtilitiesPage'
-import ConnectPage from './components/ConnectPage'
+import AdminLayout from './components/AdminLayout'
+import LoginPage from './components/LoginPage'
 import GraphQLPage from './components/GraphQLPage'
 import ResetPasswordPage from "./components/ResetPasswordPage"
 import InvitesPage from "./components/InvitesPage"
 import AdminStore from "./store/AdminStore"
 
-import Home from './scenes/Home';
-import Cards from './scenes/Cards';
-import Tags from './scenes/Tags';
-import GraphExplorer from './scenes/GraphExplorer';
-import FeatureSwitches from './scenes/FeatureSwitches';
-import Moderation from './scenes/Moderation';
-import UsersPage from './scenes/Users';
+import Home from './scenes/Home'
+import Cards from './scenes/Cards'
+import Tags from './scenes/Tags'
+import GraphExplorer from './scenes/GraphExplorer'
+import FeatureSwitches from './scenes/FeatureSwitches'
+import Moderation from './scenes/Moderation'
+import UsersPage from './scenes/Users'
+import UtilitiesPage from './scenes/RPCConsole'
+import NotFoundPage from './scenes/NotFound'
 
 
 const requireAuth = (nextState, replace) => {
@@ -49,7 +48,6 @@ const Routes = (props) => (
         <Route path="/admin/moderation" component={Moderation} />
         <Route path="/admin/graph" component={GraphExplorer} />
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
-        <Route path="/admin/profile" component={ConnectPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
@@ -57,6 +55,6 @@ const Routes = (props) => (
     </Router>
   </Provider>
 
-);
+)
 
-export default Routes;
+export default Routes

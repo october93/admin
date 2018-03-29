@@ -5,7 +5,6 @@ import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import gql from 'graphql-tag';
-import SocketClient from "./SocketClient"
 
 const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":9000" : location.hostname}`
 
@@ -88,7 +87,7 @@ class AdminStore {
     this.serverURL = `${wsProtocol}//${defaultServerURL}`
 
     this.websocketURL = `${this.serverURL}/deck_endpoint/`
-    this.engineClient = new SocketClient(this.websocketURL, true, (b) => this.socketConnected = b)
+    //this.engineClient = new SocketClient(this.websocketURL, true, (b) => this.socketConnected = b)
 
 
     this.graphqlURL = `${location.origin}/graphql`

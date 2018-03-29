@@ -1,20 +1,25 @@
-import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
-import RPCHistoryItem from '../../components/RPCHistoryItem';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import Highlight from 'react-highlight'
+import RPCHistoryItem from './rpc-history-item'
+
 import Button from '../../components/button'
-import Textarea from "../textarea"
+import Textarea from "../../components/textarea"
 import glamorous from "glamorous"
 
-const CommandResponse = glamorous.div({
-  whiteSpace: "pre",
+import "../../../node_modules/highlight.js/styles/vs.css"
+
+import { getSessions, sendCommandRequest } from '../../store/actions/rpcconsole'
+
+const CommandResponse = glamorous(Highlight)({
+  whiteSpace: "pre-wrap",
   fontSize: "11px",
   fontFamily: "monospace",
 })
 
 const defaultRPC = '{"rpc": "", "sessionID": "", "data": {}}'
 
-@inject("store") @observer
-export default class UtilitiesPage extends Component {
+class UtilitiesPage extends Component {
   constructor(props){
     super(props)
 
@@ -23,7 +28,7 @@ export default class UtilitiesPage extends Component {
       history: JSON.parse(localStorage.getItem("rpcHistory")),
     }
 
-    this.props.store.getSessionsRequest()
+    this.props.getSessions()
 
     this.inputChange = this.inputChange.bind(this)
     this.submit = this.submit.bind(this)
@@ -41,17 +46,17 @@ export default class UtilitiesPage extends Component {
     currentHistory.unshift(this.state.commandTextArea)
     localStorage.setItem("rpcHistory", JSON.stringify(currentHistory))
     this.setState({history: currentHistory})
-    this.props.store.sendCommandRequest(this.state.commandTextArea)
+    this.props.sendCommandRequest(this.state.commandTextArea)
   }
 
   inputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
 
     this.setState({
       [name]: value
-    });
+    })
   }
 
   handleHistoryClick(content) {
@@ -75,20 +80,25 @@ export default class UtilitiesPage extends Component {
   }
 
   render() {
+    const { commandResponses } = this.props
+    console.log()
     return (
       <div style={{ width: "100%" }}>
         <div>
           <h4>RPC Tester</h4>
           Response:
-          <CommandResponse>
-              {this.props.store.commandResponse.string}
-          </CommandResponse>
+          { commandResponses.length > 0 &&
+            <CommandResponse>
+                {commandResponses[commandResponses.length-1].string}
+            </CommandResponse>
+          }
+
 
           <form onSubmit={this.submit}>
             <Textarea style={{ fontFamily: "monospace" }} name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
             <select onChange={this.handleSessionChange}>
               <option value="" disabled selected>Use session of…</option>
-              {this.props.store.sessionsData.toJS().map((data) =>
+              {this.props.sessions.map((data) =>
                   <option value={data.id}>{data.username} ({data.id})</option>
               )}
             </select>
@@ -109,3 +119,15 @@ export default class UtilitiesPage extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  sessions: state.sessions,
+  commandResponses: state.commandResponses,
+})
+
+const mapDispatchToProps = {
+  getSessions,
+  sendCommandRequest,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UtilitiesPage)
