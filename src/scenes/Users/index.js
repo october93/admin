@@ -29,7 +29,9 @@ class UsersPage extends Component {
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       this.appEndpoint = 'http://localhost:3000'
     } else if (location.hostname === "engine.october.news") {
-      this.appEndpoint = 'https://web.development.october.news'
+      this.appEndpoint = 'https://october.news'
+    } else if (location.hostname === "engine.development.october.news") {
+      this.appEndpoint = 'https://development.october.news'
     }
   }
 
@@ -63,7 +65,8 @@ class UsersPage extends Component {
         Cell: props => (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
-            <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Feed</Button>
+            <div style={{width: "10px"}} />
+            <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
           </div>)
       })
     }
