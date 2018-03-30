@@ -7,7 +7,7 @@ import { getCardsWithStats } from '../../store/actions/cards'
 import ReactTable from 'react-table'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { InstantSearch } from 'react-instantsearch/dom';
-import Search from '../../components/Search'
+import Search from './search'
 import glamorous from "glamorous"
 
 const Emblem = glamorous.img({

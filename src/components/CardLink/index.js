@@ -29,7 +29,6 @@ class CardLink extends Component {
   }
 
   render() {
-    console.log(this.props)
     const link = <Link href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</Link>
 
     return this.props.card && this.props.card.body ? (

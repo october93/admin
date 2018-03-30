@@ -1,8 +1,8 @@
-import ApolloClient from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
-import { onError } from 'apollo-link-error';
-import { setContext } from 'apollo-link-context';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import ApolloClient from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { onError } from 'apollo-link-error'
+import { setContext } from 'apollo-link-context'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
 export default class GraphQLClient {
   instance = null
@@ -19,7 +19,7 @@ export default class GraphQLClient {
     })
 
     const authLink = setContext((_, { headers }) => {
-      const session = JSON.parse(localStorage.getItem('session'));
+      const session = JSON.parse(localStorage.getItem('session'))
       return {
         headers: {
           ...headers,
@@ -58,7 +58,7 @@ export default class GraphQLClient {
     })
 
     const authLink = setContext((_, { headers }) => {
-      const session = JSON.parse(localStorage.getItem('session'));
+      const session = JSON.parse(localStorage.getItem('session'))
       return {
         headers: {
           ...headers,

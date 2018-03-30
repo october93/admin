@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { observer, inject  } from 'mobx-react'
+import { connect } from 'react-redux'
 import glamorous from "glamorous"
+
+import { resetPassword } from '../../store/actions/rpcconsole'
 
 const ResetPasswordContainer = glamorous.div({
   height: "100%",
@@ -32,27 +34,18 @@ const Submit = glamorous.input({
   },
 })
 
-
-@inject("store") @observer
 class ResetPasswordPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {email: '', password: '', token: this.props.location.query.token};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    if (this.state.token !== undefined) {
-      this.props.store.sendLoginRequest(this.state.email, this.state.password, this.state.token)
-    }
+  state = {
+    username: "",
   }
-
-  handleChange(event) {
+  handleChange = (event) => {
     const name = event.target.name;
     this.setState({[name]: event.target.value});
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
-    this.props.store.sendPasswordResetRequest(this.state.email, this.state.password)
+    this.props.resetPassword([this.state.username])
   }
 
   render() {
@@ -60,7 +53,7 @@ class ResetPasswordPage extends Component {
       <ResetPasswordContainer>
         <ResetPasswordForm>
           <form action="/" onSubmit={this.handleSubmit}>
-            <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
+            <input type="text" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange} />
             <Submit type="submit" value="Reset Password" />
           </form>
         </ResetPasswordForm>
@@ -69,4 +62,8 @@ class ResetPasswordPage extends Component {
   }
 }
 
-export default ResetPasswordPage;
+const mapDispatchToProps = {
+  resetPassword,
+}
+
+export default connect(state => ({}), mapDispatchToProps)(ResetPasswordPage)

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import GraphiQL from 'graphiql'
-import { observer, inject } from 'mobx-react'
 import fetch from 'isomorphic-fetch'
+
 import './index.css'
 
-@inject("store") @observer
 export default class GraphQLPage extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +19,7 @@ export default class GraphQLPage extends Component {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.props.store.session.id
+        'Authorization': JSON.parse(localStorage.getItem('session')).id,
       },
       body: JSON.stringify(params),
     }).then(response => response.json())
