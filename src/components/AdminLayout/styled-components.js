@@ -29,6 +29,7 @@ export const MenuLink = glamorous(Link)(({ active }) => ({
 export const MenuItem = glamorous.div(({ active }) => ({
   margin: "25px 20px",
   color: "white",
+  cursor: "pointer",
 }))
 
 export const TitleHeader = glamorous(Link)({

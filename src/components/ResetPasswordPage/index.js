@@ -20,6 +20,8 @@ const Submit = glamorous.input({
   color: "#fff",
   borderRadius: "5px",
   display: "block",
+  fontSize: "15px",
+  fontWeight: "bold",
   margin: "0 auto",
   backgroundColor: "#1aafdb",
   textAlign: "center",
@@ -32,6 +34,20 @@ const Submit = glamorous.input({
   },
 })
 
+const Input = glamorous.input({
+  margin: "0 auto 1rem auto",
+  padding: "5px",
+  height: "30px",
+  width: "15rem",
+  display: "block",
+  fontFamily: "inherit",
+  borderRadius: "3px",
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: "rgb(206, 208, 212)",
+  borderImage: "initial",
+  outline: "none",
+})
 
 @inject("store") @observer
 class ResetPasswordPage extends Component {
@@ -60,7 +76,7 @@ class ResetPasswordPage extends Component {
       <ResetPasswordContainer>
         <ResetPasswordForm>
           <form action="/" onSubmit={this.handleSubmit}>
-            <input type="text" name="email" placeholder="you@example.com" value={this.state.email} onChange={this.handleChange} />
+            <Input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange} />
             <Submit type="submit" value="Reset Password" />
           </form>
         </ResetPasswordForm>
