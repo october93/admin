@@ -52,6 +52,12 @@ import {
   usersLoading,
 } from './users'
 
+import {
+  waitlistRequested,
+  waitlistSucceeded,
+  waitlistFailed,
+} from './waitlist'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -91,4 +97,8 @@ export default combineReducers({
 
   users,
   usersLoading,
+
+  waitlistRequested,
+  waitlistSucceeded,
+  waitlistFailed,
 })

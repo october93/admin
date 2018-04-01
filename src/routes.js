@@ -20,6 +20,7 @@ import GraphExplorer from './scenes/GraphExplorer';
 import FeatureSwitches from './scenes/FeatureSwitches';
 import Moderation from './scenes/Moderation';
 import UsersPage from './scenes/Users';
+import Waitlist from './scenes/Waitlist'
 
 
 const requireAuth = (nextState, replace) => {
@@ -51,6 +52,7 @@ const Routes = (props) => (
         <Route path="/admin/rpcconsole" component={UtilitiesPage} />
         <Route path="/admin/profile" component={ConnectPage} />
         <Route path="/admin/graphql" component={GraphQLPage} />
+        <Route path="/admin/waitlist" component={Waitlist} />
         <Redirect from="/" to="/admin" />
         <Route path="*" component={NotFoundPage} />
       </Route>

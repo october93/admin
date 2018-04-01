@@ -28,6 +28,7 @@ const menuItems = [
   {name: "Console", path: "/admin/rpcconsole"},
   {name: "Graph", path: "/admin/graph"},
   {name: "GraphQL", path: "/admin/graphql"},
+  {name: "Waitlist", path: "/admin/waitlist"},
 ]
 
 @inject("store") @observer
