@@ -60,8 +60,12 @@ class CardRank extends Component {
       Cell: props => <CardLink cardID={props.value.cardID} card={props.value}/>
     }, {
       Header: "Score",
-      accessor: 'score',
-      Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
+      id: "score",
+      accessor: d => d,
+      Cell: props =>
+        <Tooltip title={props.value.score}>
+          {`${parseFloat((props.value.score || 0.0).toFixed(2))}${ props.value.scoreModifier ? ` (${props.value.scoreModifier > 0 ? '+' : '-'} ${Math.abs(props.value.scoreModifier)})`: ""}`}
+        </Tooltip>
     }]
   }
 
