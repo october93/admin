@@ -19,7 +19,6 @@ import Moderation from './scenes/Moderation';
 import UsersPage from './scenes/Users';
 import Waitlist from './scenes/Waitlist'
 
-
 const loggedIn = () => {
   let session = localStorage.getItem("session")
   let parsedSession = null
