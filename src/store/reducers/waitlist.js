@@ -16,7 +16,16 @@ export function waitlistRequested(state = false, action) {
 export function waitlistSucceeded(state = {}, action) {
   switch (action.type) {
     case WAITLIST_SUCCESS:
-      return action.data
+      return true
+    default:
+      return state
+  }
+}
+
+export const waitlist = (state = [], action) => {
+  switch (action.type) {
+    case WAITLIST_SUCCESS:
+      return action.waitlist
     default:
       return state
   }

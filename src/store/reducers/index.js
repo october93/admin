@@ -69,6 +69,7 @@ import {
   waitlistRequested,
   waitlistSucceeded,
   waitlistFailed,
+  waitlist,
 } from './waitlist'
 
 export default combineReducers({
@@ -119,4 +120,5 @@ export default combineReducers({
   waitlistRequested,
   waitlistSucceeded,
   waitlistFailed,
+  waitlist,
 })

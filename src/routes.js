@@ -9,7 +9,6 @@ import UtilitiesPage from './scenes/RPCConsole'
 import GraphQLPage from './scenes/GraphQL'
 import ResetPassword from "./scenes/ResetPassword"
 import InvitesPage from "./scenes/Invites"
-import AdminStore from "./store/AdminStore"
 import Home from './scenes/Home';
 import Cards from './scenes/Cards';
 import Tags from './scenes/Tags';

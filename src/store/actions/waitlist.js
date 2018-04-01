@@ -5,7 +5,6 @@ export const getWaitlist = () => async (dispatch) => {
   dispatch(waitlistRequest(true))
   try {
     const response = await GraphQLClient.Client().query({
-      errorPolicy: "ignore",
       query: gql`
         {
           waitlist {
@@ -16,7 +15,7 @@ export const getWaitlist = () => async (dispatch) => {
         }
       `
     })
-    dispatch(waitlistSuccess(response.data))
+    dispatch(waitlistSuccess(response.data.waitlist))
     dispatch(waitlistRequest(false))
   } catch (e) {
     dispatch(waitlistFailure(e))
@@ -46,10 +45,10 @@ export function waitlistRequest(request) {
 
 export const WAITLIST_SUCCESS = 'WAITLIST_SUCCESS'
 
-export function waitlistSuccess(data) {
+export function waitlistSuccess(waitlist) {
   return {
     type: WAITLIST_SUCCESS,
-    data
+    waitlist,
   }
 }
 

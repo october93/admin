@@ -4,12 +4,7 @@ import { connect } from 'react-redux'
 import { getWaitlist, updateWaitlist } from '../../store/actions/waitlist'
 
 class Waitlist extends Component {
-  constructor(props) {
-    super(props)
-    this.renderEditable = this.renderEditable.bind(this)
-  }
-
-  renderEditable(cellInfo) {
+  renderEditable = (cellInfo) => {
     console.log(cellInfo)
     return (
       <div
@@ -54,7 +49,8 @@ class Waitlist extends Component {
 
   render() {
     if (this.props.error !== null) {
-      return this.props.error
+      console.log(this.props.error)
+      return "Error, see console."
     }
     if (this.props.isLoading) {
       return "Loading…"
@@ -84,13 +80,11 @@ class Waitlist extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    waitlist: state.waitlistSucceeded.waitlist,
+const mapStateToProps = (state) => ({
+    waitlist: state.waitlist,
     error: state.waitlistFailed,
     isLoading: state.waitlistRequested,
-  }
-}
+})
 
 const mapDispatchToProps = {
   getWaitlist,
