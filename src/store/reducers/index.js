@@ -65,6 +65,12 @@ import {
   invites,
 } from './invites'
 
+import {
+  waitlistRequested,
+  waitlistSucceeded,
+  waitlistFailed,
+} from './waitlist'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -104,11 +110,13 @@ export default combineReducers({
 
   users,
   usersLoading,
-
   sessions,
   commandResponses,
 
   loginError,
 
   invites,
+  waitlistRequested,
+  waitlistSucceeded,
+  waitlistFailed,
 })
