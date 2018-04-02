@@ -23,11 +23,16 @@ export function graphIsLoading(state = true, action) {
   }
 }
 
-const attachUsersToCardRanks = (user, cardRanks) => {
-  return cardRanks.map((cr, index) => ({
+const attachUsersToCardRanks = (user, node) => {
+  const { cardRankTable, votes } = node
+  console.log(cardRankTable)
+  console.log(votes)
+
+  return cardRankTable.map((cr, index) => ({
       ...cr,
       userID: user.nodeId,
       username: user.username,
+      scoreModifier: (votes.find(i => i.cardID === cr.card.cardID) || {}).scoreModifier || 0,
       index,
     })
   )
@@ -37,7 +42,7 @@ export const allCardRankEntries = (state = [], action) => {
   switch (action.type) {
     case GRAPH_LOADING_SUCCESS:
       return action.data.graph.users.reduce((acc, user) => {
-        return [...acc, ...attachUsersToCardRanks(user, user.node.cardRankTable)]
+        return [...acc, ...attachUsersToCardRanks(user, user.node)]
       }, [])
     default:
       return state

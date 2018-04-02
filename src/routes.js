@@ -3,19 +3,20 @@ import { Router, Route, Redirect } from 'react-router'
 
 import AdminLayout from './components/AdminLayout'
 
-import Home from './scenes/Home'
-import Cards from './scenes/Cards'
-import Tags from './scenes/Tags'
-import GraphExplorer from './scenes/GraphExplorer'
-import FeatureSwitches from './scenes/FeatureSwitches'
-import Moderation from './scenes/Moderation'
-import UsersPage from './scenes/Users'
-import UtilitiesPage from './scenes/RPCConsole'
-import NotFoundPage from './scenes/NotFound'
-import ResetPassword from "./scenes/ResetPassword"
-import GraphQLPage from './scenes/GraphQL'
 import LoginPage from './scenes/Login'
+import NotFoundPage from './scenes/NotFound'
+import UtilitiesPage from './scenes/RPCConsole'
+import GraphQLPage from './scenes/GraphQL'
+import ResetPassword from "./scenes/ResetPassword"
 import InvitesPage from "./scenes/Invites"
+import Home from './scenes/Home';
+import Cards from './scenes/Cards';
+import Tags from './scenes/Tags';
+import GraphExplorer from './scenes/GraphExplorer';
+import FeatureSwitches from './scenes/FeatureSwitches';
+import Moderation from './scenes/Moderation';
+import UsersPage from './scenes/Users';
+import Waitlist from './scenes/Waitlist'
 
 const loggedIn = () => {
   let session = localStorage.getItem("session")
@@ -56,6 +57,7 @@ const Routes = (props) => (
       <Route path="/admin/graph" component={GraphExplorer} />
       <Route path="/admin/rpcconsole" component={UtilitiesPage} />
       <Route path="/admin/graphql" component={GraphQLPage} />
+      <Route path="/admin/waitlist" component={Waitlist} />
       <Redirect from="/" to="/admin" />
       <Route path="*" component={NotFoundPage} />
     </Route>

@@ -29,34 +29,39 @@ class VoteTable extends Component {
   }
 
   makeColumns = () => {
-    return [{
-      Header: 'User',
-      accessor: "username",
-      filterable: true,
-      filterMethod: (filter, row) => {
-        const filters = filter.value.split(",").map(d => d.trim())
-        if (filters.includes(row[filter.id])) {
-          return true
-        }
-        return false
+    return [
+      {
+        Header: 'User',
+        accessor: "username",
+        filterable: true,
+        filterMethod: (filter, row) => {
+          const filters = filter.value.split(",").map(d => d.trim())
+          if (filters.includes(row[filter.id])) {
+            return true
+          }
+          return false
+        },
+        show: this.state.advancedFiltering === true,
+        width: 150,
+      }, {
+        Header: 'Card ID',
+        accessor: 'cardID',
+        filterable: this.state.advancedFiltering === true,
+        Cell: props => <CardLink cardID={props.value}/>
+      }, {
+        Header: "Positive Score",
+        accessor: 'positiveScore',
+        Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
+      }, {
+        Header: "Negative Score",
+        accessor: 'negativeScore',
+        Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
+      }, {
+        Header: "Score Modifier",
+        accessor: 'scoreModifier',
+        Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
       },
-      show: this.state.advancedFiltering === true,
-      width: 150,
-    }, {
-      Header: 'Card ID',
-      accessor: 'cardID',
-      filterable: this.state.advancedFiltering === true,
-      Cell: props => <CardLink cardID={props.value}/>
-    }, {
-      Header: "Positive Score",
-      accessor: 'positiveScore',
-      Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
-  },
-    {
-     Header: "Negative Score",
-     accessor: 'negativeScore',
-     Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
-   }]
+    ]
   }
 
   render() {

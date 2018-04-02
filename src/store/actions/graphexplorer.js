@@ -28,6 +28,7 @@ export const queryGraph = () => async (dispatch) => {
                   cardID
                   positiveScore
                   negativeScore
+                  scoreModifier
                 }
               }
             }
