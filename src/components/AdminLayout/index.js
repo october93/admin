@@ -24,6 +24,7 @@ import { logout } from '../../store/actions/login'
 const menuItems = [
   {name: "Moderation", path: "/admin/moderation"},
   {name: "Users", path: "/admin/users"},
+  {name: "Reactions", path: "/admin/reactions"},
   {name: "Cards", path: "/admin/cards"},
   {name: "Tags", path: "/admin/tags"},
   {name: "Invites", path: "/admin/invites"},

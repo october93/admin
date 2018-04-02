@@ -72,6 +72,11 @@ import {
   waitlist,
 } from './waitlist'
 
+import {
+  reactions,
+  reactionsLoading,
+} from './reactions'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -121,4 +126,7 @@ export default combineReducers({
   waitlistSucceeded,
   waitlistFailed,
   waitlist,
+
+  reactions,
+  reactionsLoading,
 })

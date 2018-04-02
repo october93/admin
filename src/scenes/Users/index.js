@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 import { getUsers, getPreviewFeed, getPreviewInviteFeed } from '../../store/actions/users'
 import Button from "../../components/button"
@@ -18,6 +19,10 @@ const columns = [{
 }, {
   Header: "Scoretable Size",
   accessor: 'node.cardRankTableSize',
+}, {
+  Header: "Last Active",
+  accessor: 'updatedAt',
+  Cell: props => props.value ? moment(props.value * 1000).fromNow() : "Never"
 }]
 
 
