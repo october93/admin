@@ -98,7 +98,7 @@ class LoginPage extends Component {
           <Logo role="presentation" src={logo} />
           {errorMessage}
           <form action="/" onSubmit={this.handleSubmit}>
-            <LoginInput type="text" name="email" placeholder="Username or Email" value={this.state.email} onChange={this.handleChange} />
+            <LoginInput type="text" name="username" placeholder="Username or Email" value={this.state.username} onChange={this.handleChange} />
             <LoginInput type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
             <ResetPasswordLink to={"/admin/resetpassword"}>Forgot your password?</ResetPasswordLink>
             <Submit type="submit" value="Sign in" />
