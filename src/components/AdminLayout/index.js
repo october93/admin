@@ -33,6 +33,7 @@ const menuItems = [
   {name: "Graph", path: "/admin/graph"},
   {name: "GraphQL", path: "/admin/graphql"},
   {name: "Waitlist", path: "/admin/waitlist"},
+  {name: "Who Is Online", path: "/admin/whoisonline"},
 ]
 
 class AdminLayout extends Component {
