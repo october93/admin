@@ -19,7 +19,7 @@ export default function configureStore(graphQLHost, initialState) {
   let session = localStorage.getItem("session")
   let endpoint = `${wsProtocol}//${defaultServerURL}/deck_endpoint/`
 
-  if (session !== undefined) {
+  if (session !== null) {
     session = JSON.parse(session)
     endpoint += `?session=${session.id}&adminpanel=true`
   }
