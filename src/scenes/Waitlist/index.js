@@ -49,7 +49,6 @@ class Waitlist extends Component {
 
   render() {
     if (this.props.error !== null) {
-      console.log(this.props.error)
       return "Error, see console."
     }
     if (this.props.isLoading) {

@@ -17,6 +17,8 @@ import FeatureSwitches from './scenes/FeatureSwitches';
 import Moderation from './scenes/Moderation';
 import UsersPage from './scenes/Users';
 import Waitlist from './scenes/Waitlist'
+import Reactions from './scenes/Reactions'
+import WhoIsOnline from './scenes/WhoIsOnline'
 
 const loggedIn = () => {
   let session = localStorage.getItem("session")
@@ -58,6 +60,9 @@ const Routes = (props) => (
       <Route path="/admin/rpcconsole" component={UtilitiesPage} />
       <Route path="/admin/graphql" component={GraphQLPage} />
       <Route path="/admin/waitlist" component={Waitlist} />
+      <Route path="/admin/whoisonline" component={WhoIsOnline} />
+      <Route path="/admin/reactions" component={Reactions} />
+
       <Redirect from="/" to="/admin" />
       <Route path="*" component={NotFoundPage} />
     </Route>

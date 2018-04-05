@@ -24,6 +24,7 @@ import { logout } from '../../store/actions/login'
 const menuItems = [
   {name: "Moderation", path: "/admin/moderation"},
   {name: "Users", path: "/admin/users"},
+  {name: "Reactions", path: "/admin/reactions"},
   {name: "Cards", path: "/admin/cards"},
   {name: "Tags", path: "/admin/tags"},
   {name: "Invites", path: "/admin/invites"},
@@ -32,6 +33,7 @@ const menuItems = [
   {name: "Graph", path: "/admin/graph"},
   {name: "GraphQL", path: "/admin/graphql"},
   {name: "Waitlist", path: "/admin/waitlist"},
+  {name: "Who Is Online", path: "/admin/whoisonline"},
 ]
 
 class AdminLayout extends Component {

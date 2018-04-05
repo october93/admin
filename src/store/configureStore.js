@@ -16,8 +16,16 @@ export default function configureStore(graphQLHost, initialState) {
     wsProtocol = 'wss:'
   }
 
+  let session = localStorage.getItem("session")
+  let endpoint = `${wsProtocol}//${defaultServerURL}/deck_endpoint/`
+
+  if (session !== null) {
+    session = JSON.parse(session)
+    endpoint += `?session=${session.id}&adminpanel=true`
+  }
+
   APIClient.init({
-		webSocketHost: `${wsProtocol}//${defaultServerURL}/deck_endpoint/`,
+		webSocketHost: endpoint,
 	})
 
   return createStore(

@@ -72,6 +72,18 @@ import {
   waitlist,
 } from './waitlist'
 
+import {
+  connectionsRequested,
+  connectionsSucceeded,
+  connectionsFailed,
+  connections,
+} from './whoisonline'
+
+import {
+  reactions,
+  reactionsLoading,
+} from './reactions'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -121,4 +133,12 @@ export default combineReducers({
   waitlistSucceeded,
   waitlistFailed,
   waitlist,
+
+  connectionsRequested,
+  connectionsSucceeded,
+  connectionsFailed,
+  connections,
+
+  reactions,
+  reactionsLoading,
 })
