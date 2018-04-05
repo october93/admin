@@ -99,7 +99,7 @@ class UtilitiesPage extends Component {
             <select onChange={this.handleSessionChange}>
               <option value="" disabled selected>Use session of…</option>
               {this.props.sessions.map((data) =>
-                  <option value={data.id}>{data.username} ({data.id})</option>
+                  <option value={data.id}>{data.user.username} ({data.id})</option>
               )}
             </select>
             <Button type="submit">Submit</Button>
