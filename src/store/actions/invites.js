@@ -30,15 +30,18 @@ export const newInvite = nodeID => async (dispatch) => {
   dispatch(create.newInvitesRequest(nodeID))
 
   try {
-    await GraphQLClient.Client().mutate({
+    const response = await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
-          newInvite(nodeID:"${nodeID}")
+          newInvite(nodeID:"${nodeID}") {
+            token
+          }
         }
       `
     })
 
     dispatch(create.newInvitesSuccess())
+    return response.data.newInvite
   } catch (e) {
     dispatch(create.newInvitesError(e))
   }
