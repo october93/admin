@@ -60,6 +60,11 @@ class VoteTable extends Component {
         Header: "Score Modifier",
         accessor: 'scoreModifier',
         Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
+      }, {
+        Header: "Score",
+        id: "score",
+        accessor: d => d.positiveScore - d.negativeScore + d.scoreModifier,
+        Cell: props => <Tooltip title={props.value}>{parseFloat((props.value || 0.0).toFixed(2))}</Tooltip>
       },
     ]
   }
