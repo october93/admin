@@ -81,7 +81,6 @@ class UtilitiesPage extends Component {
 
   render() {
     const { commandResponses } = this.props
-    console.log()
     return (
       <div style={{ width: "100%" }}>
         <div>
