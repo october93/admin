@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import copy from 'copy-to-clipboard'
 
 import { getUsers, getPreviewFeed, getPreviewInviteFeed } from '../../store/actions/users'
+import { newInvite } from '../../store/actions/invites'
 import Button from "../../components/button"
 
 import "react-table/react-table.css"
@@ -46,18 +48,17 @@ class UsersPage extends Component {
 
   viewUserFeedInApp = async nodeID => {
     const ids = await this.props.getPreviewFeed(nodeID)
-    console.log(ids)
     window.open(`${this.appEndpoint}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
   viewUserInviteFeedInApp = async nodeID => {
     const ids = await this.props.getPreviewInviteFeed(nodeID)
-    console.log(ids)
     window.open(`${this.appEndpoint}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
-  makeButtonColumn = () => {
-    return
+  newInviteForUser = async nodeID => {
+    const invite = await this.props.newInvite(nodeID)
+    copy(invite.token)
   }
 
   render() {
@@ -67,11 +68,14 @@ class UsersPage extends Component {
       cols.push({
         Header: "",
         accessor: "nodeId",
+        width: 300,
         Cell: props => (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
             <div style={{width: "10px"}} />
             <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
+            <div style={{width: "10px"}} />
+            <Button onClick={() => this.newInviteForUser(props.value)}>Get Invite</Button>
           </div>)
       })
     }
@@ -102,6 +106,7 @@ const mapDispatchToProps = {
   getUsers,
   getPreviewFeed,
   getPreviewInviteFeed,
+  newInvite,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)

@@ -14,8 +14,9 @@ export const getSessions = () => async (dispatch) => {
           {
             sessions {
               id
-              username
-              lastActivity
+              user {
+                username
+              }
             }
           }
         `,

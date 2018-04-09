@@ -89,7 +89,6 @@ class ReactionsPage extends Component {
   }
 
   render() {
-    console.log(this.props.reactions)
     return (
       <div style={{ width: "100%", margin: "10px"}}>
         <ReactTable
