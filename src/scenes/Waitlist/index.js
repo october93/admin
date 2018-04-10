@@ -5,7 +5,6 @@ import { getWaitlist, updateWaitlist } from '../../store/actions/waitlist'
 
 class Waitlist extends Component {
   renderEditable = (cellInfo) => {
-    console.log(cellInfo)
     return (
       <div
         style={{
