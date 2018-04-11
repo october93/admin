@@ -33,5 +33,5 @@ export const sendCommandSuccess = response => ({
 
 export const sendCommandError = error => ({
   type: SEND_COMMAND_ERROR,
-  error,
+  response: error,
 })

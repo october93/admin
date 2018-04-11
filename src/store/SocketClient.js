@@ -238,7 +238,7 @@ export default class APIClient {
 			if (error.message === "invalid session" && this.onSessionInvalid) {
 				this.onSessionInvalid()
 			}
-			reject(error)
+			reject(data) // data contains the error
 		} else {
 			resolve(data)
 		}
@@ -288,7 +288,6 @@ export default class APIClient {
 	 */
 	onSocketMessage = (e) => {
 		const parsedMsg = parseMsg(e.data)
-		console.log(parsedMsg)
 		const responseHandler = this.getResponse(parsedMsg)
 		if (responseHandler != null) {
 			const error = parsedMsg.error && { message: parsedMsg.error }

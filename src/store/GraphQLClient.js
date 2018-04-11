@@ -15,7 +15,10 @@ export default class GraphQLClient {
     })
 
     const logoutLink = onError(({ networkError }) => {
-      if (networkError.statusCode === 401) console.log("unauthorized")
+			if (networkError.statusCode === 401) {
+				localStorage.removeItem('session')
+				window.location.replace('/admin/login')
+			}
     })
 
     const authLink = setContext((_, { headers }) => {

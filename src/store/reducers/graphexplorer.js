@@ -25,8 +25,6 @@ export function graphIsLoading(state = true, action) {
 
 const attachUsersToCardRanks = (user, node) => {
   const { cardRankTable, votes } = node
-  console.log(cardRankTable)
-  console.log(votes)
 
   return cardRankTable.map((cr, index) => ({
       ...cr,

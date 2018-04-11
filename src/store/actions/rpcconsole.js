@@ -32,7 +32,6 @@ export const sendCommandRequest = command => async (dispatch) => {
   dispatch(create.sendCommandRequest(command))
   try {
     const response = await APIClient.getInstance().RPCRequest(JSON.parse(command))
-
     dispatch(create.sendCommandSuccess(response.data))
   } catch (e) {
     dispatch(create.sendCommandError(e))

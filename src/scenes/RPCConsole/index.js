@@ -9,7 +9,9 @@ import glamorous from "glamorous"
 
 import "../../../node_modules/highlight.js/styles/vs.css"
 
+import APIClient from '../../store/SocketClient'
 import { getSessions, sendCommandRequest } from '../../store/actions/rpcconsole'
+import { websocketEndpoint } from '../../endpoint'
 
 const CommandResponse = glamorous(Highlight)({
   whiteSpace: "pre-wrap",
@@ -17,13 +19,14 @@ const CommandResponse = glamorous(Highlight)({
   fontFamily: "monospace",
 })
 
-const defaultRPC = '{"rpc": "", "sessionID": "", "data": {}}'
+const defaultRPC = '{"rpc": "", "data": {}}'
 
 class UtilitiesPage extends Component {
   constructor(props){
     super(props)
 
     this.state = {
+			consoleDisabled: true,
       commandTextArea: defaultRPC,
       history: JSON.parse(localStorage.getItem("rpcHistory")),
     }
@@ -35,6 +38,7 @@ class UtilitiesPage extends Component {
     this.handleHistoryClick = this.handleHistoryClick.bind(this)
     this.handleHistoryClear = this.handleHistoryClear.bind(this)
     this.handleSessionChange = this.handleSessionChange.bind(this)
+		this.handleConnect = this.handleConnect.bind(this)
   }
 
   submit(event){
@@ -69,19 +73,29 @@ class UtilitiesPage extends Component {
   }
 
   handleSessionChange(e) {
+		APIClient.init({
+			webSocketHost: websocketEndpoint(e.target.value),
+			onServerReady: () => this.setState({consoleDisabled: false})
+		})
     let currentRPC = this.state.commandTextArea
     try {
       currentRPC = JSON.parse(currentRPC)
     } catch(e) {
       currentRPC = JSON.parse(defaultRPC)
     }
-    currentRPC["sessionID"] = e.target.value
     this.setState({commandTextArea: JSON.stringify(currentRPC)})
   }
 
+	handleConnect(e) {
+		e.preventDefault()
+		APIClient.init({
+			webSocketHost: websocketEndpoint(),
+			onServerReady: () => this.setState({consoleDisabled: false})
+		})
+	}
+
   render() {
     const { commandResponses } = this.props
-    console.log()
     return (
       <div style={{ width: "100%" }}>
         <div>
@@ -95,8 +109,8 @@ class UtilitiesPage extends Component {
 
 
           <form onSubmit={this.submit}>
-            <Textarea style={{ fontFamily: "monospace" }} name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} />
-            <select onChange={this.handleSessionChange}>
+						<Textarea style={{ fontFamily: "monospace" }} name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} disabled={this.state.consoleDisabled} />
+						<Button onClick={this.handleConnect}>Connect Unauthenticated</Button> or <select onChange={this.handleSessionChange}>
               <option value="" disabled selected>Use session of…</option>
               {this.props.sessions.map((data) =>
                   <option value={data.id}>{data.user.username} ({data.id})</option>
