@@ -1,7 +1,7 @@
 import GraphQLClient from '../GraphQLClient'
 import gql from 'graphql-tag';
 
-import * as create from "./creators/invites"
+import * as create from "./creators/announcements"
 
 export const getAnnouncements = () => async (dispatch) => {
   dispatch(create.getAnnouncementsRequest(true))
