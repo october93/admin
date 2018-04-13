@@ -29,16 +29,16 @@ export const createAnnouncementError = error => ({
 })
 
 
-export const deleteAnnouncementsRequest = ({id}) => ({
+export const deleteAnnouncementRequest = ({id}) => ({
   type: DELETE_ANNOUNCEMENT_REQUEST,
   id,
 })
 
-export const deleteAnnouncementsSuccess = () => ({
+export const deleteAnnouncementSuccess = () => ({
   type: DELETE_ANNOUNCEMENT_SUCCESS,
 })
 
-export const deleteAnnouncementsError = error => ({
+export const deleteAnnouncementError = error => ({
   type: DELETE_ANNOUNCEMENT_ERROR,
   error,
 })

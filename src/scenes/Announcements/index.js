@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import glamorous from "glamorous"
+import ReactTable from 'react-table'
+import moment from 'moment'
 
 import Button from '../../components/button'
 import TextInput from '../../components/textinput'
+import Select from '../../components/select'
 
 import {
   getAnnouncements,
@@ -16,30 +19,40 @@ import {
   getUsers,
 } from '../../store/actions/users'
 
-const Container = glamorous.div({
+import "react-table/react-table.css"
 
+const Container = glamorous.div({
+  display: "block",
+  width: "40%",
 })
 
-const UserSelectorContainer = glamorous.div({
-  display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  width: "400px",
+const GroupContainer = glamorous.div({
+  margin: "7px 0px",
+})
+
+const OptionGroup = glamorous.div()
+
+const Label = glamorous.div()
+
+const Spacer = glamorous.div({
+  height: "40px",
 })
 
 const StyledButton = glamorous(Button)(({ active }) => ({
-  margin: "5px",
-  backgroundColor: active ? "#02A8F3" : "white",
-  color: active ? "white" : "black",
-  borderColor: active ? "white" : null,
+  backgroundColor: active ? "#02A8F3" : null,
+  color: active ? "white" : null,
+  border: active? "1px white solid" : null,
+  marginRight: "10px",
+
 }))
+
 
 
 class Announcements extends Component {
   state = {
-    selectedUsers: [],
+    toUsers: [],
     fromUser: "",
-    cardID: "",
+    forCard: "",
     message: "",
   }
   componentDidMount() {
@@ -62,38 +75,73 @@ class Announcements extends Component {
   }
 
   toggleSelectUser = username => {
-    let selectedUsers = this.state.selectedUsers
+    let toUsers = this.state.toUsers
 
-    if (selectedUsers.includes(username)) {
-      selectedUsers = selectedUsers.filter(un => un !== username)
+    if (toUsers.includes(username)) {
+      toUsers = toUsers.filter(un => un !== username)
     } else {
-      selectedUsers.push(username)
+      toUsers.push(username)
     }
-    this.setState({ selectedUsers })
+    this.setState({ toUsers })
   }
 
   selectAll = username => {
-    this.setState({ selectedUsers: this.props.users.map(u => u.username) })
+    this.setState({ toUsers: this.props.users.map(u => u.username) })
   }
 
   selectNone = username => {
-    this.setState({ selectedUsers: []})
+    this.setState({ toUsers: []})
+  }
+
+  deleteAnnouncement = async(id) => {
+    await this.props.deleteAnnouncement(id)
+    this.props.getAnnouncements()
   }
 
   createAnnouncement = () => {
     const {
-      selectedUsers,
+      toUsers,
       fromUser,
-      cardID,
+      forCard,
       message,
     } = this.state
+
     this.props.createAnnouncement({
-      selectedUsers,
-      fromUser,
-      cardID,
+      toUsers: toUsers.map(n => this.props.users.find(u => u.username === n).nodeId),
+      fromUser: this.props.users.find(u => u.username === fromUser).nodeId,
+      forCard,
       message,
     })
   }
+
+  makeCols = () => {
+    return [{
+      Header: 'Message',
+      accessor: 'message',
+      filterable: true,
+    }, {
+      Header: 'From',
+      id: 'userID',
+      accessor: d =>(this.props.users.find(u => u.nodeId === d.userID) || {}).username,
+    }, {
+      Header: "For Card",
+      accessor: 'cardID',
+    }, {
+      Header: "Announced At",
+      accessor: 'createdAt',
+      Cell: props => moment(props.value * 1000).fromNow()
+    }, {
+      Header: "Deleted At",
+      accessor: 'deletedAt',
+      Cell: props => props.value > 0 ? moment(props.value * 1000).fromNow() : ""
+    }, {
+      Header: "Delete",
+      accessor: 'id',
+      Cell: props => <Button onClick={() => this.deleteAnnouncement(props.value)}>Delete</Button>
+
+    }]
+  }
+
 
   render() {
     const {
@@ -101,38 +149,39 @@ class Announcements extends Component {
       users
     } = this.props
 
-    const {
-      selectedUsers,
-    } = this.state
-    console.log(announcements, users)
+    const { toUsers } = this.state
 
     return (
-      <Container>
-        Message:
-        <TextInput onChange={e => this.setState({message: e.target.value})}/>
+      <div style={{display: "flex", flexDirection: "column", flex: 1 }}>
+        <Container>
+          <TextInput label="Message" onChange={e => this.setState({message: e.target.value})}/>
+          <TextInput label="For"  onChange={e => this.setState({forCard: e.target.value})}/>
+          <Select label="From" options={users.map(u => u.username)} value={this.state.fromUser} onChange={e => this.setState({ fromUser: e.target.value })} />
+          <GroupContainer>
+            <Label>To:</Label>
+            <OptionGroup>
+              <StyledButton active={toUsers.length > 1} onClick={this.selectAll}>
+                All
+              </StyledButton>
+              OR <Select options={users.map(u => u.username)} value={this.state.toUsers[0]} onChange={e => this.setState({ toUsers: [e.target.value] })} />
+            </OptionGroup>
+          </GroupContainer>
+          <Button onClick={this.createAnnouncement}>Create</Button>
+        </Container>
 
-        FOR:
-        <TextInput onChange={e => this.setState({cardID: e.target.value})}/>
-        FROM:
-        <select value={this.state.fromUser} onChange={e => this.setState({ fromUser: e.target.value })}>
-          {
-            users.map(u => <option>{u.username}</option>)
-          }
-        </select>
-        TO:
-        <Button onClick={this.selectAll}>
-          All
-        </Button>
-        <Button onClick={this.selectNone}>
-          None
-        </Button>
-        <UserSelectorContainer>
-          {
-            users.map(u => <StyledButton active={selectedUsers.includes(u.username)} onClick={() => this.toggleSelectUser(u.username)}>{u.username}</StyledButton>)
-          }
-        </UserSelectorContainer>
-        <Button onClick={this.createAnnouncement}>Create</Button>
-      </Container>
+        <Spacer />
+
+        <ReactTable
+         data={announcements}
+         columns={this.makeCols()}
+         defaultPageSize={100}
+         showPagination={this.props.users.length > 100}
+         minRows={0}
+        />
+
+    </div>
+
+
 
     )
   }

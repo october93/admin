@@ -23,7 +23,7 @@ export const getAnnouncements = () => async (dispatch) => {
         }
       `
     })
-    dispatch(create.getAnnouncementsSuccess(data.invites))
+    dispatch(create.getAnnouncementsSuccess(data.announcements))
   } catch (e) {
     dispatch(create.getAnnouncementsError(e))
   }
@@ -49,7 +49,7 @@ export const createAnnouncement = ({ message, fromUser, forCard, toUsers }) => a
       `
     })
 
-    dispatch(create.createAnnouncementSuccess())
+    dispatch(create.createAnnouncementSuccess(response.data.createAnnouncement))
     return response.data.createAnnouncement
   } catch (e) {
     dispatch(create.createAnnouncementError(e))
