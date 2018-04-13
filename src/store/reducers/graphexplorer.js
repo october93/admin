@@ -85,7 +85,7 @@ export function graphLoadingSuccess(state = {}, action) {
         if (obj[edge.sourceID] === undefined) {
           obj[edge.sourceID] = []
         }
-        obj[edge.sourceID].push(usersByID[edge.targetID].username)
+        obj[edge.sourceID].push((usersByID[edge.targetID] || {username: "UNKNOWN"}).username)
         return obj
       }, {})
       return {
