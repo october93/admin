@@ -84,6 +84,10 @@ import {
   reactionsLoading,
 } from './reactions'
 
+import {
+  announcements,
+} from './announcements'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -141,4 +145,6 @@ export default combineReducers({
 
   reactions,
   reactionsLoading,
+
+  announcements,
 })
