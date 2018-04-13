@@ -4,6 +4,7 @@ import { Router, Route, Redirect } from 'react-router'
 import AdminLayout from './components/AdminLayout'
 
 import LoginPage from './scenes/Login'
+import Announcements from './scenes/Announcements'
 import NotFoundPage from './scenes/NotFound'
 import UtilitiesPage from './scenes/RPCConsole'
 import GraphQLPage from './scenes/GraphQL'
@@ -62,7 +63,7 @@ const Routes = (props) => (
       <Route path="/admin/waitlist" component={Waitlist} />
       <Route path="/admin/whoisonline" component={WhoIsOnline} />
       <Route path="/admin/reactions" component={Reactions} />
-
+      <Route path="/admin/announcements" component={Announcements} />
       <Redirect from="/" to="/admin" />
       <Route path="*" component={NotFoundPage} />
     </Route>
