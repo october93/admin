@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from "react-helmet"
 
 import {
   Container,
@@ -20,6 +21,9 @@ import logo from './logo-light.png'
 
 import { logout } from '../../store/actions/login'
 
+const {
+	REACT_APP_ENVIRONMENT,
+} = process.env
 
 const menuItems = [
   {name: "Moderation", path: "/admin/moderation"},
@@ -55,8 +59,23 @@ class AdminLayout extends Component {
   render() {
     const profile = JSON.parse(localStorage.getItem("session"))
 
+    let appName = "October Admin"
+
+    if (REACT_APP_ENVIRONMENT === "dev") {
+      appName += " Development"
+    } else if (REACT_APP_ENVIRONMENT === "local") {
+      appName += " Local"
+    }
+
     return (
     		<Container>
+          {
+            REACT_APP_ENVIRONMENT !== "prod" &&
+            <Helmet>
+              <title>{appName}</title>
+            </Helmet>
+          }
+
           <SideMenu>
             <TitleHeader to="/">
                 <Logo src={logo} alt="logo"/>
