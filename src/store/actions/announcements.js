@@ -29,14 +29,14 @@ export const getAnnouncements = () => async (dispatch) => {
   }
 }
 
-export const createAnnouncement = ({ message, fromUser, forCard, toUsers }) => async (dispatch) => {
-  dispatch(create.createAnnouncementRequest({ message, fromUser, forCard, toUsers }))
+export const createAnnouncement = ({ message, fromUser, forCard, toUsers, sendPush }) => async (dispatch) => {
+  dispatch(create.createAnnouncementRequest({ message, fromUser, forCard, toUsers, sendPush }))
 
   try {
     const response = await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
-          createAnnouncement(fromUser:"${fromUser}", forCard:"${forCard}", message:"${message}", toUsers:${JSON.stringify(toUsers)}) {
+          createAnnouncement(fromUser:"${fromUser}", forCard:"${forCard}", message:"${message}", sendPush:${sendPush}, toUsers:${JSON.stringify(toUsers)}) {
             id,
             userID,
             cardID,

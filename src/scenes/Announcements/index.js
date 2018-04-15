@@ -7,6 +7,7 @@ import moment from 'moment'
 import Button from '../../components/button'
 import TextInput from '../../components/textinput'
 import Select from '../../components/select'
+import Checkbox from '../../components/checkbox'
 
 import {
   getAnnouncements,
@@ -54,6 +55,7 @@ class Announcements extends Component {
     fromUser: "",
     forCard: "",
     message: "",
+    sendPush: false,
   }
   componentDidMount() {
     this.props.getAnnouncements()
@@ -104,6 +106,7 @@ class Announcements extends Component {
       fromUser,
       forCard,
       message,
+      sendPush,
     } = this.state
 
     this.props.createAnnouncement({
@@ -111,6 +114,7 @@ class Announcements extends Component {
       fromUser: this.props.users.find(u => u.username === fromUser).nodeId,
       forCard,
       message,
+      sendPush,
     })
   }
 
@@ -149,7 +153,7 @@ class Announcements extends Component {
       users
     } = this.props
 
-    const { toUsers } = this.state
+    const { toUsers, sendPush } = this.state
 
     return (
       <div style={{display: "flex", flexDirection: "column", flex: 1 }}>
@@ -166,6 +170,7 @@ class Announcements extends Component {
               OR <Select options={users.map(u => u.username)} value={this.state.toUsers[0]} onChange={e => this.setState({ toUsers: [e.target.value] })} />
             </OptionGroup>
           </GroupContainer>
+          <Checkbox checked={sendPush} label="Send Push Notifications" onChange={e => this.setState({ sendPush: e.target.checked })} />
           <Button onClick={this.createAnnouncement}>Create</Button>
         </Container>
 

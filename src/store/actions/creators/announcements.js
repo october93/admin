@@ -10,12 +10,13 @@ import {
   GET_ANNOUNCEMENTS_ERROR,
 } from "./types"
 
-export const createAnnouncementRequest = ({ message, fromUser, forCard, toUsers }) => ({
+export const createAnnouncementRequest = ({ message, fromUser, forCard, toUsers, sendPush }) => ({
   type: CREATE_ANNOUNCEMENT_REQUEST,
   message,
   fromUser,
   forCard,
   toUsers,
+  sendPush,
 })
 
 export const createAnnouncementSuccess = announcement => ({
