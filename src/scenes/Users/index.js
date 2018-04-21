@@ -10,6 +10,8 @@ import Button from "../../components/button"
 
 import "react-table/react-table.css"
 
+const { REACT_APP_APP_HOST } = process.env
+
 
 const columns = [{
   Header: 'Username',
@@ -29,31 +31,18 @@ const columns = [{
 
 
 class UsersPage extends Component {
-
-  constructor(props){
-    super(props)
-
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      this.appEndpoint = 'http://localhost:3000'
-    } else if (location.hostname === "engine.october.news") {
-      this.appEndpoint = 'https://october.news'
-    } else if (location.hostname === "engine.development.october.news") {
-      this.appEndpoint = 'https://development.october.news'
-    }
-  }
-
   componentDidMount() {
     this.props.getUsers()
   }
 
   viewUserFeedInApp = async nodeID => {
     const ids = await this.props.getPreviewFeed(nodeID)
-    window.open(`${this.appEndpoint}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
+    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
   viewUserInviteFeedInApp = async nodeID => {
     const ids = await this.props.getPreviewInviteFeed(nodeID)
-    window.open(`${this.appEndpoint}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
+    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
   newInviteForUser = async nodeID => {
@@ -64,21 +53,19 @@ class UsersPage extends Component {
   render() {
     const cols = [...columns]
 
-    if (this.appEndpoint) {
-      cols.push({
-        Header: "",
-        accessor: "nodeId",
-        width: 300,
-        Cell: props => (
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
-            <div style={{width: "10px"}} />
-            <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
-            <div style={{width: "10px"}} />
-            <Button onClick={() => this.newInviteForUser(props.value)}>Get Invite</Button>
-          </div>)
-      })
-    }
+    cols.push({
+      Header: "",
+      accessor: "nodeId",
+      width: 300,
+      Cell: props => (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
+          <div style={{width: "10px"}} />
+          <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
+          <div style={{width: "10px"}} />
+          <Button onClick={() => this.newInviteForUser(props.value)}>Get Invite</Button>
+        </div>)
+    })
 
     return (
       <div style={{ width: "100%", margin: "10px"}}>

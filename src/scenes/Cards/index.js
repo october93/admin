@@ -10,6 +10,8 @@ import { InstantSearch } from 'react-instantsearch/dom';
 import Search from './search'
 import glamorous from "glamorous"
 
+const { REACT_APP_ALGOLIA_ENVIRONMENT } = process.env
+
 const Emblem = glamorous.img({
   width: "1rem",
   height: "1rem",
@@ -44,17 +46,6 @@ const columns = [{
 ]
 
 class Cards extends Component {
-  constructor(props) {
-    super(props)
-    const environment = location.hostname.split('.')[0]
-    this.indexName = `${environment}_engine`
-    if (environment === 'engine') {
-      this.indexName = 'engine'
-    }
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      this.indexName = 'local_engine'
-    }
-  }
   componentDidMount() {
     this.props.getCardsWithStats()
   }
@@ -73,7 +64,7 @@ class Cards extends Component {
           <InstantSearch
             appId="0Z498T9C13"
             apiKey="b5dcca10ada97954dfc6b4d5b77786a4"
-            indexName={this.indexName}
+            indexName={REACT_APP_ALGOLIA_ENVIRONMENT}
             >
             <Search />
           </InstantSearch>

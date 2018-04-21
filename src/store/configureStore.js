@@ -5,27 +5,15 @@ import rootReducer from './reducers'
 import GraphQLClient from './GraphQLClient'
 import APIClient from './SocketClient'
 
-const defaultServerURL = `${location.hostname === "localhost" ? location.hostname + ":9000" : location.hostname}`
+const { REACT_APP_GRAPHQL_ENDPOINT} = process.env
 
 export default function configureStore(graphQLHost, initialState) {
-  GraphQLClient.init(graphQLHost)
+  GraphQLClient.init(REACT_APP_GRAPHQL_ENDPOINT)
 
-  // setup SockJS
-  let wsProtocol = 'ws:'
-  if (location.protocol === 'https:') {
-    wsProtocol = 'wss:'
-  }
-
-  let session = localStorage.getItem("session")
-  let endpoint = `${wsProtocol}//${defaultServerURL}/deck_endpoint/`
-
-  if (session !== null) {
-    session = JSON.parse(session)
-    endpoint += `?session=${session.id}&adminpanel=true`
-  }
-
+  const session = localStorage.getItem("session")
+  
   APIClient.init({
-		webSocketHost: endpoint,
+		sessionID: session ? session.id : null,
 	})
 
   return createStore(

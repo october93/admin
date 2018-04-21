@@ -51,7 +51,7 @@ class AdminLayout extends Component {
   renderMenuItems = () => {
     return menuItems.map(item => (
       <MenuItem key={item.path}>
-        <MenuLink active={(this.props.location.pathname === item.path).toString()} key={item.path} to={item.path}>{item.name}</MenuLink>
+        <MenuLink isCurrentPage={this.props.location.pathname === item.path} key={item.path} to={item.path}>{item.name}</MenuLink>
       </MenuItem>
     ))
   }

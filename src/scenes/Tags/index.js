@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { getTags, createTag } from '../../store/actions/tags'
 import { connect } from 'react-redux'
-import { graphqlEndpoint } from '../../endpoint'
 
 import Error from '../../components/error'
 import glamorous from "glamorous"
@@ -16,7 +15,7 @@ class Tags extends Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.props.getTags(graphqlEndpoint)
+    this.props.getTags()
   }
 
   handleChange(event) {
@@ -29,7 +28,7 @@ class Tags extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.createTag(graphqlEndpoint, this.state.handle, this.state.name, this.state.info)
+    this.props.createTag(this.state.handle, this.state.name, this.state.info)
   }
 
   render() {

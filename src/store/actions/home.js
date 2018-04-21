@@ -1,10 +1,9 @@
 import GraphQLClient from '../GraphQLClient'
 import gql from 'graphql-tag';
 
-export function getSettings(url) {
+export function getSettings() {
   return (dispatch) => {
-    const client = new GraphQLClient(url)
-    return client.client.query({
+    return GraphQLClient.Client().query({
       errorPolicy: "ignore",
       query: gql`
         {
@@ -16,15 +15,14 @@ export function getSettings(url) {
       `
     })
       .then(response => response.data)
-      .then(data => dispatch(homeGetSettingsSuccess(data)))    
+      .then(data => dispatch(homeGetSettingsSuccess(data)))
       .catch(error => console.log(error))
   }
 }
 
-export function setSignupsFrozen(url, on) {
+export function setSignupsFrozen(on) {
   return (dispatch) => {
-    const client = new GraphQLClient(url)
-    return client.client.mutate({
+    return GraphQLClient.Client().mutate({
       errorPolicy: "ignore",
       mutation: gql`
         mutation {
@@ -38,10 +36,9 @@ export function setSignupsFrozen(url, on) {
   }
 }
 
-export function setMaintenanceMode(url, on) {
+export function setMaintenanceMode(on) {
   return (dispatch) => {
-    const client = new GraphQLClient(url)
-    return client.client.mutate({
+    return GraphQLClient.Client().mutate({
       errorPolicy: "ignore",
       mutation: gql`
         mutation {
