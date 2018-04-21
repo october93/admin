@@ -27,7 +27,7 @@ const createTagSuccess = () => ({
 })
 
 const createTagsFailure = error => ({
-  type: GET_TAGS_FAILURE,
+  type: CREATE_TAG_FAILURE,
   error,
 })
 
@@ -56,16 +56,16 @@ export const getTags = () => async (dispatch) => {
   }
 }
 
-export const createTag = (handle, name, info) => async (dispatch) => {
+export const createTag = (handle) => async (dispatch) => {
   try {
     const response = await GraphQLClient.Client().mutate({
-      errorPolicy: "ignore",
       mutation: gql`
         mutation {
-          newTag(handle: "${handle}", name: "${name}", info: "${info}")
+          newTag(handle: "${handle}")
         }
         `
     })
+
     dispatch(createTagSuccess(response))
     dispatch(getTags())
   } catch (e) {

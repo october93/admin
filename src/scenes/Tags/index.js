@@ -3,11 +3,31 @@ import { getTags, createTag } from '../../store/actions/tags'
 import { connect } from 'react-redux'
 
 import Error from '../../components/error'
+import Button from '../../components/button'
+import TextInput from '../../components/textinput'
 import glamorous from "glamorous"
 
 const StyledForm = glamorous.form({
   width: "20rem",
   marginBottom: "3rem",
+})
+
+const Tag = glamorous.span({
+  margin: "5px",
+  borderRadius: "25px",
+  padding: "8px 15px",
+  border: "1px solid #CCC",
+  backgroundColor: "#EEE",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+})
+
+const TagContainer = glamorous.div({
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  padding: "0px 10px"
 })
 
 class Tags extends Component {
@@ -28,7 +48,7 @@ class Tags extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.createTag(this.state.handle, this.state.name, this.state.info)
+    this.props.createTag(this.state.handle)
   }
 
   render() {
@@ -38,39 +58,26 @@ class Tags extends Component {
     if (this.props.loadError) {
       return <Error>{this.props.loadError.message}</Error>
     }
-    if (this.props.createError) {
-      return <Error>{this.props.createError.message}</Error>
-    }
     const Tags = (
       (this.props.tags.tags || []).map((tag, i) => (
-        <tr key={i}>
-          <td>{tag.handle}</td>
-          <td>{tag.name}</td>
-          <td>{tag.info}</td>
-        </tr>
+          <Tag key={i}>{tag.handle}</Tag>
     ))
     )
     return (
       <div style={{ width: "100%" }}>
+        { this.props.createError &&
+          <Error>{this.props.createError.message}</Error>
+        }
         <p>New Tag</p>
         <StyledForm>
-          <input type="text" name="handle" placeholder="Handle" onChange={this.handleChange} />
-          <input type="text" name="name" placeholder="Name" onChange={this.handleChange} />
-          <input type="text" name="info" placeholder="Info" onChange={this.handleChange} />
-          <input type="submit" value="Create" onClick={this.handleSubmit} />
+          <TextInput type="text" name="handle" placeholder="Handle" onChange={this.handleChange} />
+          <Button type="submit" onClick={this.handleSubmit}>Create</Button>
         </StyledForm>
-        <table>
-          <thead>
-            <tr>
-              <th>Handle</th>
-              <th>Name</th>
-              <th>Info</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Tags}
-          </tbody>
-        </table>
+
+        <TagContainer>
+          {Tags}
+        </TagContainer>
+
       </div>
     )
   }
@@ -86,12 +93,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getTags: (url) => dispatch(getTags(url)),
-    createTag: (url, handle, name, info) => dispatch(createTag(url, handle, name, info)),
-    dispatch
-  }
+const mapDispatchToProps = {
+  getTags,
+  createTag,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tags)

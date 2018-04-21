@@ -3,7 +3,7 @@ import {
   GET_TAGS_SUCCESS,
   GET_TAGS_FAILURE,
   CREATE_TAG_SUCCESS,
-  CREATE_TAGS_FAILURE
+  CREATE_TAG_FAILURE,
 } from '../actions/tags'
 
 export function tagsLoading(state = true, action) {
@@ -44,8 +44,10 @@ export function createTagSuccessful(state = null, action) {
 
 export function createTagFailed(state = null, action) {
   switch (action.type) {
-    case CREATE_TAGS_FAILURE:
+    case CREATE_TAG_FAILURE:
       return action.error
+    case CREATE_TAG_SUCCESS:
+      return null
     default:
       return state
   }
