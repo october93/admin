@@ -4,6 +4,8 @@ import Viva from 'vivagraphjs';
 import { connect } from 'react-redux'
 import glamorous from "glamorous"
 
+const UNKNOWN = { username: "UNKNOWN" }
+
 const StyledGraph = glamorous.div("Graph", {
   width: "100%",
   height: "100%",
@@ -46,7 +48,7 @@ class Graph extends Component {
     this.graphics.node(node => {
       const nodeUI = Viva.Graph.svg('g')
       const rect = Viva.Graph.svg('rect').attr('fill', '#00a2e8').attr('width', nodeSize).attr('height', nodeSize)
-      const label = Viva.Graph.svg('text').text(node.data.username)
+      const label = Viva.Graph.svg('text').text((node.data || UNKNOWN).username)
       nodeUI.append(rect)
       nodeUI.append(label)
       return nodeUI

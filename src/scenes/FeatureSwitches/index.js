@@ -5,15 +5,8 @@ import Switch from 'rc-switch'
 import { getSwitches, setFeatureSwitchState, newFeatureSwitch, deleteFeatureSwitch } from '../../store/actions/featureswitches'
 
 class FeatureSwitches extends Component {
-  constructor(props) {
-    super(props)
-    let endpoint = `${location.origin}/graphql`
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      endpoint = 'http://localhost:9000/graphql'
-    }
-    this.endpoint = endpoint
-
-    this.props.getSwitches(endpoint)
+  componentDidMount() {
+    this.props.getSwitches()
   }
 
   state = {
@@ -31,8 +24,8 @@ class FeatureSwitches extends Component {
         <tr key={i}>
           <td>
             <span style={{ color: "#F00", fontWeight: "bold"}} onClick={async () =>{
-                await this.props.deleteFeatureSwitch(this.endpoint, featureSwitch.id)
-                await this.props.getSwitches(this.endpoint)
+                await this.props.deleteFeatureSwitch(featureSwitch.id)
+                await this.props.getSwitches()
               }}>
               X
             </span>
@@ -42,8 +35,8 @@ class FeatureSwitches extends Component {
           <td>
             <Switch
               onClick={async () => {
-                await this.props.setFeatureSwitchState(this.endpoint, featureSwitch.id, featureSwitch.state === "on" ? "off" : "on")
-                await this.props.getSwitches(this.endpoint)
+                await this.props.setFeatureSwitchState(featureSwitch.id, featureSwitch.state === "on" ? "off" : "on")
+                await this.props.getSwitches()
               }}
               checked={featureSwitch.state === "on"}
             />
@@ -73,8 +66,8 @@ class FeatureSwitches extends Component {
             <tr key={"edit"}>
               <td />
               <td style={{textAlign: "center" }}><button style={{ color: "#02A8F3", backgroundColor: "white", padding: "10px", borderRadius: "4px"}} onClick={async () => {
-                  await this.props.newFeatureSwitch(this.endpoint, this.state.newSwitchName, this.state.newSwitchState ? "on" : "off")
-                  await this.props.getSwitches(this.endpoint)
+                  await this.props.newFeatureSwitch(this.state.newSwitchName, this.state.newSwitchState ? "on" : "off")
+                  await this.props.getSwitches()
                   this.setState({ newSwitchName: "", newSwitchState: false })
                 }}>Add Switch</button></td>
               <td><input value={this.state.newSwitchName} onChange={(e) => this.setState({ newSwitchName: e.target.value })} /></td>

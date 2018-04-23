@@ -5,6 +5,8 @@ import glamorous from "glamorous"
 
 import Link from "../link"
 
+const { REACT_APP_APP_HOST } = process.env
+
 const CardLinkTooltip = glamorous.div({
   backgroundColor: "#fff",
   maxWidth: "10rem",
@@ -15,21 +17,8 @@ const CardLinkTooltip = glamorous.div({
 })
 
 class CardLink extends Component {
-  constructor(props) {
-    super(props)
-    let url = location.origin
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      url = 'http://localhost:3000/post'
-    } else if (location.hostname === 'engine.october.news') {
-      url = 'https://october.news/post'
-    } else if (location.hostname === 'engine.development.october.news') {
-      url = 'https://development.october.news/post'
-    }
-    this.url = url
-  }
-
   render() {
-    const link = <Link href={`${this.url}/${this.props.cardID}`} target="_blank">{this.props.cardID}</Link>
+    const link = <Link href={`${REACT_APP_APP_HOST}/post/${this.props.cardID}`} target="_blank">{this.props.cardID}</Link>
 
     return this.props.card && this.props.card.body ? (
         <Tooltip

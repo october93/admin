@@ -34,7 +34,11 @@ class Waitlist extends Component {
     }, {
       Header: 'Email',
       accessor: 'email',
-      width: 500,
+      width: 300,
+    }, {
+      Header: 'Name',
+      accessor: 'name',
+      width: 300,
     }, {
       Header: 'Comment',
       accessor: 'comment',

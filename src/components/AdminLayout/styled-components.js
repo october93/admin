@@ -7,10 +7,10 @@ export const Container = glamorous.div({
 
 })
 
-export const MenuLink = glamorous(Link)(({ active }) => ({
+export const MenuLink = glamorous(Link)(({ isCurrentPage }) => ({
   textDecoration: "none",
   color: "white",
-  fontWeight: active === 'true' ? "bold" : "inherit",
+  fontWeight: isCurrentPage ? "bold" : "inherit",
 
   "&:active": {
     color: "white",

@@ -13,25 +13,16 @@ const Item = glamorous.div({
 })
 
 class DangerZone extends Component {
-  constructor(props) {
-    super(props)
-    this.handleFreezeSignup = this.handleFreezeSignup.bind(this)
-    this.handleMaintenanceMode = this.handleMaintenanceMode.bind(this)
-
-    let endpoint = `${location.origin}/graphql`
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      endpoint = 'http://localhost:9000/graphql'
-    }
-    this.endpoint = endpoint
-    this.props.getSettings(this.endpoint)
+  componentDidMount() {
+    this.props.getSettings()
   }
 
-  handleFreezeSignup(checked) {
-    this.props.setSignupsFrozen(this.endpoint, checked)
+  handleFreezeSignup = (checked) => {
+    this.props.setSignupsFrozen(checked)
   }
 
-  handleMaintenanceMode(checked) {
-    this.props.setMaintenanceMode(this.endpoint, checked)
+  handleMaintenanceMode = (checked) => {
+    this.props.setMaintenanceMode(checked)
   }
 
   render() {

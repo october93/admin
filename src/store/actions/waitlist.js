@@ -9,6 +9,7 @@ export const getWaitlist = () => async (dispatch) => {
         {
           waitlist {
             email
+            name
             comment
             createdAt
           }

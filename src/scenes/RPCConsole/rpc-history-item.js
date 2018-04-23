@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import glamorous from "glamorous"
 
-const HistoryItem = glamorous.li({
+const HistoryItem = glamorous.div({
   marginBottom: "1em",
-  paddingRight: "3em",
   marginLeft: "0",
   listStyleType: "none",
   cursor: "pointer",

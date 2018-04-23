@@ -11,12 +11,15 @@ import "../../../node_modules/highlight.js/styles/vs.css"
 
 import APIClient from '../../store/SocketClient'
 import { getSessions, sendCommandRequest } from '../../store/actions/rpcconsole'
-import { websocketEndpoint } from '../../endpoint'
 
 const CommandResponse = glamorous(Highlight)({
   whiteSpace: "pre-wrap",
   fontSize: "11px",
   fontFamily: "monospace",
+})
+
+const ConnectContainer = glamorous.div({
+  marginBottom: "10px",
 })
 
 const defaultRPC = '{"rpc": "", "data": {}}'
@@ -32,17 +35,9 @@ class UtilitiesPage extends Component {
     }
 
     this.props.getSessions()
-
-    this.inputChange = this.inputChange.bind(this)
-    this.submit = this.submit.bind(this)
-    this.handleHistoryClick = this.handleHistoryClick.bind(this)
-    this.handleHistoryClear = this.handleHistoryClear.bind(this)
-    this.handleSessionChange = this.handleSessionChange.bind(this)
-		this.handleConnect = this.handleConnect.bind(this)
   }
 
-  submit(event){
-    event.preventDefault()
+  submit = () => {
     let currentHistory = JSON.parse(localStorage.getItem('rpcHistory'))
     if (currentHistory === null) {
       currentHistory = []
@@ -53,7 +48,7 @@ class UtilitiesPage extends Component {
     this.props.sendCommandRequest(this.state.commandTextArea)
   }
 
-  inputChange(event) {
+  inputChange = (event) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
@@ -63,18 +58,18 @@ class UtilitiesPage extends Component {
     })
   }
 
-  handleHistoryClick(content) {
+  handleHistoryClick = (content) => {
     this.setState({commandTextArea: content})
   }
 
-  handleHistoryClear() {
+  handleHistoryClear = () => {
     localStorage.removeItem('rpcHistory')
     this.setState({history: []})
   }
 
-  handleSessionChange(e) {
+  handleSessionChange = (e) => {
 		APIClient.init({
-			webSocketHost: websocketEndpoint(e.target.value),
+			sessionID: e.target.value,
 			onServerReady: () => this.setState({consoleDisabled: false})
 		})
     let currentRPC = this.state.commandTextArea
@@ -86,10 +81,8 @@ class UtilitiesPage extends Component {
     this.setState({commandTextArea: JSON.stringify(currentRPC)})
   }
 
-	handleConnect(e) {
-		e.preventDefault()
+	handleConnect = () => {
 		APIClient.init({
-			webSocketHost: websocketEndpoint(),
 			onServerReady: () => this.setState({consoleDisabled: false})
 		})
 	}
@@ -97,38 +90,36 @@ class UtilitiesPage extends Component {
   render() {
     const { commandResponses } = this.props
     return (
-      <div style={{ width: "100%" }}>
-        <div>
-          <h4>RPC Tester</h4>
-          Response:
-          { commandResponses.length > 0 &&
-            <CommandResponse>
-                {commandResponses[commandResponses.length-1].string}
-            </CommandResponse>
-          }
+      <div>
+        <h4>RPC Tester</h4>
+        <ConnectContainer>
+          <Button onClick={this.handleConnect}>Connect Unauthenticated</Button> or <select onChange={this.handleSessionChange}>
+            <option value="" disabled selected>Use session of…</option>
+            {this.props.sessions.map((data) =>
+                <option value={data.id}>{data.user.username} ({data.id})</option>
+            )}
+          </select>
+        </ConnectContainer>
+
+        Response:
+        { commandResponses.length > 0 &&
+          <CommandResponse>
+              {commandResponses[commandResponses.length-1].string}
+          </CommandResponse>
+        }
 
 
-          <form onSubmit={this.submit}>
-						<Textarea style={{ fontFamily: "monospace" }} name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} disabled={this.state.consoleDisabled} />
-						<Button onClick={this.handleConnect}>Connect Unauthenticated</Button> or <select onChange={this.handleSessionChange}>
-              <option value="" disabled selected>Use session of…</option>
-              {this.props.sessions.map((data) =>
-                  <option value={data.id}>{data.user.username} ({data.id})</option>
-              )}
-            </select>
-            <Button type="submit">Submit</Button>
-          </form>
-          {this.state.history && this.state.history.length > 0 &&
-            <div>
-              <h4>History</h4>
-              <p>Select past RPC to restore input above:</p>
-                <Button onClick={this.handleHistoryClear}>Delete History</Button>
-                <ul>
-                  {this.state.history.map(rpc => <RPCHistoryItem content={rpc} handleClick={this.handleHistoryClick}/>)}
-                </ul>
-              </div>
-          }
-        </div>
+				<Textarea style={{ fontFamily: "monospace" }} name="commandTextArea" placeholder="Input a command!" value={this.state.commandTextArea} onChange={this.inputChange} disabled={this.state.consoleDisabled} />
+        <Button onClick={this.submit}>Submit</Button>
+
+        {this.state.history && this.state.history.length > 0 &&
+          <div>
+            <h4>History</h4>
+            <p>Select past RPC to restore input above:</p>
+              <Button onClick={this.handleHistoryClear}>Delete History</Button>
+                {this.state.history.map(rpc => <RPCHistoryItem content={rpc} handleClick={this.handleHistoryClick}/>)}
+            </div>
+        }
       </div>
     )
   }

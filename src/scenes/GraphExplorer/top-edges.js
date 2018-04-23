@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { Tooltip } from 'react-tippy'
 import ReactTable from 'react-table'
 
+const UNKNOWN = { username: "UNKNOWN" }
+
 class TopEdges extends Component {
   makeColumns() {
     return [{
       Header: 'Attention Source',
       id: "attentionSource",
-      accessor: d => this.props.data.usersByID[d.sourceID].username, //'sourceID',
+      accessor: d => (this.props.data.usersByID[d.sourceID] || UNKNOWN).username, //'sourceID',
       filterable: true,
       filterMethod: (filter, row) => {
         const filters = filter.value.split(",").map(d => d.trim())
@@ -19,7 +21,7 @@ class TopEdges extends Component {
     }, {
       Header: 'Attention Target',
       id: "attentionTarget",
-      accessor: d => this.props.data.usersByID[d.targetID].username,
+      accessor: d => (this.props.data.usersByID[d.targetID] || UNKNOWN).username,
       filterable: true,
       filterMethod: (filter, row) => {
         const filters = filter.value.split(",").map(d => d.trim())

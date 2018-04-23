@@ -4,6 +4,8 @@ import fetch from 'isomorphic-fetch'
 
 import './index.css'
 
+const { REACT_APP_GRAPHQL_ENDPOINT } = process.env
+
 export default class GraphQLPage extends Component {
   constructor(props) {
     super(props);
@@ -11,11 +13,7 @@ export default class GraphQLPage extends Component {
   }
 
   fetch(params) {
-    let endpoint = `${location.origin}/graphql`
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      endpoint = 'http://localhost:9000/graphql'
-    }
-    return fetch(endpoint, {
+    return fetch(REACT_APP_GRAPHQL_ENDPOINT, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

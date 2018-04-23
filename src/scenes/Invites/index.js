@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Timestamp from 'react-timestamp'
 import Button from "../../components/button"
 import { connect } from 'react-redux'
 
@@ -26,7 +25,6 @@ class InvitesPage extends Component {
       <tr key={i}>
         <td>{data.token}</td>
         <td>{data.issuer}</td>
-        <td><Timestamp time={data.expires} precision={2} /></td>
         <td>{data.remainingUses}</td>
       </tr>
     )
@@ -38,7 +36,6 @@ class InvitesPage extends Component {
             <tr>
               <th>Token</th>
               <th>Created by</th>
-              <th>Expires in</th>
               <th>Uses Left</th>
             </tr>
           </thead>

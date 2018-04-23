@@ -19,11 +19,10 @@ const getFeatureSwitchesError = error => ({
     error,
 })
 
-export const getSwitches = url => async (dispatch) => {
+export const getSwitches = () => async (dispatch) => {
     dispatch(getFeatureSwitchesRequest())
-    const client = new GraphQLClient(url)
     try {
-      const response = await client.client.query({
+      const response = await GraphQLClient.Client().query({
         errorPolicy: "ignore",
         query: gql`
         {
@@ -61,11 +60,10 @@ const setSwitchStateError = error => ({
     error,
 })
 
-export const setFeatureSwitchState = (url, featureID, state) => async (dispatch) => {
+export const setFeatureSwitchState = (featureID, state) => async (dispatch) => {
     dispatch(setSwitchStateRequest())
-    const client = new GraphQLClient(url)
     try {
-      await client.client.mutate({
+      await GraphQLClient.Client().mutate({
         mutation: gql`
         mutation {
           setFeatureSwitchState(featureID:"${featureID}", state:"${state}" )
@@ -96,11 +94,10 @@ const newSwitchError = error => ({
     error,
 })
 
-export const newFeatureSwitch = (url, name, state) => async (dispatch) => {
+export const newFeatureSwitch = (name, state) => async (dispatch) => {
     dispatch(newSwitchRequest())
-    const client = new GraphQLClient(url)
     try {
-      await client.client.mutate({
+      await  GraphQLClient.Client().mutate({
         mutation: gql`
         mutation {
           newFeatureSwitch(name:"${name}", state:"${state}" )
@@ -131,11 +128,10 @@ const deleteSwitchError = error => ({
     error,
 })
 
-export const deleteFeatureSwitch = (url, id) => async (dispatch) => {
+export const deleteFeatureSwitch = (id) => async (dispatch) => {
     dispatch(deleteSwitchRequest())
-    const client = new GraphQLClient(url)
     try {
-      await client.client.mutate({
+      await  GraphQLClient.Client().mutate({
         mutation: gql`
         mutation {
           deleteFeatureSwitch(featureID:"${id}" )

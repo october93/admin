@@ -1,5 +1,18 @@
 import uuid from "uuid"
 
+const { REACT_APP_API_ENDPOINT } = process.env
+
+// configuration WebSocket endpoint
+export const websocketEndpoint = sessionID => {
+	let websocketURL = REACT_APP_API_ENDPOINT
+
+	if (sessionID) {
+		websocketURL += `?session=${sessionID}&adminpanel=true`
+	}
+
+	return websocketURL
+}
+
 const TIMEOUT = 60000
 /**
  * Provides a closed-box interface to the October Engine. This should be used exclusively by stores to interface with the Engine, not views.
@@ -68,14 +81,14 @@ export default class APIClient {
 	 * @param {string} webSocketHost WebSocket host URL
 	 * */
 	static init({
-		webSocketHost,
+		sessionID,
 		onServerReady,
 		onSessionInvalid,
 		requestTimeout,
 		rpcHandlers,
 	}) {
 		this.instance = new APIClient({
-			webSocketHost,
+			webSocketHost: websocketEndpoint(sessionID),
 			onServerReady,
 			onSessionInvalid,
 			requestTimeout,
