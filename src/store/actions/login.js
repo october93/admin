@@ -23,7 +23,7 @@ export const login = payload => async (dispatch) => {
 			throw new Error("An error occurred!")
 		}
 	} catch (error) {
-		dispatch(create.loginError(error.message))
+		dispatch(create.loginError(error.error))
 	}
 }
 

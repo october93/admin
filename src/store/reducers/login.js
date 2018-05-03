@@ -5,7 +5,7 @@ import {
 
 export const loginError = (state = "", action) => {
   switch (action.type) {
-    case LOGIN_ERROR:{
+    case LOGIN_ERROR: {
       return action.error
     }
     default:
