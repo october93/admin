@@ -55,7 +55,6 @@ export const queryCards = cardIDs => async (dispatch) => {
 
   try {
     const { data } = await GraphQLClient.Client().query({
-      errorPolicy: "ignore",
       query: gql`
         {
           cards {
