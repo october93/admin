@@ -1,6 +1,5 @@
 import {
   CREATE_ANNOUNCEMENT_SUCCESS,
-  DELETE_ANNOUNCEMENT_REQUEST,
   GET_ANNOUNCEMENTS_SUCCESS,
 } from '../actions/creators/types'
 
