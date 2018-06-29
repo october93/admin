@@ -46,3 +46,34 @@ export const newInvite = nodeID => async (dispatch) => {
     dispatch(create.newInvitesError(e))
   }
 }
+
+
+export const bulkCreateInvites = ({ nodeID, count }) => async (dispatch) => {
+  dispatch(create.newInvitesRequest(nodeID))
+
+  const inviteArray = []
+
+  for (let i = 0; i < count; i++) {
+    try {
+      const response = await GraphQLClient.Client().mutate({
+        mutation: gql`
+          mutation {
+            newInvite(nodeID:"${nodeID}") {
+              token
+            }
+          }
+        `
+      })
+
+      dispatch(create.newInvitesSuccess())
+      inviteArray.push(response.data.newInvite.token)
+      console.log(response.data.newInvite.token)
+    } catch (e) {
+      console.log(e)
+      dispatch(create.newInvitesError(e))
+    }
+  }
+
+  return inviteArray
+
+}
