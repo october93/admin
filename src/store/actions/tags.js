@@ -43,8 +43,8 @@ export const getTags = () => async (dispatch) => {
             handle
             name
             info
-            profile_image_path
-            cover_image_path
+            profileImagePath
+            coverImagePath
           }
         }
         `

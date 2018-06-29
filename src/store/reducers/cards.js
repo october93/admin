@@ -17,11 +17,7 @@ export function cardsCardsAreLoading(state = true, action) {
 export function cardsCardsLoadingSuccess(state = {}, action) {
   switch (action.type) {
     case CARDS_CARDS_LOADING_SUCCESS:
-      const data = action.data.cards.reduce((cards, card) => {
-        cards[card.card.cardID] = card
-        return cards
-      }, {})
-      return data
+      return action.data.cards
     default:
       return state
   }

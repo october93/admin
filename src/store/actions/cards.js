@@ -10,19 +10,16 @@ export const getCardsWithStats = () => async (dispatch) => {
       query: gql`
         {
           cards {
-            author {
-              displayname
+            content
+            id
+            createdAt
+            apparentAuthor {
+              displayName
             }
             stats {
               boosts
               buries
-              hifives
               views
-            }
-            card {
-              body
-              cardID
-              post_timestamp
             }
           }
         }

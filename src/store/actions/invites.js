@@ -13,8 +13,11 @@ export const getInvites = () => async (dispatch) => {
         {
           invites {
             token
-            issuer
-            expires
+            issuer {
+              id
+              username
+            }
+            expiresAt
             remainingUses
           }
         }

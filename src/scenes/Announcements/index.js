@@ -125,11 +125,11 @@ class Announcements extends Component {
       filterable: true,
     }, {
       Header: 'From',
-      id: 'userID',
+      id: 'user.id',
       accessor: d =>(this.props.users.find(u => u.nodeId === d.userID) || {}).username,
     }, {
       Header: "For Card",
-      accessor: 'cardID',
+      accessor: 'card.id',
     }, {
       Header: "Announced At",
       accessor: 'createdAt',

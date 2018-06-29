@@ -12,7 +12,7 @@ export const getUsers = () => async (dispatch) => {
         {
           users {
             username
-            nodeId
+            id
             updatedAt
             node {
               cardRankTableSize

@@ -58,15 +58,13 @@ export const queryCards = cardIDs => async (dispatch) => {
       query: gql`
         {
           cards {
-            card {
-              body
-              cardID
-              post_timestamp
-            }
-            author {
+            content
+            ID
+            createdAt
+            apparentAuthor {
               displayname
               isAnonymous
-              nodeId
+              ID
               profileImagePath
               username
             }

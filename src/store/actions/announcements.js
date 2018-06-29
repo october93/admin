@@ -13,12 +13,15 @@ export const getAnnouncements = () => async (dispatch) => {
         {
           announcements {
             id,
-            userID,
-            cardID,
+            user {
+              id,
+            },
+            card {
+              id,
+            },
             message,
             createdAt,
             updatedAt,
-            deletedAt,
           }
         }
       `
