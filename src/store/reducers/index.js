@@ -13,8 +13,8 @@ import {
   filteredUsers,
   sortVotes,
   selectedCardRankUser,
-  allCardRankEntries,
-  allVoteEntries,
+  //allCardRankEntries,
+  //allVoteEntries,
 } from './graphexplorer'
 
 import {
@@ -102,8 +102,8 @@ export default combineReducers({
   filteredUsers,
   sortVotes,
   selectedCardRankUser,
-  allCardRankEntries,
-  allVoteEntries,
+  //allCardRankEntries,
+  //allVoteEntries,
 
   cardsCardsAreLoading,
   cardsCardsLoadingSuccess,

@@ -23,7 +23,7 @@ export function graphIsLoading(state = true, action) {
   }
 }
 
-const attachUsersToCardRanks = (user, node) => {
+/*const attachUsersToCardRanks = (user, node) => {
   const { cardRankTable, votes } = node
 
   return cardRankTable.map((cr, index) => ({
@@ -54,9 +54,9 @@ const attachUsersToVotes = (user, votes) => {
       username: user.username,
     })
   )
-}
+}*/
 
-export const allVoteEntries = (state = [], action) => {
+/*export const allVoteEntries = (state = [], action) => {
   switch (action.type) {
     case GRAPH_LOADING_SUCCESS:
       return action.data.graph.users.reduce((acc, user) => {
@@ -65,35 +65,32 @@ export const allVoteEntries = (state = [], action) => {
     default:
       return state
   }
-}
+}*/
 
 
 export function graphLoadingSuccess(state = {}, action) {
   switch (action.type) {
     case GRAPH_LOADING_SUCCESS:
-      const usersByID = action.data.graph.users.reduce((map, user) => {
-        map[user.nodeId] = user
+      const usersByUsername = action.data.users.reduce((map, user) => {
+        map[user.username] = user
         return map
       }, {})
-      const edgesByUpWeight = action.data.graph.edges.map((k, v) => k).sort((a, b) => {
+      /*const edgesByUpWeight = action.data.graph.edges.map((k, v) => k).sort((a, b) => {
         return a.upWeight - b.upWeight
       })
       const edgesByDownWeight = action.data.graph.edges.map((k, v) => k).sort((a, b) => {
         return a.downWeight - b.downWeight
-      })
-      const followersByID = action.data.graph.edges.reduce((obj, edge) => {
+      })*/
+      /*const followersByID = action.data.graph.edges.reduce((obj, edge) => {
         if (obj[edge.sourceID] === undefined) {
           obj[edge.sourceID] = []
         }
         obj[edge.sourceID].push((usersByID[edge.targetID] || {username: "UNKNOWN"}).username)
         return obj
-      }, {})
+      }, {})*/
       return {
-        usersByID,
-        edgesByUpWeight,
-        edgesByDownWeight,
-        followersByID,
-        graph: action.data.graph
+        ...state,
+        ...usersByUsername,
       }
     default:
       return state

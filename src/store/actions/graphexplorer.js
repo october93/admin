@@ -3,41 +3,79 @@ import gql from 'graphql-tag';
 
 import * as create from "./creators/graphexplorer"
 
-export const queryGraph = () => async (dispatch) => {
+export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
   dispatch(graphIsLoading(true))
 
   try {
     const { data } = await GraphQLClient.Client().query({
       errorPolicy: "ignore",
+      variables: { usernames },
       query: gql`
-        {
-          graph {
-            users {
-              nodeId
-              username
-              displayname
-              node {
-                cardRankTable {
-                  card {
-                    cardID
-                    body
-                  }
-                  score
+        query UsersByUsername($usernames: [String]) {
+          users(usernames: $usernames) {
+            id
+            username
+            displayName
+            ...attentionRankFragment
+            ...cardRankFragment
+          }
+        }
+        fragment attentionRankFragment on User {
+          node {
+            following {
+              upWeight
+              downWeight
+              source {
+                user {
+                  username
                 }
-                votes {
-                  cardID
-                  positiveScore
-                  negativeScore
-                  scoreModifier
+              }
+              target {
+                user {
+                  id
+                  username
+                  displayName
                 }
               }
             }
-            edges {
-              sourceID
-              targetID
-              upWeight
-              downWeight
+          }
+        }
+        fragment cardRankFragment on User {
+          feed {
+            topScore
+            boostScore
+            buryScore
+            scoreModifier
+            card {
+              id
+              createdAt
+              apparentAuthor {
+                username
+              }
+              ...queryCardFragment
             }
+            actions {
+              reaction {
+                reaction
+                updatedAt
+                user {
+                  username
+                }
+              }
+              score
+            }
+          }
+        }
+        fragment queryCardFragment on Card {
+          content
+          id
+          createdAt
+          apparentAuthor {
+            displayName
+            isAnonymous
+            id
+            profileImagePath
+            username
           }
         }
       `
@@ -50,7 +88,7 @@ export const queryGraph = () => async (dispatch) => {
   }
 }
 
-export const queryCards = cardIDs => async (dispatch) => {
+/*export const queryCards = cardIDs => async (dispatch) => {
   dispatch(cardsAreLoading(true))
 
   try {
@@ -59,12 +97,12 @@ export const queryCards = cardIDs => async (dispatch) => {
         {
           cards {
             content
-            ID
+            id
             createdAt
             apparentAuthor {
-              displayname
+              displayName
               isAnonymous
-              ID
+              id
               profileImagePath
               username
             }
@@ -78,21 +116,18 @@ export const queryCards = cardIDs => async (dispatch) => {
   } catch (e) {
     dispatch(cardsLoadingFailure(e))
   }
-}
+}*/
 
-export const queryGraphAndCards = () => async (dispatch, getState) => {
+export const queryGraphAndCards = (usernames) => async (dispatch, getState) => {
   try {
-    await dispatch(queryGraph())
-    const cardIDs = getState().graphLoadingSuccess.graph.users.reduce((cards, user) => {
-      user.node.cardRankTable.forEach(card => {
-        cards.push(card.card.cardID)
-      })
-      user.node.votes.forEach(vote => {
-        cards.push(vote.cardID)
+    await dispatch(queryGraph(usernames))
+    /*const cardIDs = getState().graphLoadingSuccess.users.reduce((cards, user) => {
+      user.feed.forEach(cardRank => {
+        cards.push(cardRank.card.id)
       })
       return cards
-    }, [])
-    await dispatch(queryCards(cardIDs))
+    }, [])*/
+    //await dispatch(queryCards(cardIDs))
   } catch (e) {
     console.log("graph query error")
     console.log(e)
