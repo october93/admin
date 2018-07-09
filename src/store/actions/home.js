@@ -24,9 +24,14 @@ export function setSignupsFrozen(on) {
   return (dispatch) => {
     return GraphQLClient.Client().mutate({
       errorPolicy: "ignore",
+      variables: {
+        settings: {
+          freezeSignups: on,
+        },
+      },
       mutation: gql`
-        mutation {
-          updateSettings(freezeSignups: ${on})
+        mutation UpdateSettings($settings: SettingsInput!) {
+          updateSettings(settings: $settings)
         }
       `
     })
@@ -40,9 +45,14 @@ export function setMaintenanceMode(on) {
   return (dispatch) => {
     return GraphQLClient.Client().mutate({
       errorPolicy: "ignore",
+      variables: {
+        settings: {
+          maintenanceMode: on,
+        },
+      },
       mutation: gql`
-        mutation {
-          updateSettings(maintenanceMode: ${on})
+        mutation UpdateSettings($settings: SettingsInput!) {
+          updateSettings(settings: $settings)
         }
       `
     })

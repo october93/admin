@@ -100,7 +100,7 @@ export const newFeatureSwitch = (name, state) => async (dispatch) => {
       await  GraphQLClient.Client().mutate({
         mutation: gql`
         mutation {
-          newFeatureSwitch(name:"${name}", state:"${state}" )
+          createFeatureSwitch(name:"${name}", state:"${state}" )
         }
         `,
       })
