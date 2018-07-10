@@ -71,7 +71,7 @@ const columns = [{
   Header: "Timestamp",
   accessor: 'updatedAt',
   Cell: props => {
-    const t = moment(props.value * 1000)
+    const t = moment(props.value)
     return props.value ?
       ( <Tooltip title={t.format("YY-MM-D HH:mm:ss")}>{t.fromNow()}</Tooltip> )
       : "Never"

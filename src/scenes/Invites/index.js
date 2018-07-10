@@ -10,7 +10,7 @@ const columns = [{
   accessor: 'token',
 }, {
   Header: 'Created By',
-  accessor: 'issuer',
+  accessor: 'issuer.username',
 }, {
   Header: "Uses Left",
   accessor: 'remainingUses',

@@ -16,7 +16,7 @@ export const getConnections = () => async (dispatch) => {
               id
               user {
                 username
-                displayname
+                displayName
               }
             }
           }

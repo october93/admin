@@ -4,18 +4,15 @@ import { connect } from 'react-redux'
 import glamorous from "glamorous"
 
 import Error from '../../components/error'
-import Button from '../../components/button'
 
 import TopEdges from './top-edges'
-import CardRank from './card-rank'
-import VoteTable from './vote-table'
-import Graph from './graph'
 
 import { queryGraph, queryGraphAndCards, connectUsers } from '../../store/actions/graphexplorer'
 
 import { vw } from '../../utils/media'
 
-import ConnectUsers from "./connect-users"
+import UserSelector from './UserSelector'
+import CardRankTable from './CardRankTable';
 
 const Container = glamorous.div({
   flex: 1,
@@ -36,9 +33,6 @@ const MetricsContainer = glamorous.div(({ showGraph }) => ({
   overflowY: "scroll"
 }))
 
-const GraphContainer = glamorous.div({
-  flex: 1
-})
 
 class GraphExplorer extends Component {
   state = {
@@ -46,10 +40,11 @@ class GraphExplorer extends Component {
     usernameFilter: "",
     filterArray: [],
     showGraph: false,
+    username: "root",
   }
 
   componentDidMount() {
-    this.props.queryGraphAndCards()
+    this.props.queryGraph([this.state.username])
   }
 
   connectUsers = async () => {
@@ -73,64 +68,42 @@ class GraphExplorer extends Component {
     this.setState({ usersToConnectText: event.target.value })
   }
 
+  handleUserChange = selected => {
+    const username = selected.value
+    this.props.queryGraph([username])
+    this.setState({ username: username })
+  }
+
   render() {
     if (this.props.graphError !== null) {
       return <Error>{this.props.graphError.message}</Error>
     }
-    if (this.props.cardsError !== null) {
-      return <Error>{this.props.cardsError.message}</Error>
-    }
-    if (this.props.isGraphLoading || this.props.cardsAreLoading) {
-      return <p>Loading…</p>
+    let nested
+    if (this.props.isGraphLoading) {
+      nested = <p>Loading…</p>
+    } else {
+      nested = (
+        <Tabs style={{marginTop: "10px"}} forceRenderTabPanel={true}>
+        <TabList>
+          <Tab>Attention Rank</Tab>
+          <Tab>Card Rank</Tab>
+        </TabList>
+        <TabPanel>
+          <TopEdges username={this.state.username} />
+        </TabPanel>
+        <TabPanel>
+          <CardRankTable username={this.state.username} />
+        </TabPanel>
+      </Tabs>
+
+      )
     }
     return (
       <Container>
         <MetricsContainer>
-        <Tabs style={{marginTop: "10px"}} forceRenderTabPanel={true}>
-            <TabList>
-              <Tab>Attention Rank</Tab>
-              <Tab>Card Rank</Tab>
-              <Tab>Vote Table</Tab>
-            </TabList>
-            <TabPanel>
-              <TopEdges data={this.props.data} filters={this.state.filterArray} />
-            </TabPanel>
-            <TabPanel>
-              <CardRank
-                usersByID={this.props.data.usersByID}
-                users={this.props.data.graph.users}
-                cards={this.props.cards}
-                cardRanks={this.props.allCardRankEntries}
-              />
-            </TabPanel>
-            <TabPanel>
-              <VoteTable
-                users={this.props.data.graph.users}
-                cardVotes={this.props.allVoteEntries}
-              />
-            </TabPanel>
-          </Tabs>
+          <UserSelector onChange={this.handleUserChange} value={this.state.username} />
+          {nested}
         </MetricsContainer>
-        { this.state.showGraph && (
-          <GraphContainer>
-            <ConnectUsers
-              value={this.state.usersToConnectText}
-              onChange={this.onChangeConnectUsers}
-              connectUsers={this.connectUsers}
-              connectAllUsers={this.connectAllUsers}
-            />
-            <Graph
-              usersByID={this.props.data.usersByID}
-              graph={this.props.data.graph}
-              followersByID={this.props.data.followersByID}
-            />
-          </GraphContainer>
-        )}
-        <div style={{ position: "fixed", display: "flex", alignItems: "center", justifyContent: "center", padding: "10px", top: "0px", right: "0px", backgroundColor: "#AAA", borderBottomLeftRadius: "10px", width: "100px"}}>
-          <Button onClick={() => this.setState({ showGraph: !this.state.showGraph })}>
-            {this.state.showGraph ? "Hide Graph" : "Show Graph"}
-          </Button>
-        </div>
       </Container>
     )
   }
@@ -138,12 +111,8 @@ class GraphExplorer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    data: state.graphLoadingSuccess,
-    cards: state.cardsLoadingSuccess,
     graphError: state.graphLoadingFailure,
-    cardsError: state.cardsLoadingFailure,
     isGraphLoading: state.graphIsLoading,
-    cardsLoading: state.cardsAreLoading,
     usernameFilter: state.filteredUsers,
     allCardRankEntries: state.allCardRankEntries,
     allVoteEntries: state.allVoteEntries,

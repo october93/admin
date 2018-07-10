@@ -19,12 +19,13 @@ const Emblem = glamorous.img({
 
 const columns = [{
   Header: 'Card ID',
-  accessor: 'card',
+  id: 'id',
+  accessor: c => c,
   width: 400,
-  Cell: props => <CardLink cardID={props.value.cardID} card={props.value} />
+  Cell: props => <CardLink cardID={props.value.id} card={props.value} />
 }, {
   Header: 'Author',
-  accessor: 'author.displayname',
+  accessor: 'apparentAuthor.displayName',
   filterable: true,
 }, {
   accessor: 'stats.boosts',

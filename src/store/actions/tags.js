@@ -43,8 +43,8 @@ export const getTags = () => async (dispatch) => {
             handle
             name
             info
-            profile_image_path
-            cover_image_path
+            profileImagePath
+            coverImagePath
           }
         }
         `
@@ -59,9 +59,18 @@ export const getTags = () => async (dispatch) => {
 export const createTag = (handle) => async (dispatch) => {
   try {
     const response = await GraphQLClient.Client().mutate({
+      variables: {
+        tag: {
+          handle: handle,
+        },
+      },
       mutation: gql`
-        mutation {
-          newTag(handle: "${handle}")
+        mutation CreateTag($tag: TagInput!) {
+          createTag(tag: $tag) {
+            id
+            name
+            handle
+          }
         }
         `
     })

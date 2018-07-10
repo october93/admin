@@ -13,8 +13,11 @@ export const getInvites = () => async (dispatch) => {
         {
           invites {
             token
-            issuer
-            expires
+            issuer {
+              id
+              username
+            }
+            expiresAt
             remainingUses
           }
         }
@@ -33,7 +36,7 @@ export const newInvite = nodeID => async (dispatch) => {
     const response = await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
-          newInvite(nodeID:"${nodeID}") {
+          createInvite(userID:"${nodeID}") {
             token
           }
         }
@@ -58,7 +61,7 @@ export const bulkCreateInvites = ({ nodeID, count }) => async (dispatch) => {
       const response = await GraphQLClient.Client().mutate({
         mutation: gql`
           mutation {
-            newInvite(nodeID:"${nodeID}") {
+            createInvite(userID:"${nodeID}") {
               token
             }
           }

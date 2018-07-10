@@ -47,7 +47,7 @@ export default class GraphQLClient {
         if (networkError.statusCode === 401)
           console.log("unauthorized")
         else
-          console.log(`[Network error]: ${networkError}`)
+          console.exception(`[Network error]: ${networkError}`)
         return
       }
 

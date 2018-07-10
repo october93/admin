@@ -17,9 +17,7 @@ export const getReactions = () => async (dispatch) => {
               reaction
               sentToGraph
               strength
-              updatedAt {
-                unix
-              }
+              updatedAt
             }
           }
         }
