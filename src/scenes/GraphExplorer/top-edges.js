@@ -39,7 +39,7 @@ class TopEdges extends Component {
   }
 
   render() {
-    let attentionRanks = this.props.following
+    let attentionRanks = this.props.following.concat(this.props.followers)
 
     return (
       <div style={{ paddingRight: 0 }}>
@@ -55,4 +55,5 @@ class TopEdges extends Component {
 
 export default connect((state, props) => ({
   following: state.graphLoadingSuccess[props.username].node.following,
+  followers: state.graphLoadingSuccess[props.username].node.followers,
 }))(TopEdges)

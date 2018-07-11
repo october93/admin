@@ -38,6 +38,22 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
                 }
               }
             }
+            followers {
+              upWeight
+              downWeight
+              source {
+                user {
+                  id
+                  username
+                  displayName
+                }
+              }
+              target {
+                user {
+                  username
+                }
+              }
+            }
           }
         }
         fragment cardRankFragment on User {
