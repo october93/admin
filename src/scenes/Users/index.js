@@ -55,7 +55,7 @@ class UsersPage extends Component {
 
     cols.push({
       Header: "",
-      accessor: "nodeId",
+      accessor: "id",
       width: 300,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row" }}>
