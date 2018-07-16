@@ -19,7 +19,7 @@ const columns = [{
   filterable: true,
 }, {
   Header: 'NodeID',
-  accessor: 'nodeId',
+  accessor: 'id',
 }, {
   Header: "Scoretable Size",
   accessor: 'node.cardRankTableSize',
