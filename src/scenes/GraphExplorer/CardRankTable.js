@@ -2,9 +2,14 @@ import React, { Component } from 'react'
 import { Tooltip } from 'react-tippy'
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
+import timeago from 'timeago.js'
 
 import CardLink from '../../components/CardLink'
 
+
+function octoberToUnix(octoberTime) {
+  return 1475280.0 + octoberTime
+}
 
 class CardRankTable extends Component {
   makeColumns() {
@@ -40,6 +45,23 @@ class CardRankTable extends Component {
       {
         Header: 'Modifier',
         accessor: 'scoreModifier',
+      },
+      {
+        Header: 'Comment Score',
+        accessor: 'commentScore',
+      },
+      {
+        Header: 'Time Offset',
+        accessor: 'timeOffset',
+        Cell: row => (timeago().format(new Date(1000.0 * octoberToUnix(row.value)))),
+      },
+      {
+        Header: 'Comment Offset',
+        accessor: 'commentOffset',
+      },
+      {
+        Header: 'Seen Count',
+        accessor: 'seenCount',
       },
     ]
   }
