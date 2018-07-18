@@ -44,7 +44,7 @@ export const newInvite = nodeID => async (dispatch) => {
     })
 
     dispatch(create.newInvitesSuccess())
-    return response.data.newInvite
+    return response.data.createInvite
   } catch (e) {
     dispatch(create.newInvitesError(e))
   }
