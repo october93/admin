@@ -23,8 +23,8 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
         fragment attentionRankFragment on User {
           node {
             following {
-              upWeight
-              downWeight
+              upWeight { ...weight }
+              downWeight { ...weight }
               source {
                 user {
                   username
@@ -39,8 +39,8 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
               }
             }
             followers {
-              upWeight
-              downWeight
+              upWeight { ...weight }
+              downWeight { ...weight }
               source {
                 user {
                   id
@@ -55,6 +55,10 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
               }
             }
           }
+        }
+        fragment weight on EdgeWeight {
+          weight
+          momentum
         }
         fragment cardRankFragment on User {
           feed {

@@ -4,6 +4,13 @@ import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 
 
+const WeightCell = props => (
+  <Tooltip title={props.value.weight}>
+    {parseFloat(props.value.weight.toFixed(2))},{' '}
+    {parseFloat(props.value.momentum.toFixed(2))}
+</Tooltip>
+)
+
 class TopEdges extends Component {
   makeColumns() {
     return [
@@ -20,20 +27,12 @@ class TopEdges extends Component {
       {
         Header: 'Up Weight',
         accessor: 'upWeight',
-        Cell: props => (
-          <Tooltip title={props.value}>
-            {parseFloat(props.value.toFixed(2))}
-          </Tooltip>
-        ),
+        Cell: WeightCell,
       },
       {
         Header: 'Down Weight',
         accessor: 'downWeight',
-        Cell: props => (
-          <Tooltip title={props.value}>
-            {parseFloat(props.value.toFixed(2))}
-          </Tooltip>
-        ),
+        Cell: WeightCell,
       },
     ]
   }
