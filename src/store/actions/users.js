@@ -17,6 +17,11 @@ export const getUsers = () => async (dispatch) => {
             node {
               cardRankTableSize
             }
+            joinedFromInvite {
+              issuer {
+                username
+              }
+            }
           }
         }
         `
