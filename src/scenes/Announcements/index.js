@@ -102,16 +102,20 @@ class Announcements extends Component {
 
   createAnnouncement = () => {
     const {
-      toUsers,
-      fromUser,
+      toUsers: toUserUsernames,
+      fromUser: fromUsername,
       forCard,
       message,
       sendPush,
     } = this.state
 
+    console.log('hi')
+    const toUsers = toUserUsernames.map(n => this.props.users.find(u => u.username === n).id)
+    const fromUser = this.props.users.find(u => u.username === fromUsername)
+    console.log(fromUser, toUsers)
     this.props.createAnnouncement({
-      toUsers: toUsers.map(n => this.props.users.find(u => u.username === n).nodeId),
-      fromUser: this.props.users.find(u => u.username === fromUser).nodeId,
+      toUsers,
+      fromUser: fromUser.id,
       forCard,
       message,
       sendPush,
@@ -126,7 +130,7 @@ class Announcements extends Component {
     }, {
       Header: 'From',
       id: 'user.id',
-      accessor: d =>(this.props.users.find(u => u.nodeId === d.userID) || {}).username,
+      accessor: d =>(this.props.users.find(u => u.id === d.userID) || {}).username,
     }, {
       Header: "For Card",
       accessor: 'card.id',

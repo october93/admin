@@ -28,7 +28,7 @@ export function graphIsLoading(state = true, action) {
 
   return cardRankTable.map((cr, index) => ({
       ...cr,
-      userID: user.nodeId,
+      userID: user.id,
       username: user.username,
       scoreModifier: (votes.find(i => i.cardID === cr.card.cardID) || {}).scoreModifier || 0,
       index,
@@ -50,7 +50,7 @@ export const allCardRankEntries = (state = [], action) => {
 const attachUsersToVotes = (user, votes) => {
   return votes.map((vote, index) => ({
       ...vote,
-      userID: user.nodeId,
+      userID: user.id,
       username: user.username,
     })
   )

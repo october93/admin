@@ -65,7 +65,7 @@ class Graph extends Component {
       return true
     } else if (usernames.length === 1) {
       // include all nodes with a direct edge to the user
-      return usernames[0] === user.username || followersByID[user.nodeId].includes(usernames[0])
+      return usernames[0] === user.username || followersByID[user.id].includes(usernames[0])
     } else {
       // include only the users listed in the filter
       return usernames.includes(user.username)
@@ -91,8 +91,8 @@ class Graph extends Component {
 
     users.forEach(user => {
       // skip if the node already exists
-      if (this.graph.getNode(user.nodeId) === undefined) {
-        this.graph.addNode(user.nodeId, user)
+      if (this.graph.getNode(user.id) === undefined) {
+        this.graph.addNode(user.id, user)
       }
     })
     edges.forEach(edge => {
@@ -105,7 +105,7 @@ class Graph extends Component {
   }
 
   removeFiltered(users, edges) {
-    users = users.map(u => u.nodeId)
+    users = users.map(u => u.id)
     edges = edges.map(e => e.sourceID + "👉 " + e.targetID)
 
     this.graph.forEachLink(link => {
