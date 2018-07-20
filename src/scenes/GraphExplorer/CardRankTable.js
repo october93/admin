@@ -6,11 +6,6 @@ import timeago from 'timeago.js'
 
 import CardLink from '../../components/CardLink'
 
-
-function octoberToUnix(octoberTime) {
-  return 1475280.0 + octoberTime
-}
-
 class CardRankTable extends Component {
   makeColumns() {
     return [
@@ -53,7 +48,7 @@ class CardRankTable extends Component {
       {
         Header: 'Time Offset',
         accessor: 'timeOffset',
-        Cell: row => (timeago().format(new Date(1000.0 * octoberToUnix(row.value)))),
+        Cell: row => (timeago().format(new Date(1000.0 * row.value))),
       },
       {
         Header: 'Comment Offset',
