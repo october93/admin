@@ -54,7 +54,7 @@ class CardRankTable extends Component {
       {
         Header: 'Comment Offset',
         accessor: 'commentOffset',
-        Cell: row => moment.duration(row.value, 'seconds').humanize(),
+        Cell: row => row.value ? moment.duration(row.value, 'seconds').humanize() : 0,
       },
       {
         Header: 'Seen Count',
