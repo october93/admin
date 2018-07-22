@@ -6,6 +6,9 @@ if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; th
   export REACT_APP_GRAPHQL_ENDPOINT=https://engine.october.news/graphql
   export REACT_APP_ALGOLIA_ENVIRONMENT=engine
   ENV=engine.internal ./scripts/ci/deploy_to_env.sh
+  # JIRA webhook to update fix version
+  curl -X POST -H 'Content-type: application/json' https://automation.codebarrel.io/pro/hooks/94eb42c6037b088d3ff9c0cbd8f1229380670937
+
 fi
 
 if [ "$TRAVIS_BRANCH" == "development" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
