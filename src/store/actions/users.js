@@ -33,18 +33,28 @@ export const getUsers = () => async (dispatch) => {
 }
 
 
-export const getPreviewFeed = nodeID => async (dispatch) => {
+export const getPreviewFeed = username => async (dispatch) => {
     try {
       const response = await GraphQLClient.Client().query({
         errorPolicy: "ignore",
         query: gql`
         query {
-          feedPreview(nodeID:"${nodeID}")
+          users(usernames:["${username}"]) {
+            feed{
+              cardID
+            }
+          }
         }
         `
       })
 
-      return response.data.feedPreview
+      const feedIDs = []
+      if (response.data.users.length)
+      response.data.users[0].feed.forEach(item => {
+        feedIDs.push(item.cardID)
+      })
+
+      return feedIDs
     } catch (e) {
       console.log("Failed to get preview feed")
       console.log(e)
