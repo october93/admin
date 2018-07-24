@@ -80,10 +80,12 @@ class UsersPage extends Component {
       Header: "",
       id: "actions",
       accessor: d => d,
-      width: 300,
+      width: 350,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Button onClick={() => this.viewUserFeedInApp(props.value.username)}>Preview Feed</Button>
+          <div style={{width: "10px"}} />
+          <Button onClick={() => this.viewUserInviteFeedInApp(props.value.username)}>Preview Invite Feed</Button>
           <div style={{width: "10px"}} />
           <Button onClick={() => this.newInviteForUser(props.value.id)}>Get Invite</Button>
         </div>)

@@ -61,21 +61,21 @@ export const getPreviewFeed = username => async (dispatch) => {
     }
 }
 
-export const getPreviewInviteFeed = nodeID => async (dispatch) => {
+export const getPreviewInviteFeed = username => async (dispatch) => {
     try {
       const response = await GraphQLClient.Client().query({
-        errorPolicy: "ignore",
         query: gql`
         query {
-          inviteFeedPreview(inviterID:"${nodeID}")
+          users(usernames:["${username}"]) {
+            inviteFeed
+          }
         }
         `
       })
-      console.log(response)
 
-      return response.data.inviteFeedPreview
+      return response.data.users[0].inviteFeed
     } catch (e) {
-      console.log("Failed to get preview feed")
+      console.log("Failed to get invite preview feed")
       console.log(e)
     }
 }
