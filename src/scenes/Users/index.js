@@ -78,20 +78,24 @@ class UsersPage extends Component {
 
     cols.push({
       Header: "",
-      accessor: "id",
+      id: "actions",
+      accessor: d => d,
       width: 300,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row" }}>
-          <Button onClick={() => this.viewUserFeedInApp(props.value)}>Preview Feed</Button>
+          <Button onClick={() => this.viewUserFeedInApp(props.value.username)}>Preview Feed</Button>
           <div style={{width: "10px"}} />
-          <Button onClick={() => this.viewUserInviteFeedInApp(props.value)}>Preview Invite</Button>
-          <div style={{width: "10px"}} />
-          <Button onClick={() => this.newInviteForUser(props.value)}>Get Invite</Button>
+          <Button onClick={() => this.newInviteForUser(props.value.id)}>Get Invite</Button>
         </div>)
     })
 
     this.cols = cols
   }
+
+  /*
+  <div style={{width: "10px"}} />
+  <Button onClick={() => this.viewUserInviteFeedInApp(props.value.id)}>Preview Invite</Button>
+  */
 
   componentDidMount() {
     this.props.getUsers()
@@ -99,6 +103,7 @@ class UsersPage extends Component {
 
   viewUserFeedInApp = async nodeID => {
     const ids = await this.props.getPreviewFeed(nodeID)
+    console.log(ids)
     window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
