@@ -14,6 +14,7 @@ export const getUsers = () => async (dispatch) => {
             username
             id
             updatedAt
+            lastActiveAt
             node {
               cardRankTableSize
             }

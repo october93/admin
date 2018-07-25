@@ -54,9 +54,9 @@ const columns = [{
   width: 150,
 }, {
   Header: "Last Active",
-  id: "updatedAt",
+  id: "lastActiveAt",
   width: 150,
-  accessor: d => Date.parse(d.updatedAt),
+  accessor: d => Date.parse(d.lastActiveAt),
   Cell: props => props.value ? moment(props.value).fromNow() : "Never"
 }, {
   Header: "Invited By",
@@ -93,11 +93,6 @@ class UsersPage extends Component {
 
     this.cols = cols
   }
-
-  /*
-  <div style={{width: "10px"}} />
-  <Button onClick={() => this.viewUserInviteFeedInApp(props.value.id)}>Preview Invite</Button>
-  */
 
   componentDidMount() {
     this.props.getUsers()
