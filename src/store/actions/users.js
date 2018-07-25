@@ -15,6 +15,7 @@ export const getUsers = () => async (dispatch) => {
             id
             updatedAt
             lastActiveAt
+            blocked
             node {
               cardRankTableSize
             }
@@ -33,6 +34,42 @@ export const getUsers = () => async (dispatch) => {
     }
 }
 
+export const blockUser = id => async (dispatch) => {
+  dispatch(create.blockUserRequest(id))
+
+  try {
+    const response = await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          blockUser(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.blockUserSuccess(id))
+  } catch (e) {
+    dispatch(create.blockUserError(e))
+  }
+}
+
+
+export const unblockUser = id => async (dispatch) => {
+  dispatch(create.unblockUserRequest(id))
+
+  try {
+    const response = await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          unblockUser(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.unblockUserSuccess(id))
+  } catch (e) {
+    dispatch(create.unblockUserError(e))
+  }
+}
 
 export const getPreviewFeed = username => async (dispatch) => {
     try {
