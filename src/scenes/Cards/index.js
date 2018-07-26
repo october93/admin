@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
-import CardLink from '../../components/CardLink'
+import Link from '../../components/link'
 import { connect } from 'react-redux'
 import boost from './boost.png'
 import bury from './bury.png'
 import { getCardsWithStats } from '../../store/actions/cards'
 import ReactTable from 'react-table'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { InstantSearch } from 'react-instantsearch/dom';
 import Search from './search'
 import glamorous from "glamorous"
 
-const { REACT_APP_ALGOLIA_ENVIRONMENT } = process.env
+import TruncatedWithCopy from '../../components/truncatedWithCopy'
+
+
+const { REACT_APP_ALGOLIA_ENVIRONMENT, REACT_APP_APP_HOST } = process.env
 
 const Emblem = glamorous.img({
   width: "1rem",
@@ -21,8 +23,12 @@ const columns = [{
   Header: 'Card ID',
   id: 'id',
   accessor: c => c,
-  width: 400,
-  Cell: props => <CardLink cardID={props.value.id} card={props.value} />
+  Cell: props =>
+  <div style={{ display: "flex", flexDirection: "row"}}>
+    <TruncatedWithCopy id={props.value.id} />
+    <div style={{width: "20px"}} />
+    <Link href={`${REACT_APP_APP_HOST}/post/${props.value.id}`} target="_blank">Go To Card</Link>
+  </div>
 }, {
   Header: 'Author',
   accessor: 'apparentAuthor.displayName',
@@ -56,31 +62,14 @@ class Cards extends Component {
       return "Loading…"
     }
     return (
-      <Tabs style={{ height: "100%", width: "100%" }}>
-        <TabList>
-          <Tab>Cards</Tab>
-          <Tab>Stats</Tab>
-        </TabList>
-        <TabPanel>
-          <InstantSearch
-            appId="0Z498T9C13"
-            apiKey="b5dcca10ada97954dfc6b4d5b77786a4"
-            indexName={REACT_APP_ALGOLIA_ENVIRONMENT}
-            >
-            <Search />
-          </InstantSearch>
-        </TabPanel>
-        <TabPanel>
-          <div>
-            <ReactTable
-              data={Object.values(this.props.cards)}
-              columns={columns}
-              defaultPageSize={100}
-              minRows={0}
-            />
-          </div>
-        </TabPanel>
-      </Tabs>
+      <div style={{ width: "100%", margin: "10px"}}>
+        <ReactTable
+          data={Object.values(this.props.cards)}
+          columns={columns}
+          defaultPageSize={50}
+          minRows={0}
+        />
+      </div>
     )
   }
 }

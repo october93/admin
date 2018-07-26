@@ -8,6 +8,7 @@ import Tooltip from 'rc-tooltip'
 import { newInvite } from '../../store/actions/invites'
 import Button from "../../components/button"
 import Link from "../../components/link"
+import TruncatedWithCopy from "../../components/truncatedWithCopy"
 import glamorous from "glamorous"
 
 import "react-table/react-table.css"
@@ -40,29 +41,16 @@ const columns = [{
   },
   Cell: props =>
   <div style={{display: "flex", flexDirection: "row" }}>
-  {props.value.username}
-  <div style={{width: "10px"}} />
-  <Tooltip
-    arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-    placement="left"
-    overlay={`${props.value.id}\n(Click to Copy)`}>
-    <Link onClick={() => copy(props.value.id)}>
-      {props.value.id.substring(0, 4)}...
-    </Link>
-  </Tooltip>
-
+    {props.value.username}
+    <div style={{width: "10px"}} />
+    <TruncatedWithCopy id={props.value.id} />
   </div>
-
-}, {
-  Header: "CR Size",
-  accessor: 'node.cardRankTableSize',
-  width: 150,
 }, {
   Header: "Last Active",
   id: "lastActiveAt",
   width: 150,
   accessor: d => Date.parse(d.lastActiveAt),
-  Cell: props => props.value ? moment(props.value).fromNow() : "Never"
+  Cell: props => props.value ? moment(props.value).fromNow() : "-"
 }, {
   Header: "Invited By",
   id: "invitedBy",
