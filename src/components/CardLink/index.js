@@ -29,7 +29,9 @@ class CardLink extends Component {
               <Markdown source={this.props.card.content} />
             </CardLinkTooltip>
           }>
-          {this.props.children}
+          <React.Fragment>
+          {this.props.children || link}
+          </React.Fragment>
         </Tooltip>
       ) : link
   }
