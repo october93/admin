@@ -14,6 +14,8 @@ export const getUsers = () => async (dispatch) => {
             username
             id
             updatedAt
+            lastActiveAt
+            blocked
             node {
               cardRankTableSize
             }
@@ -32,6 +34,42 @@ export const getUsers = () => async (dispatch) => {
     }
 }
 
+export const blockUser = id => async (dispatch) => {
+  dispatch(create.blockUserRequest(id))
+
+  try {
+    const response = await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          blockUser(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.blockUserSuccess(id))
+  } catch (e) {
+    dispatch(create.blockUserError(e))
+  }
+}
+
+
+export const unblockUser = id => async (dispatch) => {
+  dispatch(create.unblockUserRequest(id))
+
+  try {
+    const response = await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          unblockUser(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.unblockUserSuccess(id))
+  } catch (e) {
+    dispatch(create.unblockUserError(e))
+  }
+}
 
 export const getPreviewFeed = username => async (dispatch) => {
     try {
@@ -61,21 +99,21 @@ export const getPreviewFeed = username => async (dispatch) => {
     }
 }
 
-export const getPreviewInviteFeed = nodeID => async (dispatch) => {
+export const getPreviewInviteFeed = username => async (dispatch) => {
     try {
       const response = await GraphQLClient.Client().query({
-        errorPolicy: "ignore",
         query: gql`
         query {
-          inviteFeedPreview(inviterID:"${nodeID}")
+          users(usernames:["${username}"]) {
+            inviteFeed
+          }
         }
         `
       })
-      console.log(response)
 
-      return response.data.inviteFeedPreview
+      return response.data.users[0].inviteFeed
     } catch (e) {
-      console.log("Failed to get preview feed")
+      console.log("Failed to get invite preview feed")
       console.log(e)
     }
 }

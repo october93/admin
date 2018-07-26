@@ -3,11 +3,12 @@ import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
-import { getUsers, getPreviewFeed, getPreviewInviteFeed } from '../../store/actions/users'
+import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser } from '../../store/actions/users'
 import Tooltip from 'rc-tooltip'
 import { newInvite } from '../../store/actions/invites'
 import Button from "../../components/button"
 import Link from "../../components/link"
+import TruncatedWithCopy from "../../components/truncatedWithCopy"
 import glamorous from "glamorous"
 
 import "react-table/react-table.css"
@@ -30,38 +31,31 @@ const CoppiedBar = glamorous.div({
 })
 
 const columns = [{
-  Header: 'Username',
-  accessor: 'username',
-  filterable: true,
-  width: 200,
-}, {
   Header: 'NodeID',
-  accessor: 'id',
-  width: 70,
+  id: "user",
+  accessor: d => ({id: d.id, username: d.username}),
+  width: 220,
+  filterable: true,
+  filterMethod: (filter, row) => {
+    return filter.value === row[filter.id].username || filter.value == row[filter.id].id
+  },
   Cell: props =>
-  <Tooltip
-    arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-    placement="left"
-    overlay={`${props.value}\n(Click to Copy)`}>
-    <Link onClick={() => copy(props.value)}>
-      {props.value}
-    </Link>
-  </Tooltip>
-
-}, {
-  Header: "CR Size",
-  accessor: 'node.cardRankTableSize',
-  width: 150,
+  <div style={{display: "flex", flexDirection: "row" }}>
+    {props.value.username}
+    <div style={{width: "10px"}} />
+    <TruncatedWithCopy id={props.value.id} />
+  </div>
 }, {
   Header: "Last Active",
-  id: "updatedAt",
+  id: "lastActiveAt",
   width: 150,
-  accessor: d => Date.parse(d.updatedAt),
-  Cell: props => props.value ? moment(props.value).fromNow() : "Never"
+  accessor: d => Date.parse(d.lastActiveAt),
+  Cell: props => props.value ? moment(props.value).fromNow() : "-"
 }, {
   Header: "Invited By",
   id: "invitedBy",
   filterable: true,
+  width: 200,
   accessor: d => d.joinedFromInvite ? d.joinedFromInvite.issuer.username : "",
 }]
 
@@ -80,22 +74,31 @@ class UsersPage extends Component {
       Header: "",
       id: "actions",
       accessor: d => d,
-      width: 300,
+      minWidth: 350,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Button onClick={() => this.viewUserFeedInApp(props.value.username)}>Preview Feed</Button>
           <div style={{width: "10px"}} />
+          <Button onClick={() => this.viewUserInviteFeedInApp(props.value.username)}>Preview Invite Feed</Button>
+          <div style={{width: "10px"}} />
           <Button onClick={() => this.newInviteForUser(props.value.id)}>Get Invite</Button>
+          { !props.value.blocked ? (
+            <React.Fragment>
+              <div style={{width: "10px"}} />
+              <Button backgroundColor="red" onClick={() => this.props.blockUser(props.value.id)}>Block User</Button>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <div style={{width: "10px"}} />
+              <Button backgroundColor="green" onClick={() => this.props.unblockUser(props.value.id)}>Unblock User</Button>
+            </React.Fragment>
+
+          )}
         </div>)
     })
 
     this.cols = cols
   }
-
-  /*
-  <div style={{width: "10px"}} />
-  <Button onClick={() => this.viewUserInviteFeedInApp(props.value.id)}>Preview Invite</Button>
-  */
 
   componentDidMount() {
     this.props.getUsers()
@@ -103,7 +106,6 @@ class UsersPage extends Component {
 
   viewUserFeedInApp = async nodeID => {
     const ids = await this.props.getPreviewFeed(nodeID)
-    console.log(ids)
     window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
@@ -124,7 +126,6 @@ class UsersPage extends Component {
 
   render() {
     const { showCoppiedBar, coppiedInviteCode } = this.state
-
     return (
       <div style={{ width: "100%", margin: "10px"}}>
         {showCoppiedBar &&
@@ -155,6 +156,8 @@ const mapDispatchToProps = {
   getUsers,
   getPreviewFeed,
   getPreviewInviteFeed,
+  blockUser,
+  unblockUser,
   newInvite,
 }
 

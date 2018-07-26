@@ -20,16 +20,16 @@ class CardLink extends Component {
   render() {
     const link = <Link href={`${REACT_APP_APP_HOST}/post/${this.props.cardID}`} target="_blank">{this.props.cardID}</Link>
 
-    return this.props.card && this.props.card.body ? (
+    return this.props.card && this.props.card.content ? (
         <Tooltip
           arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
           placement="right"
           overlay={
             <CardLinkTooltip>
-              <Markdown source={this.props.card.body} />
+              <Markdown source={this.props.card.content} />
             </CardLinkTooltip>
           }>
-          {link}
+          {this.props.children}
         </Tooltip>
       ) : link
   }

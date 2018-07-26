@@ -31,7 +31,6 @@ const menuItems = [
   {name: "Users", path: "/admin/users"},
   {name: "Reactions", path: "/admin/reactions"},
   {name: "Cards", path: "/admin/cards"},
-  {name: "Tags", path: "/admin/tags"},
   {name: "Invites", path: "/admin/invites"},
   {name: "Feature Switches", path: "/admin/featureswitches"},
   {name: "Console", path: "/admin/rpcconsole"},
