@@ -69,7 +69,7 @@ class CardRankTable extends Component {
     return (
       <div style={{ paddingRight: 0 }}>
         <ReactTable
-          data={feed.map((rank, index) => ({ index, ...rank }))}
+          data={(feed || []).map((rank, index) => ({ index, ...rank }))}
           columns={this.makeColumns()}
           defaultPageSize={100}
         />
