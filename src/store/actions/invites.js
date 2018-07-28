@@ -12,12 +12,15 @@ export const getInvites = () => async (dispatch) => {
       query: gql`
         {
           invites {
+            id
             token
             issuer {
               id
               username
             }
-            expiresAt
+            hideFromUser
+            groupID
+            givesInvites
             remainingUses
           }
         }
@@ -47,6 +50,24 @@ export const newInvite = nodeID => async (dispatch) => {
     return response.data.createInvite
   } catch (e) {
     dispatch(create.newInvitesError(e))
+  }
+}
+
+export const deactivateInvite = id => async (dispatch) => {
+  dispatch(create.deactivateInviteRequest(id))
+
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          deactivateInvite(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.deactivateInviteSuccess(id))
+  } catch (e) {
+    dispatch(create.deactivateInviteError(e))
   }
 }
 

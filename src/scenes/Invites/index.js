@@ -1,25 +1,10 @@
 import React, { Component } from 'react';
-import Button from "../../components/button"
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 
-import { getInvites, newInvite, bulkCreateInvites } from '../../store/actions/invites'
-
-const columns = [{
-  Header: 'Token',
-  accessor: 'token',
-}, {
-  Header: 'Created By',
-  accessor: 'issuer.username',
-}, {
-  Header: "Uses Left",
-  accessor: 'remainingUses',
-},{
-  Header: "Valid",
-  id: 'valid',
-  accessor: d => d.remainingUses > 0 ? "y" : "n",
-  filterable: true,
-}]
+import { getInvites, newInvite, bulkCreateInvites, deactivateInvite } from '../../store/actions/invites'
+import Checkbox from "../../components/checkbox"
+import Button from "../../components/button"
 
 
 class InvitesPage extends Component {
@@ -27,19 +12,35 @@ class InvitesPage extends Component {
     this.props.getInvites()
   }
 
+  columns = [{
+    Header: "",
+    width: 30,
+    accessor: d => d,
+    id: "remove",
+    Cell: props => props.value.remainingUses > 0 ? <Button onClick={() => {this.removeInvite(props.value.id)}}>X</Button> : ""
+  },{
+    Header: 'Token',
+    accessor: 'token',
+    filterable: true,
+  }, {
+    Header: 'For User',
+    accessor: 'issuer.username',
+    filterable: true,
+  }, {
+    Header: 'Gives Invites',
+    id: 'givesInvites',
+    width: 100,
+    accessor: d => d.givesInvites ? "Yes" : ""
+  }, {
+    Header: 'In Group',
+    id: 'groupedWith',
+    accessor: d => d.groupID ? this.props.invitesByGroupID[d.groupID].join(", ") : ""
+  }]
+
   state = {
     bulkInvites: [],
-  }
-
-  handleNewInvite = async (event) => {
-    event.preventDefault()
-
-    var nodeID = prompt("ID for Inviting Node (REQUIRED):")
-
-    if (nodeID) {
-      await this.props.newInvite(nodeID)
-      await this.props.getInvites()
-    }
+    showUsed: false,
+    showPaper: false,
   }
 
   handleBulkInvites = async (event) => {
@@ -55,17 +56,29 @@ class InvitesPage extends Component {
     }
   }
 
+  removeInvite = (id) => {
+    this.props.deactivateInvite(id)
+  }
+
+  getFilteredInvites = () => {
+    const { showUsed, showPaper } = this.state
+    return this.props.invites
+      .filter(v => showUsed || v.remainingUses > 0)
+      .filter(v => showPaper || !v.hideFromUser)
+  }
+
   render() {
+    const { showUsed, showPaper } = this.state
     return (
       <div style={{ width: "100%" }}>
-        <Button onClick={this.handleNewInvite}>New Invite</Button>
-        <Button onClick={this.handleBulkInvites}>{"Bulk Invites (DANGER)"}</Button>
+        <Checkbox checked={showUsed} label="Show Used Invites" onChange={e => this.setState({ showUsed: e.target.checked })} />
+        <Checkbox checked={showPaper} label="Show Paper Card Invites" onChange={e => this.setState({ showPaper: e.target.checked })} />
+
         <div style={{ width: "100%", margin: "10px"}}>
           <ReactTable
-           data={this.props.invites}
-           columns={columns}
+           data={this.getFilteredInvites()}
+           columns={this.columns}
            defaultPageSize={50}
-           defaultFiltered={[{id: "valid", value: "y"}]}
            minRows={0}
           />
         </div>
@@ -78,12 +91,14 @@ class InvitesPage extends Component {
 
 const mapStateToProps = (state) => ({
   invites: state.invites,
+  invitesByGroupID: state.invitesByGroupID,
 })
 
 const mapDispatchToProps = {
   getInvites,
   newInvite,
   bulkCreateInvites,
+  deactivateInvite,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InvitesPage)

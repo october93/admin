@@ -63,6 +63,7 @@ import {
 
 import {
   invites,
+  invitesByGroupID,
 } from './invites'
 
 import {
@@ -133,6 +134,7 @@ export default combineReducers({
   loginError,
 
   invites,
+  invitesByGroupID,
   waitlistRequested,
   waitlistSucceeded,
   waitlistFailed,
