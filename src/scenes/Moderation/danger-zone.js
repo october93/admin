@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import Switch from 'rc-switch'
 import { connect } from 'react-redux'
-import { getSettings, setSignupsFrozen, setMaintenanceMode } from '../../store/actions/home'
 import glamorous from "glamorous"
+
+import { getSettings, setSignupsFrozen, setMaintenanceMode } from '../../store/actions/home'
+
 
 const Title = glamorous.span({
   fontWeight: "bold",
