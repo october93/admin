@@ -1,11 +1,15 @@
 import { Link } from 'react-router'
 import glamorous from "glamorous"
 
-
 export const Container = glamorous.div({
   height: "100%",
-
 })
+
+export const Separator = glamorous.div(({ big }) => ({
+  height: 1,
+  margin: "0px 10px",
+  backgroundColor: "#FFFFFF66",
+}))
 
 export const MenuLink = glamorous(Link)(({ isCurrentPage }) => ({
   textDecoration: "none",

@@ -4,10 +4,9 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
 import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser } from '../../store/actions/users'
-import Tooltip from 'rc-tooltip'
+import { getConnections } from '../../store/actions/whoisonline'
 import { newInvite } from '../../store/actions/invites'
 import Button from "../../components/button"
-import Link from "../../components/link"
 import TruncatedWithCopy from "../../components/truncatedWithCopy"
 import glamorous from "glamorous"
 
@@ -33,11 +32,11 @@ const CoppiedBar = glamorous.div({
 const columns = [{
   Header: 'NodeID',
   id: "user",
-  accessor: d => ({id: d.id, username: d.username}),
+  accessor: d => ({id: d.id, username: d.username, online: !!d.online }),
   width: 220,
   filterable: true,
   filterMethod: (filter, row) => {
-    return filter.value === row[filter.id].username || filter.value == row[filter.id].id
+    return filter.value === row[filter.id].username || filter.value === row[filter.id].id
   },
   Cell: props =>
   <div style={{display: "flex", flexDirection: "row" }}>
@@ -49,8 +48,15 @@ const columns = [{
   Header: "Last Active",
   id: "lastActiveAt",
   width: 150,
-  accessor: d => Date.parse(d.lastActiveAt),
-  Cell: props => props.value ? moment(props.value).fromNow() : "-"
+  accessor: d => ({lastActive: Date.parse(d.lastActiveAt), online: d.online}),
+  Cell: props => {
+    if (props.value.online) {
+      return <span style={{color: "lightgreen"}}>Online</span>
+    } else if (props.value.lastActive) {
+      return moment(props.value).fromNow()
+    }
+    return "-"
+  }
 }, {
   Header: "Invited By",
   id: "invitedBy",
@@ -100,8 +106,9 @@ class UsersPage extends Component {
     this.cols = cols
   }
 
-  componentDidMount() {
-    this.props.getUsers()
+  componentDidMount = async() => {
+    await this.props.getUsers()
+    await this.props.getConnections()
   }
 
   viewUserFeedInApp = async nodeID => {
@@ -159,6 +166,7 @@ const mapDispatchToProps = {
   blockUser,
   unblockUser,
   newInvite,
+  getConnections,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)

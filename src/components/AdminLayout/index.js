@@ -27,6 +27,7 @@ import {
 	MenuPadding,
 	PageContainer,
 	Page,
+  Separator,
 } from "./styled-components"
 
 import logo from './logo-light.png'
@@ -39,18 +40,21 @@ const {
 
 const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon}/>
 
+
+
 const menuItems = [
-  {name: "Moderation", path: "/admin/moderation", Icon: FaShield},
-  {name: "Announcements", path: "/admin/announcements", Icon: FaBullhorn},
   {name: "Users", path: "/admin/users", Icon: FaGroup},
   {name: "Cards", path: "/admin/cards", Icon: FaComment},
-  {name: "Invites", path: "/admin/invites", Icon: FaUserPlus},
-  {name: "Feature Switches", path: "/admin/featureswitches", Icon: FaToggleOn},
-  {name: "Console", path: "/admin/rpcconsole", Icon: FaTerminal},
   {name: "Graph", path: "/admin/graph", Icon: FaShareAlt},
+  {name: "Invites", path: "/admin/invites", Icon: FaUserPlus},
+  {Component: Separator},
+  {name: "Console", path: "/admin/rpcconsole", Icon: FaTerminal},
   {name: "GraphQL", path: "/admin/graphql", Icon: GraphQLIcon},
+  {Component: Separator},
+  {name: "Moderation", path: "/admin/moderation", Icon: FaShield},
+  {name: "Announcements", path: "/admin/announcements", Icon: FaBullhorn},
+  {name: "Feature Switches", path: "/admin/featureswitches", Icon: FaToggleOn},
   {name: "Waitlist", path: "/admin/waitlist", Icon: FaListUl},
-  {name: "Who Is Online", path: "/admin/whoisonline", Icon: FaWifi},
 ]
 
 class AdminLayout extends Component {
@@ -63,6 +67,9 @@ class AdminLayout extends Component {
 
   renderMenuItems = () => {
     return menuItems.map(item => {
+      if (item.Component) {
+        return <item.Component big={this.state.mousedOver} />
+      }
       const IconComp = item.Icon || FaBullhorn
       return (
       <MenuItem key={item.path}>
