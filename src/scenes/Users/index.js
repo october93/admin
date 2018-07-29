@@ -53,7 +53,7 @@ const columns = [{
     if (props.value.online) {
       return <span style={{color: "lightgreen"}}>Online</span>
     } else if (props.value.lastActive) {
-      return moment(props.value).fromNow()
+      return moment(props.value.lastActive).fromNow()
     }
     return "-"
   }
