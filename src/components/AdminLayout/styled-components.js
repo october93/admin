@@ -1,16 +1,24 @@
 import { Link } from 'react-router'
 import glamorous from "glamorous"
 
-
 export const Container = glamorous.div({
   height: "100%",
-
 })
+
+export const Separator = glamorous.div(({ big }) => ({
+  height: 1,
+  margin: "0px 10px",
+  backgroundColor: "#FFFFFF66",
+}))
 
 export const MenuLink = glamorous(Link)(({ isCurrentPage }) => ({
   textDecoration: "none",
   color: "white",
+  fontSize: "13px",
   fontWeight: isCurrentPage ? "bold" : "inherit",
+  alignItems: "center",
+  display: "flex",
+  flexDirection: "row",
 
   "&:active": {
     color: "white",
@@ -33,10 +41,9 @@ export const MenuItem = glamorous.div(({ active }) => ({
 }))
 
 export const TitleHeader = glamorous(Link)({
-  margin: "30px 0px 40px 0px",
+  margin: "30px 0px 40px 18px",
   display: "flex",
   flexDirection: "row",
-  justifyContent: "center",
   alignItems: "center",
 
   textDecoration: "none",
@@ -67,14 +74,15 @@ export const LogoText = glamorous.span({
   fontWeight: "lighter",
 })
 
-export const SideMenu = glamorous.div({
+export const SideMenu = glamorous.div(({width}) => ({
   position: "fixed",
   top: "0px",
   bottom: "0px",
   left: "0px",
-  width: "150px",
+  width: width || "150px",
   backgroundColor: "#02A8F3",
-})
+  zIndex: 1000,
+}))
 
 export const UserMenuInfo = glamorous.div({
   position: "absolute",
@@ -82,14 +90,8 @@ export const UserMenuInfo = glamorous.div({
   color: "#FFF",
 })
 
-export const LoggedInAs = glamorous.div({
-  fontSize: "12px",
-  fontWeight: "lighter",
-  color: "#FFF",
-})
-
 export const MenuPadding = glamorous.div({
-  flex: "0 0 150px",
+  flex: "0 0 65px",
   height: "100%",
 })
 

@@ -38,7 +38,7 @@ export const blockUser = id => async (dispatch) => {
   dispatch(create.blockUserRequest(id))
 
   try {
-    const response = await GraphQLClient.Client().mutate({
+    await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
           blockUser(id:"${id}")

@@ -4,6 +4,7 @@ import {
   GET_USERS_ERROR,
   UNBLOCK_USER_SUCCESS,
   BLOCK_USER_SUCCESS,
+  CONNECTIONS_SUCCESS,
 } from '../actions/creators/types'
 
 export const users = (state = [], action) => {
@@ -28,8 +29,21 @@ export const users = (state = [], action) => {
         ...newState[idx],
         blocked: false,
       }
-
       return newState
+    }
+    case CONNECTIONS_SUCCESS: {
+      const newState = [...state]
+      const conns = action.connections.filter(connection => !connection.adminPanel)
+      return newState.map(usr => {
+        const matchingConnection = conns.find(c => {
+          console.log(c)
+          return c.session && c.session.user && c.session.user.username === usr.username})
+        console.log(matchingConnection)
+        if (matchingConnection) {
+          return {...usr, online: true}
+        }
+        return usr
+      })
     }
     default:
       return state

@@ -5,8 +5,26 @@ import {
   NEW_INVITE_REQUEST,
   NEW_INVITE_SUCCESS,
   NEW_INVITE_ERROR,
+  DEACTIVATE_INVITE_REQUEST,
+  DEACTIVATE_INVITE_SUCCESS,
+  DEACTIVATE_INVITES_ERROR,
 } from "./types"
 
+
+
+export const deactivateInviteRequest = () => ({
+  type: DEACTIVATE_INVITE_REQUEST,
+})
+
+export const deactivateInviteSuccess = id => ({
+  type: DEACTIVATE_INVITE_SUCCESS,
+  id,
+})
+
+export const deactivateInviteError = error => ({
+  type: DEACTIVATE_INVITES_ERROR,
+  error,
+})
 
 export const getInvitesRequest = () => ({
   type: GET_INVITES_REQUEST,

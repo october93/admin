@@ -1,5 +1,11 @@
 import GraphQLClient from '../GraphQLClient'
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
+
+import {
+  CONNECTIONS_REQUEST,
+  CONNECTIONS_SUCCESS,
+  CONNECTIONS_FAILURE,
+} from './creators/types'
 
 export const getConnections = () => async (dispatch) => {
   dispatch(connectionsRequest(true))
@@ -31,7 +37,6 @@ export const getConnections = () => async (dispatch) => {
   }
 }
 
-export const CONNECTIONS_REQUEST = 'CONNECTIONS_REQUEST'
 
 export function connectionsRequest(request) {
   return {
@@ -40,8 +45,6 @@ export function connectionsRequest(request) {
   }
 }
 
-export const CONNECTIONS_SUCCESS = 'CONNECTIONS_SUCCESS'
-
 export function connectionsSuccess(connections) {
   return {
     type: CONNECTIONS_SUCCESS,
@@ -49,7 +52,6 @@ export function connectionsSuccess(connections) {
   }
 }
 
-export const CONNECTIONS_FAILURE = 'CONNECTIONS_FAILURE'
 
 export function connectionsFailure(error) {
   return {

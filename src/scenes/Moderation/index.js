@@ -5,6 +5,7 @@ import Textarea from '../../components/textarea'
 import Button from '../../components/button'
 
 import { getBlacklist, setBlacklist, removeFromBlacklist } from '../../store/actions/blacklist'
+import DangerZone from './danger-zone'
 
 class Moderation extends Component {
   state = {
@@ -32,6 +33,7 @@ class Moderation extends Component {
   render() {
     return (
       <div style={{ width: "100%" }}>
+        <DangerZone />
         <div>
           <h3>Blacklist Cards</h3>
           <Textarea value={this.state.blacklist} onChange={this.changeText}></Textarea>
