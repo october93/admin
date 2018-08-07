@@ -38,6 +38,41 @@ export const getUsers = () => async (dispatch) => {
     }
 }
 
+export const getUserInvites = () => async (dispatch) => {
+    dispatch(create.getUserInvitesRequest())
+    try {
+      const response = await GraphQLClient.Client().query({
+        errorPolicy: "ignore",
+        query: gql`
+        {
+          users {
+            username
+            id
+            updatedAt
+            lastActiveAt
+            displayName
+            profileImagePath
+            blocked
+            blacklisted
+            node {
+              cardRankTableSize
+            }
+            joinedFromInvite {
+              issuer {
+                id
+                username
+              }
+            }
+          }
+        }
+        `
+      })
+      dispatch(create.getUsersSuccess(response.data.users))
+    } catch (e) {
+      dispatch(create.getUsersError(e))
+    }
+}
+
 export const blockUser = id => async (dispatch) => {
   dispatch(create.blockUserRequest(id))
 
