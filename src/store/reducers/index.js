@@ -64,6 +64,7 @@ import {
 import {
   invites,
   invitesByGroupID,
+  inviteesByInviter,
 } from './invites'
 
 import {
@@ -135,6 +136,8 @@ export default combineReducers({
 
   invites,
   invitesByGroupID,
+  inviteesByInviter,
+  
   waitlistRequested,
   waitlistSucceeded,
   waitlistFailed,

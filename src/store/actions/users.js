@@ -15,12 +15,16 @@ export const getUsers = () => async (dispatch) => {
             id
             updatedAt
             lastActiveAt
+            displayName
+            profileImagePath
             blocked
+            blacklisted
             node {
               cardRankTableSize
             }
             joinedFromInvite {
               issuer {
+                id
                 username
               }
             }
@@ -49,6 +53,41 @@ export const blockUser = id => async (dispatch) => {
     dispatch(create.blockUserSuccess(id))
   } catch (e) {
     dispatch(create.blockUserError(e))
+  }
+}
+
+export const blacklistUser = id => async (dispatch) => {
+  dispatch(create.blacklistUserRequest(id))
+
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          blacklistUser(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.blacklistUserSuccess(id))
+  } catch (e) {
+    dispatch(create.blacklistUserError(e))
+  }
+}
+
+export const removeUserFromBlacklist = id => async (dispatch) => {
+  dispatch(create.removeFromBlacklistRequest(id))
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          unblacklistUser(id:"${id}")
+        }
+      `
+    })
+
+    dispatch(create.removeFromBlacklistSuccess(id))
+  } catch (e) {
+    dispatch(create.removeFromBlacklistError(e))
   }
 }
 
