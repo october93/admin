@@ -40,11 +40,8 @@ const {
 
 const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon}/>
 
-
-
 const menuItems = [
   {name: "Users", path: "/admin/users", Icon: FaGroup},
-  {name: "Cards", path: "/admin/cards", Icon: FaComment},
   {name: "Graph", path: "/admin/graph", Icon: FaShareAlt},
   {name: "Invites", path: "/admin/invites", Icon: FaUserPlus},
   {Component: Separator},

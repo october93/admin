@@ -5,6 +5,8 @@ import {
   UNBLOCK_USER_SUCCESS,
   BLOCK_USER_SUCCESS,
   CONNECTIONS_SUCCESS,
+  BLACKLIST_USER_SUCCESS,
+  REMOVE_USER_FROM_BLACKLIST_SUCCESS,
 } from '../actions/creators/types'
 
 export const users = (state = [], action) => {
@@ -28,6 +30,25 @@ export const users = (state = [], action) => {
       newState[idx] = {
         ...newState[idx],
         blocked: false,
+      }
+      return newState
+    }
+    case BLACKLIST_USER_SUCCESS:{
+      const newState = [...state]
+      const idx = newState.findIndex(u => u.id === action.id)
+      newState[idx] = {
+        ...newState[idx],
+        blacklisted: true,
+      }
+
+      return newState
+    }
+    case REMOVE_USER_FROM_BLACKLIST_SUCCESS:{
+      const newState = [...state]
+      const idx = newState.findIndex(u => u.id === action.id)
+      newState[idx] = {
+        ...newState[idx],
+        blacklisted: false,
       }
       return newState
     }
