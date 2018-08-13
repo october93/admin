@@ -223,7 +223,7 @@ class UsersPage extends Component {
         <ReactTable
          data={this.props.users}
          columns={this.cols}
-         showPagination={this.props.users.length > 100}
+         showPagination={this.props.users.length > 25}
          minRows={0}
          defaultPageSize={25}
          style={{
