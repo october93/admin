@@ -19,4 +19,12 @@ if [ "$TRAVIS_BRANCH" == "development" ] && [ "$TRAVIS_PULL_REQUEST" == "false" 
   export REACT_APP_ALGOLIA_ENVIRONMENT=development_engine
 
   ENV=engine.internal.development ./scripts/ci/deploy_to_env.sh
+
+  export REACT_APP_ENVIRONMENT=staging
+  export REACT_APP_APP_HOST=https://staging.october.news
+  export REACT_APP_API_ENDPOINT=wss://engine.staging.october.news/deck_endpoint/
+  export REACT_APP_GRAPHQL_ENDPOINT=https://engine.staging.october.news/graphql
+  export REACT_APP_ALGOLIA_ENVIRONMENT=staging_engine
+
+  ENV=engine.internal.staging ./scripts/ci/deploy_to_env.sh
 fi
