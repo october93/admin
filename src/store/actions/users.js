@@ -33,6 +33,7 @@ export const getUsers = () => async (dispatch) => {
         `
       })
       dispatch(create.getUsersSuccess(response.data.users))
+      return response.data.users
     } catch (e) {
       dispatch(create.getUsersError(e))
     }

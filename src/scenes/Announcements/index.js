@@ -3,18 +3,21 @@ import { connect } from 'react-redux'
 import glamorous from "glamorous"
 import ReactTable from 'react-table'
 import moment from 'moment'
+import qs from "query-string"
 
 import Button from '../../components/button'
 import TextInput from '../../components/textinput'
+import TextArea from '../../components/textarea'
 import Select from '../../components/select'
 import Checkbox from '../../components/checkbox'
+
+import ListSelector from "./list-selector"
 
 import {
   getAnnouncements,
   createAnnouncement,
   deleteAnnouncement,
 } from '../../store/actions/announcements'
-
 
 import {
   getUsers,
@@ -27,73 +30,88 @@ const Container = glamorous.div({
   width: "40%",
 })
 
-const GroupContainer = glamorous.div({
-  margin: "7px 0px",
-})
-
-const OptionGroup = glamorous.div()
-
-const Label = glamorous.div()
-
-const Spacer = glamorous.div({
-  height: "40px",
-})
-
-const StyledButton = glamorous(Button)(({ active }) => ({
-  backgroundColor: active ? "#02A8F3" : null,
-  color: active ? "white" : null,
-  border: active? "1px white solid" : null,
-  marginRight: "10px",
-
+const Spacer = glamorous.div(({ height = 40 }) => ({
+  height,
 }))
 
+// URL Param format example
+// http://localhost:3200/admin/announcements?fromUser=paul&type=promoteCard&fromDisplayName=Paul%20Bohm&forCard=74830808-ca17-469d-b54a-2bdec56ac7d8&sendPush=true
+
+class CollapsibleContainer extends Component {
+  state = {
+    expanded: false
+  }
+
+  render() {
+    const { children, label } = this.props
+    const { expanded } = this.state
+    return (
+      <div>
+        <span onClick={() => this.setState({expanded: !expanded})}>{label || "Section"} {expanded ? <b>v</b> : <b>></b>}</span>
+        { expanded ? <div>{children}</div> : null }
+      </div>
+    )
+  }
+}
+
+const messagePresets = ({type, ...params}) => {
+  switch (type) {
+    case "promoteCard": {
+
+    }
+      return `**${params.fromDisplayName}** has a new post on October!`
+    default:
+      return ""
+  }
+}
 
 
 class Announcements extends Component {
   state = {
+    allUsers: [],
     toUsers: [],
     fromUser: "",
     forCard: "",
     message: "",
     sendPush: false,
   }
-  componentDidMount() {
+
+  componentDidMount = async() => {
     this.props.getAnnouncements()
-    this.props.getUsers()
+
+    const queryParams = qs.parse(this.props.location.search)
+    this.setState({
+      fromUser: queryParams.fromUser,
+      message: messagePresets(queryParams),
+      forCard: queryParams.forCard,
+      sendPush: queryParams.sendPush === 'true',
+    })
+
+    const allUsers = await this.props.getUsers()
+    this.setState({ allUsers })
   }
 
-  changeText = (event) => {
-    this.setState({ blacklist: event.target.value })
-  }
+  addUserToRecipients = userToMove =>
+    this.setState({
+      allUsers: this.state.allUsers.filter(u => u.id !== userToMove.id),
+      toUsers: [...this.state.toUsers, userToMove],
+    })
 
-  submitDemo = async () => {
-    await this.props.setBlacklist(this.state.blacklist)
-    await this.props.getBlacklist()
-  }
+  removeUserFromRecipients = userToMove =>
+    this.setState({
+      toUsers: this.state.toUsers.filter(u => u.id !== userToMove.id),
+      allUsers: [...this.state.allUsers, userToMove],
+    })
 
-  removeFromBlacklist = async card => {
-    await this.props.removeFromBlacklist(`["${card}"]`)
-    await this.props.getBlacklist()
-  }
+  addAllUsers = () => this.setState({
+    toUsers: this.props.users,
+    allUsers: [],
+  })
 
-  toggleSelectUser = username => {
-    let toUsers = this.state.toUsers
-
-    if (toUsers.includes(username)) {
-      toUsers = toUsers.filter(un => un !== username)
-    } else {
-      toUsers.push(username)
-    }
-    this.setState({ toUsers })
-  }
-
-  selectAll = username => {
-    this.setState({ toUsers: this.props.users.map(u => u.username) })
-  }
-
-  selectNone = username => {
-    this.setState({ toUsers: []})
-  }
+  removeAllUsers = () => this.setState({
+    allUsers: this.props.users,
+    toUsers: [],
+  })
 
   deleteAnnouncement = async(id) => {
     await this.props.deleteAnnouncement(id)
@@ -102,25 +120,25 @@ class Announcements extends Component {
 
   createAnnouncement = () => {
     const {
-      toUsers: toUserUsernames,
+      toUsers,
       fromUser: fromUsername,
       forCard,
       message,
       sendPush,
     } = this.state
 
-    console.log('hi')
-    const toUsers = toUserUsernames.map(n => this.props.users.find(u => u.username === n).id)
+    const toUserIDs = toUsers.map(u => u.id)
     const fromUser = this.props.users.find(u => u.username === fromUsername)
-    console.log(fromUser, toUsers)
+
     this.props.createAnnouncement({
-      toUsers,
+      toUsers: toUserIDs,
       fromUser: fromUser.id,
       forCard,
       message,
       sendPush,
     })
   }
+
 
   makeCols = () => {
     return [{
@@ -154,44 +172,52 @@ class Announcements extends Component {
   render() {
     const {
       announcements,
-      users
+      users,
     } = this.props
 
-    const { toUsers, sendPush } = this.state
+    const {
+      toUsers,
+      sendPush,
+      fromUser,
+      message,
+      forCard,
+      allUsers,
+    } = this.state
 
     return (
       <div style={{display: "flex", flexDirection: "column", flex: 1 }}>
         <Container>
-          <TextInput label="Message" onChange={e => this.setState({message: e.target.value})}/>
-          <TextInput label="For"  onChange={e => this.setState({forCard: e.target.value})}/>
-          <Select label="From" options={users.map(u => u.username)} value={this.state.fromUser} onChange={e => this.setState({ fromUser: e.target.value })} />
-          <GroupContainer>
-            <Label>To:</Label>
-            <OptionGroup>
-              <StyledButton active={toUsers.length > 1} onClick={this.selectAll}>
-                All
-              </StyledButton>
-              OR <Select options={users.map(u => u.username)} value={this.state.toUsers[0]} onChange={e => this.setState({ toUsers: [e.target.value] })} />
-            </OptionGroup>
-          </GroupContainer>
+          <TextArea label="Message" onChange={e => this.setState({message: e.target.value})} value={message} />
+          <TextInput label="For Card"  onChange={e => this.setState({forCard: e.target.value})} value={forCard}/>
+          <Select label="From" options={users.map(u => u.username)} value={fromUser} onChange={e => this.setState({ fromUser: e.target.value })} />
           <Checkbox checked={sendPush} label="Send Push Notifications" onChange={e => this.setState({ sendPush: e.target.checked })} />
-          <Button onClick={this.createAnnouncement}>Create</Button>
         </Container>
-
-        <Spacer />
-
-        <ReactTable
-         data={announcements}
-         columns={this.makeCols()}
-         defaultPageSize={100}
-         showPagination={this.props.users.length > 100}
-         minRows={0}
+        <ListSelector
+          unselectedLabel="Available Recipients"
+          selectedLabel="Selected Recipients"
+          unselectedItems={allUsers}
+          selectedItems={toUsers}
+          addToSelected={this.addUserToRecipients}
+          removeFromSelected={this.removeUserFromRecipients}
+          selectAll={this.addAllUsers}
+          removeAll={this.removeAllUsers}
         />
+        <Spacer height={20} />
 
-    </div>
+        <Button onClick={this.createAnnouncement}>Create</Button>
 
+        <Spacer height={40} />
 
-
+        <CollapsibleContainer label="Announcement History">
+          <ReactTable
+           data={announcements}
+           columns={this.makeCols()}
+           defaultPageSize={100}
+           showPagination={this.props.users.length > 100}
+           minRows={0}
+          />
+        </CollapsibleContainer>
+      </div>
     )
   }
 }
