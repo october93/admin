@@ -76,7 +76,7 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.0",
     "prop-types": "^15.6.2",
-    "query-string": "^6.1.0",
+    "query-string": "5",
     "rc-switch": "^1.6.0",
     "rc-tooltip": "^3.7.0",
     "react": "^16.2.0",
