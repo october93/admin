@@ -8,7 +8,6 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
 
   try {
     const { data } = await GraphQLClient.Client().query({
-      errorPolicy: "ignore",
       variables: { usernames },
       query: gql`
         query UsersByUsername($usernames: [String]) {
@@ -108,6 +107,7 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
     dispatch(graphLoadingSuccess(data))
     dispatch(graphIsLoading(false))
   } catch (e) {
+    console.log(e)
     dispatch(graphLoadingFailure(e))
   }
 }

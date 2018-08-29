@@ -76,6 +76,9 @@ class GraphExplorer extends Component {
 
   render() {
     if (this.props.graphError !== null) {
+      if (this.props.graphError.message.endsWith("graph is not available")) {
+        return <div style={{display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, fontWeight: "bold", color:"#0009", width: "100%"}}>Graph not available for this environment.</div>
+      }
       return <Error>{this.props.graphError.message}</Error>
     }
     let nested
