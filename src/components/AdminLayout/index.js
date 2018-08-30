@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet"
 import {
   FaBullhorn,
   FaGroup,
-  FaComment,
   FaUserPlus,
   FaToggleOn,
   FaTerminal,
@@ -12,7 +11,6 @@ import {
   FaShield,
   FaSignOut,
   FaListUl,
-  FaWifi,
 } from 'react-icons/lib/fa';
 
 import {
@@ -38,7 +36,7 @@ const {
 	REACT_APP_ENVIRONMENT,
 } = process.env
 
-const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon}/>
+const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon} role="presentation" />
 
 const menuItems = [
   {name: "Users", path: "/admin/users", Icon: FaGroup},
@@ -63,14 +61,14 @@ class AdminLayout extends Component {
   }
 
   renderMenuItems = () => {
-    return menuItems.map(item => {
+    return menuItems.map((item, index) => {
       if (item.Component) {
-        return <item.Component big={this.state.mousedOver} />
+        return <item.Component key={index} big={this.state.mousedOver} />
       }
       const IconComp = item.Icon || FaBullhorn
       return (
       <MenuItem key={item.path}>
-        <MenuLink isCurrentPage={this.props.location.pathname === item.path} key={item.path} to={item.path}>
+        <MenuLink key={item.path} to={item.path}>
           <IconComp size={25} />
           {this.state.mousedOver && <span style={{ marginLeft: "10px" }}>{item.name}</span>}
         </MenuLink>

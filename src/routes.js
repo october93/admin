@@ -20,6 +20,7 @@ import UsersPage from './scenes/Users';
 import Waitlist from './scenes/Waitlist'
 import Reactions from './scenes/Reactions'
 import WhoIsOnline from './scenes/WhoIsOnline'
+import Engagement from './scenes/Engagement'
 
 const loggedIn = () => {
   let session = localStorage.getItem("session")
@@ -64,6 +65,7 @@ const Routes = (props) => (
       <Route path="/admin/whoisonline" component={WhoIsOnline} />
       <Route path="/admin/reactions" component={Reactions} />
       <Route path="/admin/announcements" component={Announcements} />
+			<Route path="/admin/engagement" component={Engagement} />
       <Redirect from="/" to="/admin" />
       <Route path="*" component={NotFoundPage} />
     </Route>
