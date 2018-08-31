@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 import * as create from "./creators/engagement"
 
-export const getEngagement = () => async (dispatch) => {
+export const getEngagement = (startDate, endDate) => async (dispatch) => {
   dispatch(create.getEngagementRequest(true))
 
   try {
@@ -13,7 +13,7 @@ export const getEngagement = () => async (dispatch) => {
 				{
 					users {
 						username
-						engagement {
+						engagement(from: "${startDate.format('YYYY-MM-DD')}", to: "${endDate.format('YYYY-MM-DD')}") {
 							daysActive
 							postCount
 							commentCount
@@ -31,6 +31,7 @@ export const getEngagement = () => async (dispatch) => {
     })
     dispatch(create.getEngagementSuccess(data.users))
   } catch (e) {
+		console.error(e)
     dispatch(create.getEngagementError(e))
   }
 }

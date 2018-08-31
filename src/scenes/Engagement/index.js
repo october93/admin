@@ -7,6 +7,10 @@ import {
 	FaClose
 } from 'react-icons/lib/fa'
 import glamorous from "glamorous"
+import 'react-dates/initialize';
+import { DateRangePicker } from 'react-dates';
+import moment from 'moment';
+import 'react-dates/lib/css/_datepicker.css';
 
 const CheckBox = () => {
 	return (
@@ -44,7 +48,7 @@ class EngagementPage extends Component {
 		accessor: 'username',
 		width: 250,
 	},{
-		Header: 'Two Days',
+		Header: 'Logged in Twice',
 		accessor: 'engagement.daysActive',
 		Cell: props => {
 			if (props.value >= 2) {
@@ -52,7 +56,8 @@ class EngagementPage extends Component {
 			} else {
 				return <CrossBox />
 			}
-		}
+		},
+		width: 150,
 	},{
 		Header: 'Posted',
 		accessor: 'engagement.postCount',
@@ -68,7 +73,8 @@ class EngagementPage extends Component {
 	},{
 		Header: 'Received Votes',
 		accessor: 'engagement.receivedVotesCount',
-		Cell: AtLeastOnce
+		Cell: AtLeastOnce,
+		width: 150,
 	},{
 		Header: 'Reacted',
 		accessor: 'engagement.reactedCount',
@@ -76,16 +82,23 @@ class EngagementPage extends Component {
 	},{
 		Header: 'Received Reactions',
 		accessor: 'engagement.receivedReactionsCount',
-		Cell: AtLeastOnce
+		Cell: AtLeastOnce,
+		width: 150,
 	},{
 		Header: 'Followed',
 		accessor: 'engagement.followedUsersCount',
 		Cell: AtLeastOnce
 	},{
+		Header: 'Got Followed',
+		accessor: 'engagement.followedCount',
+		Cell: AtLeastOnce,
+		width: 150,
+	},{
 		Header: 'Invited',
 		accessor: 'engagement.invitedCount',
 		Cell: AtLeastOnce
 	},{
+		id: 'score',
 		Header: 'Score',
 		accessor: 'engagement.score',
 		Cell: (props) => (
@@ -94,17 +107,43 @@ class EngagementPage extends Component {
 	}
 	]
 
+	constructor() {
+		super()
+		this.state = {
+			startDate: moment().startOf('month'),
+			endDate: moment(),
+			focusedInput: null
+		}
+		this.onDatesChange.bind(this)
+	}
+
   componentDidMount() {
-		this.props.getEngagement()
+		this.props.getEngagement(this.state.startDate, this.state.endDate)
+	}
+
+	onDatesChange({startDate, endDate}) {
+		this.setState({ startDate, endDate })
+		this.props.getEngagement(this.state.startDate, this.state.endDate)
 	}
 
 	render() {
 		return (
 			<div>
+				<DateRangePicker
+					startDate={this.state.startDate}
+					startDateId="your_unique_start_date_id"
+					endDate={this.state.endDate}
+					endDateId="your_unique_end_date_id"
+					onDatesChange={this.onDatesChange.bind(this)}
+					focusedInput={this.state.focusedInput}
+					onFocusChange={focusedInput => this.setState({ focusedInput })}
+					isOutsideRange={(props) => { return props.isBefore(moment("20180709", "YYYYMMDD")) }}
+				/>
 				<ReactTable
 					columns={this.columns}
 					data={this.props.engagements}
 					defaultPageSize={50}
+					defaultSorted={[{ id: "score", desc: true }]}
           getTdProps={(state, rowInfo, column) => {
             let style = {
               display: 'flex',

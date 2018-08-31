@@ -53,6 +53,7 @@ const Routes = (props) => (
     <Route component={AdminLayout} onEnter={requireAuth}>
       <Route path="/admin" component={Home} />
       <Route path="/admin/users" component={UsersPage} />
+			<Route path="/admin/users/engagement" component={Engagement} />
       <Route path="/admin/cards" component={Cards} />
       <Route path="/admin/tags" component={Tags} />
       <Route path="/admin/featureswitches" component={FeatureSwitches} />
@@ -65,7 +66,6 @@ const Routes = (props) => (
       <Route path="/admin/whoisonline" component={WhoIsOnline} />
       <Route path="/admin/reactions" component={Reactions} />
       <Route path="/admin/announcements" component={Announcements} />
-			<Route path="/admin/engagement" component={Engagement} />
       <Redirect from="/" to="/admin" />
       <Route path="*" component={NotFoundPage} />
     </Route>
