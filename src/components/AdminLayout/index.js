@@ -11,6 +11,7 @@ import {
   FaShield,
   FaSignOut,
   FaListUl,
+  FaLineChart,
 } from 'react-icons/lib/fa';
 
 import {
@@ -40,6 +41,7 @@ const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={
 
 const menuItems = [
   {name: "Users", path: "/admin/users", Icon: FaGroup},
+  {name: "Engagement", path: "/admin/users/engagement", Icon: FaLineChart},
   {name: "Graph", path: "/admin/graph", Icon: FaShareAlt},
   {name: "Invites", path: "/admin/invites", Icon: FaUserPlus},
   {Component: Separator},
