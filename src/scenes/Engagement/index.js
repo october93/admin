@@ -7,7 +7,6 @@ import {
 	FaClose
 } from 'react-icons/lib/fa'
 import glamorous from "glamorous"
-import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import moment from 'moment';
 import 'react-dates/lib/css/_datepicker.css';

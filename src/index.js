@@ -5,6 +5,7 @@ import Routes from './routes';
 import { browserHistory } from 'react-router';
 import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
+import 'react-dates/initialize';
 import './index.scss';
 
 const store = configureStore()
