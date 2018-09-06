@@ -67,8 +67,7 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
             scoreModifier
             commentScore
             timeOffset
-            commentOffset
-            seenCount
+            seen
             card {
               id
               createdAt
