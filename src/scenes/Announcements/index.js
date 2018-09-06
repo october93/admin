@@ -10,6 +10,7 @@ import TextInput from '../../components/textinput'
 import TextArea from '../../components/textarea'
 import Select from '../../components/select'
 import Checkbox from '../../components/checkbox'
+import TopBar from '../../components/topbar'
 
 import ListSelector from "./list-selector"
 
@@ -73,6 +74,9 @@ class Announcements extends Component {
     fromUser: "",
     forCard: "",
     message: "",
+    showTopBar: false,
+    topBarColor: "green",
+    topBarText: "",
     sendPush: false,
   }
 
@@ -118,7 +122,7 @@ class Announcements extends Component {
     this.props.getAnnouncements()
   }
 
-  createAnnouncement = () => {
+  createAnnouncement = async () => {
     const {
       toUsers,
       fromUser: fromUsername,
@@ -127,16 +131,59 @@ class Announcements extends Component {
       sendPush,
     } = this.state
 
+    if (!toUsers || toUsers.length <= 0) {
+      this.setState({
+        showTopBar: true,
+        topBarColor: "red",
+        topBarText: "Specify at least one user to send to.",
+      })
+      return
+    } else if (!fromUsername || fromUsername.length <= 0) {
+      this.setState({
+        showTopBar: true,
+        topBarColor: "red",
+        topBarText: "Specify a user to send the notification from.",
+      })
+      return
+    } else if (!message || message.length <= 0) {
+      this.setState({
+        showTopBar: true,
+        topBarColor: "red",
+        topBarText: "You must specify a message",
+      })
+      return
+    }
+
     const toUserIDs = toUsers.map(u => u.id)
     const fromUser = this.props.users.find(u => u.username === fromUsername)
 
-    this.props.createAnnouncement({
+    const announcement = {
       toUsers: toUserIDs,
       fromUser: fromUser.id,
-      forCard,
       message,
       sendPush,
-    })
+    }
+
+    if (forCard) {
+      announcement.forCard = forCard
+    }
+
+
+    const resp = await this.props.createAnnouncement(announcement)
+
+    if (resp.error) {
+      this.setState({
+        showTopBar: true,
+        topBarColor: "red",
+        topBarText: resp.error.message,
+      })
+    } else {
+      this.setState({
+        showTopBar: true,
+        topBarColor: "green",
+        topBarText: "Announcement Sent!",
+      })
+    }
   }
 
 
@@ -182,14 +229,22 @@ class Announcements extends Component {
       message,
       forCard,
       allUsers,
+      showTopBar,
+      topBarText,
+      topBarColor,
     } = this.state
 
     return (
       <div style={{display: "flex", flexDirection: "column", flex: 1 }}>
+        { showTopBar &&
+          <TopBar backgroundColor={topBarColor} onClick={() => this.setState({ showTopBar: false })}>
+            {topBarText}
+          </TopBar>
+        }
         <Container>
-          <TextArea label="Message" onChange={e => this.setState({message: e.target.value})} value={message} />
+          <TextArea label="Message*" onChange={e => this.setState({message: e.target.value})} value={message} />
           <TextInput label="For Card"  onChange={e => this.setState({forCard: e.target.value})} value={forCard}/>
-          <Select label="From" options={users.map(u => u.username)} value={fromUser} onChange={e => this.setState({ fromUser: e.target.value })} />
+          <Select label="From*" options={users.map(u => u.username)} value={fromUser} onChange={e => this.setState({ fromUser: e.target.value })} />
           <Checkbox checked={sendPush} label="Send Push Notifications" onChange={e => this.setState({ sendPush: e.target.checked })} />
         </Container>
         <ListSelector

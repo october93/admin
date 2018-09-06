@@ -67,6 +67,7 @@ export const createAnnouncement = ({ message, fromUser, forCard, toUsers, sendPu
   } catch (e) {
     console.error(e)
     dispatch(create.createAnnouncementError(e))
+    return { error: e }
   }
 }
 
