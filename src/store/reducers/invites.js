@@ -15,9 +15,11 @@ export const invites = (state = [], action) => {
   }
 }
 
-/*
+
 export const inviteesByInviter = (state = {}, action) => {
-  switch (action.type) {
+	return state
+		/*
+	 switch (action.type) {
     case GET_USERS_SUCCESS: {
       const newState = {}
 
@@ -58,9 +60,8 @@ export const inviteesByInviter = (state = {}, action) => {
     default:
       return state
   }
+	*/
 }
-*/
-
 
 
 export const invitesByGroupID = (state = {}, action) => {

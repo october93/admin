@@ -11,6 +11,7 @@ const TextInput = ({ label, options, ...props}) => (
       <Label>{label}:</Label>
     )}
     <select {...props} >
+      <option disable selected value>--select user--</option>
       {
         options.map(o => <option key={o}>{o}</option>)
       }

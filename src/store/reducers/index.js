@@ -90,6 +90,10 @@ import {
   announcements,
 } from './announcements'
 
+import {
+	engagements,
+} from './engagements'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -152,4 +156,6 @@ export default combineReducers({
   reactionsLoading,
 
   announcements,
+
+	engagements
 })

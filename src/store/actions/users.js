@@ -33,6 +33,7 @@ export const getUsers = () => async (dispatch) => {
         `
       })
       dispatch(create.getUsersSuccess(response.data.users))
+      return response.data.users
     } catch (e) {
       dispatch(create.getUsersError(e))
     }
@@ -131,7 +132,7 @@ export const unblockUser = id => async (dispatch) => {
   dispatch(create.unblockUserRequest(id))
 
   try {
-    const response = await GraphQLClient.Client().mutate({
+    await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
           unblockUser(id:"${id}")

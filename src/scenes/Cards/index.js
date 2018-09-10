@@ -5,14 +5,12 @@ import boost from './boost.png'
 import bury from './bury.png'
 import { getCardsWithStats } from '../../store/actions/cards'
 import ReactTable from 'react-table'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Search from './search'
 import glamorous from "glamorous"
 
 import TruncatedWithCopy from '../../components/truncatedWithCopy'
 
 
-const { REACT_APP_ALGOLIA_ENVIRONMENT, REACT_APP_APP_HOST } = process.env
+const { REACT_APP_APP_HOST } = process.env
 
 const Emblem = glamorous.img({
   width: "1rem",
