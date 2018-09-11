@@ -208,7 +208,7 @@ class UsersPage extends Component {
   }
 
   copyCodeAndClose = () => {
-    copy(this.state.coppiedInviteCode)
+    copy(`${REACT_APP_APP_HOST}/qr/${this.state.coppiedInviteCode}`)
     this.setState({ showCoppiedBar: false, coppiedInviteCode: ""})
   }
 
@@ -218,7 +218,7 @@ class UsersPage extends Component {
       <div style={{ width: "100%", margin: "10px"}}>
         {showCoppiedBar &&
           <CoppiedBar onClick={this.copyCodeAndClose}>
-            Generated Invite Code: {coppiedInviteCode} (Click To Copy)
+            Generated Invite Code: {coppiedInviteCode} (Click To Copy Invite URL)
           </CoppiedBar>}
         <ReactTable
          data={this.props.users}
