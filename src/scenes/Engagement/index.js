@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { getEngagement } from '../../store/actions/engagement'
 import {
 	FaCheck,
-	FaClose
-} from 'react-icons/lib/fa'
+	FaTimes
+} from 'react-icons/fa'
 import glamorous from "glamorous"
 import { DateRangePicker } from 'react-dates';
 import moment from 'moment';
@@ -28,7 +28,7 @@ const CrossBox = () => {
 			backgroundColor={'#ff6961'}
 			color={'#c30000'}
 			width={'100%'}
-			height={'100%'}><FaClose size={15} /></glamorous.Div>
+			height={'100%'}><FaTimes size={15} /></glamorous.Div>
 	)
 }
 

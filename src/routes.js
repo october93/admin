@@ -21,6 +21,7 @@ import Waitlist from './scenes/Waitlist'
 import Reactions from './scenes/Reactions'
 import WhoIsOnline from './scenes/WhoIsOnline'
 import Engagement from './scenes/Engagement'
+import Channels from './scenes/Channels'
 
 const loggedIn = () => {
   let session = localStorage.getItem("session")
@@ -53,6 +54,7 @@ const Routes = (props) => (
     <Route component={AdminLayout} onEnter={requireAuth}>
       <Route path="/admin" component={Home} />
       <Route path="/admin/users" component={UsersPage} />
+      <Route path="/admin/channels" component={Channels} />
 			<Route path="/admin/users/engagement" component={Engagement} />
       <Route path="/admin/cards" component={Cards} />
       <Route path="/admin/tags" component={Tags} />
