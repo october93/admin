@@ -80,10 +80,6 @@ const columns = [{
 
 
 class ReactionsPage extends Component {
-  componentDidMount() {
-    this.props.getReactions()
-  }
-
   makeButtonColumn = () => {
     return
   }
