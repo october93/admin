@@ -18,7 +18,6 @@ import FeatureSwitches from './scenes/FeatureSwitches';
 import Moderation from './scenes/Moderation';
 import UsersPage from './scenes/Users';
 import Waitlist from './scenes/Waitlist'
-import Reactions from './scenes/Reactions'
 import WhoIsOnline from './scenes/WhoIsOnline'
 import Engagement from './scenes/Engagement'
 import Channels from './scenes/Channels'
@@ -66,7 +65,6 @@ const Routes = (props) => (
       <Route path="/admin/graphql" component={GraphQLPage} />
       <Route path="/admin/waitlist" component={Waitlist} />
       <Route path="/admin/whoisonline" component={WhoIsOnline} />
-      <Route path="/admin/reactions" component={Reactions} />
       <Route path="/admin/announcements" component={Announcements} />
       <Redirect from="/" to="/admin" />
       <Route path="*" component={NotFoundPage} />
