@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@october/october-icons": "^0.0.59",
     "@vx/group": "^0.0.170",
     "@vx/hierarchy": "^0.0.170",
     "@vx/shape": "^0.0.170",
