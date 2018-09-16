@@ -2,6 +2,7 @@
   "name": "october-web-admin",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@vx/group": "^0.0.170",
     "@vx/hierarchy": "^0.0.170",
