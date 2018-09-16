@@ -25,7 +25,8 @@ export default class GraphQLPage extends Component {
 
   render() {
     return (
-      <GraphiQL fetcher={this.fetch} />
+      <GraphiQL fetcher={this.fetch}  editorTheme="solarized light" />
+
     )
   }
 }

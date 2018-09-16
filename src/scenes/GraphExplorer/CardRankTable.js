@@ -3,7 +3,6 @@ import { Tooltip } from 'react-tippy'
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import timeago from 'timeago.js'
-import moment from 'moment'
 
 import CardLink from '../../components/CardLink'
 

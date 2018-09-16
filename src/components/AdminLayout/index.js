@@ -38,7 +38,7 @@ const {
 	REACT_APP_ENVIRONMENT,
 } = process.env
 
-const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon} role="presentation" />
+const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon} alt="gqlicon"/>
 
 const menuItems = [
   {name: "Users", path: "/admin/users", Icon: FaUsers},

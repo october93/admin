@@ -57,9 +57,7 @@ class CollapsibleContainer extends Component {
 
 const messagePresets = ({type, ...params}) => {
   switch (type) {
-    case "promoteCard": {
-
-    }
+    case "promoteCard":
       return `**${params.fromDisplayName}** has a new post on October!`
     default:
       return ""

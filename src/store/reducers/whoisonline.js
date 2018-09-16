@@ -2,7 +2,7 @@ import {
   CONNECTIONS_REQUEST,
   CONNECTIONS_SUCCESS,
   CONNECTIONS_FAILURE
-} from '../actions/whoisonline'
+} from '../actions/creators/types'
 
 export function connectionsRequested(state = false, action) {
   switch (action.type) {

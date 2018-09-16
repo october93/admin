@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import glamorous from "glamorous"
 
-import { resetPassword } from '../../store/actions/rpcconsole'
-
 const ResetPasswordContainer = glamorous.div({
   height: "100%",
   display: "flex",
@@ -62,7 +60,7 @@ class ResetPasswordPage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.resetPassword([this.state.username])
+    // this.props.resetPassword([this.state.username])
   }
 
   render() {
@@ -79,8 +77,5 @@ class ResetPasswordPage extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  resetPassword,
-}
 
-export default connect(state => ({}), mapDispatchToProps)(ResetPasswordPage)
+export default connect()(ResetPasswordPage)
