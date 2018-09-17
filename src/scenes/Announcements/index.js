@@ -11,6 +11,7 @@ import TextArea from '../../components/textarea'
 import Select from '../../components/select'
 import Checkbox from '../../components/checkbox'
 import TopBar from '../../components/topbar'
+import CollapsibleContainer from "../../components/collapsible-container"
 
 import ListSelector from "./list-selector"
 
@@ -38,22 +39,6 @@ const Spacer = glamorous.div(({ height = 40 }) => ({
 // URL Param format example
 // http://localhost:3200/admin/announcements?fromUser=paul&type=promoteCard&fromDisplayName=Paul%20Bohm&forCard=74830808-ca17-469d-b54a-2bdec56ac7d8&sendPush=true
 
-class CollapsibleContainer extends Component {
-  state = {
-    expanded: false
-  }
-
-  render() {
-    const { children, label } = this.props
-    const { expanded } = this.state
-    return (
-      <div>
-        <span onClick={() => this.setState({expanded: !expanded})}>{label || "Section"} {expanded ? <b>v</b> : <b>></b>}</span>
-        { expanded ? <div>{children}</div> : null }
-      </div>
-    )
-  }
-}
 
 const messagePresets = ({type, ...params}) => {
   switch (type) {

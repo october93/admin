@@ -11,7 +11,6 @@ import GraphQLPage from './scenes/GraphQL'
 import ResetPassword from "./scenes/ResetPassword"
 import InvitesPage from "./scenes/Invites"
 import Home from './scenes/Home';
-import Cards from './scenes/Cards';
 import Tags from './scenes/Tags';
 import GraphExplorer from './scenes/GraphExplorer';
 import FeatureSwitches from './scenes/FeatureSwitches';
@@ -55,7 +54,6 @@ const Routes = (props) => (
       <Route path="/admin/users" component={UsersPage} />
       <Route path="/admin/channels" component={Channels} />
 			<Route path="/admin/users/engagement" component={Engagement} />
-      <Route path="/admin/cards" component={Cards} />
       <Route path="/admin/tags" component={Tags} />
       <Route path="/admin/featureswitches" component={FeatureSwitches} />
       <Route path="/admin/invites" component={InvitesPage} />

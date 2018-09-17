@@ -5,7 +5,6 @@ import {
   FaBullhorn,
   FaUsers,
   FaUserPlus,
-  FaToggleOn,
   FaTerminal,
   FaShareAlt,
   FaShieldAlt,
@@ -52,7 +51,6 @@ const menuItems = [
   {Component: Separator},
   {name: "Moderation", path: "/admin/moderation", Icon: FaShieldAlt},
   {name: "Announcements", path: "/admin/announcements", Icon: FaBullhorn},
-  {name: "Feature Switches", path: "/admin/featureswitches", Icon: FaToggleOn},
   {name: "Waitlist", path: "/admin/waitlist", Icon: FaListUl},
 ]
 
