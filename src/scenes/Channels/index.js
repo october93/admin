@@ -11,6 +11,7 @@ import {
 
 import TextInput from "../../components/textinput"
 import Button from "../../components/button"
+import Checkbox from "../../components/checkbox"
 
 import { getChannels, updateChannel, createChannel } from '../../store/actions/channels'
 
@@ -23,16 +24,17 @@ class ChannelRow extends Component {
     this.state = {
       editing: false,
       newName: props.name,
-      error: ""
+      newIsDefault: props.isDefault,
+      error: "",
     }
   }
 
   saveUpdate = async() => {
-    const error = await this.props.saveUpdate(this.state.newName)
+    const error = await this.props.saveUpdate({ name: this.state.newName, isDefault: this.state.newIsDefault})
     if (error) {
       this.setState({ error: error.message })
     } else {
-      this.setState({ editing: false, error: ""})
+      this.setState({ editing: false, error: "" })
     }
 
   }
@@ -45,8 +47,10 @@ class ChannelRow extends Component {
             <Fragment>
               <TextInput value={this.state.newName} onChange={e => this.setState({ newName: e.target.value })} />
               <div style={{ width: "10px" }} />
+              <Checkbox  label="Default" checked={this.state.newIsDefault} onChange={e => this.setState({ newIsDefault: e.target.checked })} />
+              <div style={{ width: "10px" }} />
               <FaSave onClick={this.saveUpdate} style={{color: "lightgray"}}/>
-              <FaTimes onClick={() => this.setState({ editing: false, error: "", newName: this.props.name })} style={{color: "lightgray"}} />
+              <FaTimes onClick={() => this.setState({ editing: false, error: "", newName: this.props.name, newIsDefault: this.props.isDefault })} style={{color: "lightgray"}} />
               <div style={{ width: "10px" }} />
               <span style={{color: "red"}}>{this.state.error}</span>
             </Fragment>
@@ -54,6 +58,8 @@ class ChannelRow extends Component {
           ): (
             <Fragment>
               <span>{this.props.name}</span>
+              <div style={{ width: "3px" }} />
+              { this.props.isDefault ? <span style={{color: "lightgray"}}>(Default)</span> : null }
               <div style={{ width: "10px" }} />
               <FaEdit onClick={()=> this.setState({ editing: true })} style={{color: "lightgray"}} />
             </Fragment>
@@ -72,14 +78,15 @@ class FeatureSwitches extends Component {
   state = {
     newChannelName: "",
     newChannelsError: "",
+    newChannelIsDefault: false,
   }
 
   makeNewChannel = async() => {
-    const error = await this.props.createChannel({ name: this.state.newChannelName })
+    const error = await this.props.createChannel({ name: this.state.newChannelName, isDefault: this.state.newChannelIsDefault })
     if (error) {
       this.setState({ newChannelError: error.message })
     } else {
-      this.setState({ newChannelName: "", newChannelError: "" })
+      this.setState({ newChannelName: "", newChannelError: "", newChannelIsDefault: false })
     }
   }
 
@@ -88,12 +95,14 @@ class FeatureSwitches extends Component {
       id: "tag",
       accessor: v => v,
       Cell: v => (
-        <ChannelRow saveUpdate={newName => this.props.updateChannel({id: v.value.id, name: newName})} name={v.value.name}/>
+        <ChannelRow saveUpdate={newChan => this.props.updateChannel({id: v.value.id, ...newChan})} {...v.value}/>
       ),
       Footer: () => (
         <div style={{height: "40px", display: "flex", alignItems: "center"}}>
           <FaHashtag style={{margin: "0px 8px"}}/>
           <TextInput placeholder="Add a Channel" style={{ height: "30px"}} value={this.state.newChannelName} onChange={e => this.setState({newChannelName: e.target.value})}/>
+          <div style={{ width: "10px" }} />
+          <Checkbox label="Default" checked={this.state.newChannelIsDefault} onChange={e => this.setState({newChannelIsDefault: e.target.checked})}/>
           <div style={{ width: "10px" }} />
           <Button onClick={this.makeNewChannel}>Create</Button>
           <div style={{ width: "10px" }} />
