@@ -12,6 +12,7 @@ export const getChannels = () => async (dispatch) => {
         channels {
           id
           name
+          isDefault
         }
       }
       `
@@ -23,13 +24,17 @@ export const getChannels = () => async (dispatch) => {
 }
 
 
-export const updateChannel = ({ id, name }) => async (dispatch) => {
-  dispatch(create.updateChannelRequest({ id, name }))
+export const updateChannel = ({ id, name, isDefault }) => async (dispatch) => {
+  dispatch(create.updateChannelRequest({ id, name, isDefault }))
   try {
     await GraphQLClient.Client().mutate({
       mutation: gql`
       mutation {
-        updateChannelName(id:"${id}", channelName:"${name}")
+        updateChannel(id:"${id}", channel:{name:"${name}", isDefault:${isDefault}}) {
+          id
+          name
+          isDefault
+        }
       }
       `,
     })
@@ -41,15 +46,16 @@ export const updateChannel = ({ id, name }) => async (dispatch) => {
 }
 
 
-export const createChannel = ({ name }) => async (dispatch) => {
-  dispatch(create.newChannelRequest({ name }))
+export const createChannel = ({ name, isDefault }) => async (dispatch) => {
+  dispatch(create.newChannelRequest({ name, isDefault }))
   try {
     const resp = await GraphQLClient.Client().mutate({
       mutation: gql`
       mutation {
-        createChannel(channel:{name:"${name}"}) {
+        createChannel(channel:{name:"${name}", isDefault:${isDefault}}) {
           id
           name
+          isDefault
         }
       }
       `,

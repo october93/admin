@@ -26,10 +26,11 @@ export const getChannelsError = error => ({
   error,
 })
 
-export const updateChannelRequest = ({ id, name }) => ({
+export const updateChannelRequest = ({ id, name, isDefault }) => ({
   type: UPDATE_CHANNEL_REQUEST,
   id,
   name,
+  isDefault
 })
 
 export const updateChannelSuccess = () => ({
@@ -47,10 +48,9 @@ export const newChannelRequest = ({ name }) => ({
   name,
 })
 
-export const newChannelSuccess = ({ id, name }) => ({
+export const newChannelSuccess = (channel) => ({
   type: NEW_CHANNEL_SUCCESS,
-  id,
-  name,
+  channel,
 })
 
 export const newChannelError = error => ({
