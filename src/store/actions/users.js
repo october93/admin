@@ -153,7 +153,7 @@ export const getPreviewFeed = username => async (dispatch) => {
         query: gql`
         query {
           users(usernames:["${username}"]) {
-            feed{
+            feed {
               cardID
             }
           }
@@ -180,7 +180,7 @@ export const getPreviewInviteFeed = username => async (dispatch) => {
         query: gql`
         query {
           users(usernames:["${username}"]) {
-            inviteFeed{
+            inviteFeed {
               cardID
             }
           }
@@ -188,7 +188,10 @@ export const getPreviewInviteFeed = username => async (dispatch) => {
         `
       })
 
-      return response.data.users[0].inviteFeed
+      if (response.data.users[0].inviteFeed && response.data.users[0].inviteFeed.length > 0) {
+        return response.data.users[0].inviteFeed.map(v => v.cardID)
+      }
+
     } catch (e) {
       console.log("Failed to get invite preview feed")
       console.log(e)
