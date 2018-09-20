@@ -3,7 +3,6 @@ import { Tooltip } from 'react-tippy'
 import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import timeago from 'timeago.js'
-import moment from 'moment'
 
 import CardLink from '../../components/CardLink'
 
@@ -31,16 +30,12 @@ class CardRankTable extends Component {
         </Tooltip>
       },
       {
-        Header: 'Boost Score',
-        accessor: 'boostScore',
+        Header: 'Upvote Score',
+        accessor: 'upvoteScore',
       },
       {
-        Header: 'Bury Score',
-        accessor: 'buryScore',
-      },
-      {
-        Header: 'Modifier',
-        accessor: 'scoreModifier',
+        Header: 'Downvote Score',
+        accessor: 'downvoteScore',
       },
       {
         Header: 'Comment Score',
@@ -50,15 +45,6 @@ class CardRankTable extends Component {
         Header: 'Time Offset',
         accessor: 'timeOffset',
         Cell: row => (timeago().format(new Date(1000.0 * row.value))),
-      },
-      {
-        Header: 'Comment Offset',
-        accessor: 'commentOffset',
-        Cell: row => row.value ? moment.duration(row.value, 'seconds').humanize() : 0,
-      },
-      {
-        Header: 'Seen Count',
-        accessor: 'seenCount',
       },
     ]
   }

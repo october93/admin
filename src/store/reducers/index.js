@@ -94,6 +94,10 @@ import {
 	engagements,
 } from './engagements'
 
+import {
+	channels,
+} from './channels'
+
 export default combineReducers({
   graphIsLoading,
   graphLoadingSuccess,
@@ -141,7 +145,7 @@ export default combineReducers({
   invites,
   invitesByGroupID,
   inviteesByInviter,
-  
+
   waitlistRequested,
   waitlistSucceeded,
   waitlistFailed,
@@ -157,5 +161,7 @@ export default combineReducers({
 
   announcements,
 
-	engagements
+	engagements,
+
+  channels,
 })

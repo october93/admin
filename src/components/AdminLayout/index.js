@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import { Helmet } from "react-helmet"
 import {
   FaBullhorn,
-  FaGroup,
+  FaUsers,
   FaUserPlus,
-  FaToggleOn,
   FaTerminal,
   FaShareAlt,
-  FaShield,
-  FaSignOut,
+  FaShieldAlt,
+  FaSignOutAlt,
   FaListUl,
-  FaLineChart,
-} from 'react-icons/lib/fa';
+  FaHashtag,
+  FaChartLine,
+} from 'react-icons/fa';
 
 import {
   Container,
@@ -37,20 +37,20 @@ const {
 	REACT_APP_ENVIRONMENT,
 } = process.env
 
-const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon} role="presentation" />
+const GraphQLIcon = ({ size }) => <img style={{width: size, height: size}} src={gqlIcon} alt="gqlicon"/>
 
 const menuItems = [
-  {name: "Users", path: "/admin/users", Icon: FaGroup},
-  {name: "Engagement", path: "/admin/users/engagement", Icon: FaLineChart},
+  {name: "Users", path: "/admin/users", Icon: FaUsers},
+  {name: "Channels", path: "/admin/channels", Icon: FaHashtag},
+  {name: "Engagement", path: "/admin/users/engagement", Icon: FaChartLine},
   {name: "Graph", path: "/admin/graph", Icon: FaShareAlt},
   {name: "Invites", path: "/admin/invites", Icon: FaUserPlus},
   {Component: Separator},
   {name: "Console", path: "/admin/rpcconsole", Icon: FaTerminal},
   {name: "GraphQL", path: "/admin/graphql", Icon: GraphQLIcon},
   {Component: Separator},
-  {name: "Moderation", path: "/admin/moderation", Icon: FaShield},
+  {name: "Moderation", path: "/admin/moderation", Icon: FaShieldAlt},
   {name: "Announcements", path: "/admin/announcements", Icon: FaBullhorn},
-  {name: "Feature Switches", path: "/admin/featureswitches", Icon: FaToggleOn},
   {name: "Waitlist", path: "/admin/waitlist", Icon: FaListUl},
 ]
 
@@ -103,7 +103,7 @@ class AdminLayout extends Component {
             </TitleHeader>
             {this.renderMenuItems()}
             <UserMenuInfo>
-              <MenuItem onClick={() => this.props.logout()}><FaSignOut size={25}/>
+              <MenuItem onClick={() => this.props.logout()}><FaSignOutAlt size={25}/>
                 {this.state.mousedOver && <span style={{ marginLeft: "10px", fontSize: "13px"}}>Logout</span>}
               </MenuItem>
             </UserMenuInfo>

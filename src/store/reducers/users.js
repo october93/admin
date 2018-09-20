@@ -57,9 +57,7 @@ export const users = (state = [], action) => {
       const conns = action.connections.filter(connection => !connection.adminPanel)
       return newState.map(usr => {
         const matchingConnection = conns.find(c => {
-          console.log(c)
           return c.session && c.session.user && c.session.user.username === usr.username})
-        console.log(matchingConnection)
         if (matchingConnection) {
           return {...usr, online: true}
         }

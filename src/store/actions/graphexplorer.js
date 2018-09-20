@@ -60,14 +60,13 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
           momentum
         }
         fragment cardRankFragment on User {
-          feed {
+          feed(filterSeen: true) {
             topScore
-            boostScore
-            buryScore
+            upvoteScore
+            downvoteScore
             scoreModifier
             commentScore
             timeOffset
-            seen
             card {
               id
               createdAt
@@ -75,16 +74,6 @@ export const queryGraph = (usernames = ['nathaniel']) => async (dispatch) => {
                 username
               }
               ...queryCardFragment
-            }
-            actions {
-              reaction {
-                reaction
-                updatedAt
-                user {
-                  username
-                }
-              }
-              score
             }
           }
         }
