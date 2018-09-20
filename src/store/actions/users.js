@@ -180,7 +180,9 @@ export const getPreviewInviteFeed = username => async (dispatch) => {
         query: gql`
         query {
           users(usernames:["${username}"]) {
-            inviteFeed
+            inviteFeed{
+              cardID
+            }
           }
         }
         `
