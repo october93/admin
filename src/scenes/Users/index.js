@@ -97,7 +97,7 @@ const columns = [{
   Header: "Last Active",
   id: "lastActiveAt",
   width: 150,
-  accessor: d => ({lastActive: Date.parse(d.lastActiveAt) || 0, online: d.online}),
+  accessor: d => ({lastActive: Date.parse(d.lastActiveAt && d.lastActiveAt.time) || 0, online: d.online}),
   sortMethod: (a, b) => {
     if (a.online && b.online) {
       return 0
