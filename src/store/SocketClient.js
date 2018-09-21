@@ -66,7 +66,7 @@ export default class APIClient {
 		this.webSocketHost = webSocketHost
 		this.onSocketOpenFn = onServerReady
 		this.onSessionInvalid = onSessionInvalid
-		this.rpcHandlers = rpcHandlers
+		this.rpcHandlers = rpcHandlers || {}
 		this.timeout = requestTimeout || TIMEOUT
 		this.openSocket()
 	}
