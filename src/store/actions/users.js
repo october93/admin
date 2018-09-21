@@ -14,7 +14,9 @@ export const getUsers = () => async (dispatch) => {
             username
             id
             updatedAt
-            lastActiveAt
+            lastActiveAt {
+              time
+            }
             displayName
             profileImagePath
             blocked
@@ -50,7 +52,9 @@ export const getUserInvites = () => async (dispatch) => {
             username
             id
             updatedAt
-            lastActiveAt
+            lastActiveAt {
+              time
+            }
             displayName
             profileImagePath
             blocked
