@@ -3,7 +3,7 @@ import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
-import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser, blacklistUser, removeUserFromBlacklist } from '../../store/actions/users'
+import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser, shadowbanUser, unshadowbanUser } from '../../store/actions/users'
 import { getConnections } from '../../store/actions/whoisonline'
 import { newInvite } from '../../store/actions/invites'
 import Link from "../../components/link"
@@ -156,15 +156,15 @@ class UsersPage extends Component {
           <ActionLink onClick={() => this.viewUserInviteFeedInApp(props.value.username)}>Preview Invite Feed</ActionLink>
           <Sep />
           <ActionLink onClick={() => this.newInviteForUser(props.value.id)}>Give Invite</ActionLink>
-            { !props.value.blacklisted ? (
+            { !props.value.shadowbanned ? (
               <React.Fragment>
                 <Sep />
-                <ActionLink color="orange" onClick={() => this.props.blacklistUser(props.value.id)}>Blacklist User</ActionLink>
+                <ActionLink color="orange" onClick={() => this.props.shadowbanUser(props.value.id)}>Shadowban User</ActionLink>
               </React.Fragment>
             ) : (
               <React.Fragment>
                 <Sep />
-                <ActionLink color="green" onClick={() => this.props.removeUserFromBlacklist(props.value.id)}>Unblacklist User</ActionLink>
+                <ActionLink color="green" onClick={() => this.props.unshadowbanUser(props.value.id)}>Unshadowban User</ActionLink>
               </React.Fragment>
 
             )}
@@ -252,8 +252,8 @@ const mapDispatchToProps = {
   unblockUser,
   newInvite,
   getConnections,
-  blacklistUser,
-  removeUserFromBlacklist,
+  shadowbanUser,
+  unshadowbanUser,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)

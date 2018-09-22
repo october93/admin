@@ -44,10 +44,6 @@ import {
 } from './tags'
 
 import {
-  cardBlacklist,
-} from './blacklist'
-
-import {
   users,
   usersLoading,
 } from './users'
@@ -132,8 +128,6 @@ export default combineReducers({
   getTagsFailed,
   createTagSuccessful,
   createTagFailed,
-
-  cardBlacklist,
 
   users,
   usersLoading,

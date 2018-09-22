@@ -8,12 +8,12 @@ import {
   BLOCK_USER_REQUEST,
   BLOCK_USER_SUCCESS,
   BLOCK_USER_ERROR,
-  BLACKLIST_USER_REQUEST,
-  BLACKLIST_USER_SUCCESS,
-  BLACKLIST_USER_ERROR,
-  REMOVE_USER_FROM_BLACKLIST_REQUEST,
-  REMOVE_USER_FROM_BLACKLIST_SUCCESS,
-  REMOVE_USER_FROM_BLACKLIST_ERROR,
+  SHADOWBAN_USER_REQUEST,
+  SHADOWBAN_USER_SUCCESS,
+  SHADOWBAN_USER_ERROR,
+  REMOVE_USER_FROM_SHADOWBAN_REQUEST,
+  REMOVE_USER_FROM_SHADOWBAN_SUCCESS,
+  REMOVE_USER_FROM_SHADOWBAN_ERROR,
   GET_USER_INVITES_REQUEST,
   GET_USERS_INVITES_SUCCESS,
   GET_USERS_INVITES_ERROR,
@@ -33,34 +33,34 @@ export const getUserInvitesError = error => ({
   error,
 })
 
-export const blacklistUserRequest = id => ({
-  type: BLACKLIST_USER_REQUEST,
+export const shadowbanUserRequest = id => ({
+  type: SHADOWBAN_USER_REQUEST,
   id,
 })
 
-export const blacklistUserSuccess = id => ({
-  type: BLACKLIST_USER_SUCCESS,
+export const shadowbanUserSuccess = id => ({
+  type: SHADOWBAN_USER_SUCCESS,
   id,
 })
 
-export const blacklistUserError = error => ({
-  type: BLACKLIST_USER_ERROR,
+export const shadowbanUserError = error => ({
+  type: SHADOWBAN_USER_ERROR,
   error,
 })
 
 
-export const removeFromBlacklistRequest = id => ({
-  type: REMOVE_USER_FROM_BLACKLIST_REQUEST,
+export const unshadowbanUserRequest = id => ({
+  type: REMOVE_USER_FROM_SHADOWBAN_REQUEST,
   id,
 })
 
-export const removeFromBlacklistSuccess = id => ({
-  type: REMOVE_USER_FROM_BLACKLIST_SUCCESS,
+export const unshadowbanUserSuccess = id => ({
+  type: REMOVE_USER_FROM_SHADOWBAN_SUCCESS,
   id,
 })
 
-export const removeFromBlacklistError = error => ({
-  type: REMOVE_USER_FROM_BLACKLIST_ERROR,
+export const unshadowbanUserError = error => ({
+  type: REMOVE_USER_FROM_SHADOWBAN_ERROR,
   error,
 })
 

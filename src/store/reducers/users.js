@@ -5,8 +5,8 @@ import {
   UNBLOCK_USER_SUCCESS,
   BLOCK_USER_SUCCESS,
   CONNECTIONS_SUCCESS,
-  BLACKLIST_USER_SUCCESS,
-  REMOVE_USER_FROM_BLACKLIST_SUCCESS,
+  SHADOWBAN_USER_SUCCESS,
+  REMOVE_USER_FROM_SHADOWBAN_SUCCESS,
 } from '../actions/creators/types'
 
 export const users = (state = [], action) => {
@@ -33,22 +33,22 @@ export const users = (state = [], action) => {
       }
       return newState
     }
-    case BLACKLIST_USER_SUCCESS:{
+    case SHADOWBAN_USER_SUCCESS:{
       const newState = [...state]
       const idx = newState.findIndex(u => u.id === action.id)
       newState[idx] = {
         ...newState[idx],
-        blacklisted: true,
+        shadowbanned: true,
       }
 
       return newState
     }
-    case REMOVE_USER_FROM_BLACKLIST_SUCCESS:{
+    case REMOVE_USER_FROM_SHADOWBAN_SUCCESS:{
       const newState = [...state]
       const idx = newState.findIndex(u => u.id === action.id)
       newState[idx] = {
         ...newState[idx],
-        blacklisted: false,
+        shadowbanned: false,
       }
       return newState
     }
