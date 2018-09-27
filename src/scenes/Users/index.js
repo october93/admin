@@ -181,8 +181,6 @@ class UsersPage extends Component {
           <ActionLink onClick={() => this.viewUserFeedInApp(props.value.username)}>Preview Feed</ActionLink>
           <Sep />
           <ActionLink onClick={() => this.viewUserInviteFeedInApp(props.value.username)}>Preview Invite Feed</ActionLink>
-          <Sep />
-          <ActionLink onClick={() => this.newInviteForUser(props.value.id)}>Give Invite</ActionLink>
             { !props.value.shadowbanned ? (
               <React.Fragment>
                 <Sep />
