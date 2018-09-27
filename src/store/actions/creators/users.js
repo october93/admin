@@ -17,7 +17,26 @@ import {
   GET_USER_INVITES_REQUEST,
   GET_USERS_INVITES_SUCCESS,
   GET_USERS_INVITES_ERROR,
+  SET_USER_DEFAULT_STATUS_REQUEST,
+  SET_USER_DEFAULT_STATUS_SUCCESS,
+  SET_USER_DEFAULT_STATUS_ERROR,
 } from "./types"
+
+
+export const setUserDefaultStatusRequest = () => ({
+  type: SET_USER_DEFAULT_STATUS_REQUEST,
+})
+
+export const setUserDefaultStatusSuccess = ({ id, status }) => ({
+  type: SET_USER_DEFAULT_STATUS_SUCCESS,
+  id,
+  status,
+})
+
+export const setUserDefaultStatusError = error => ({
+  type: SET_USER_DEFAULT_STATUS_ERROR,
+  error,
+})
 
 export const getUserInvitesRequest = () => ({
   type: GET_USER_INVITES_REQUEST,

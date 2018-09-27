@@ -7,6 +7,7 @@ import {
   CONNECTIONS_SUCCESS,
   SHADOWBAN_USER_SUCCESS,
   REMOVE_USER_FROM_SHADOWBAN_SUCCESS,
+  SET_USER_DEFAULT_STATUS_SUCCESS,
 } from '../actions/creators/types'
 
 export const users = (state = [], action) => {
@@ -30,6 +31,15 @@ export const users = (state = [], action) => {
       newState[idx] = {
         ...newState[idx],
         blocked: false,
+      }
+      return newState
+    }
+    case SET_USER_DEFAULT_STATUS_SUCCESS:{
+      const newState = [...state]
+      const idx = newState.findIndex(u => u.id === action.id)
+      newState[idx] = {
+        ...newState[idx],
+        isDefault: action.status,
       }
       return newState
     }

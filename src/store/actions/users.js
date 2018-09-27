@@ -19,6 +19,7 @@ export const getUsers = () => async (dispatch) => {
             }
             displayName
             profileImagePath
+            isDefault
             blocked
             shadowbanned
             node {
@@ -93,6 +94,24 @@ export const blockUser = id => async (dispatch) => {
     dispatch(create.blockUserSuccess(id))
   } catch (e) {
     dispatch(create.blockUserError(e))
+  }
+}
+
+export const setUserDefaultStatus = (id, status) => async (dispatch) => {
+  dispatch(create.setUserDefaultStatusRequest())
+
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          setUserDefaultStatus(id:"${id}", status:${status})
+        }
+      `
+    })
+
+    dispatch(create.setUserDefaultStatusSuccess({id, status}))
+  } catch (e) {
+    dispatch(create.setUserDefaultStatusError(e))
   }
 }
 

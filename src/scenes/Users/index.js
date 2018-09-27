@@ -3,10 +3,11 @@ import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
-import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser, shadowbanUser, unshadowbanUser } from '../../store/actions/users'
+import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser, shadowbanUser, unshadowbanUser, setUserDefaultStatus } from '../../store/actions/users'
 import { getConnections } from '../../store/actions/whoisonline'
 import { newInvite } from '../../store/actions/invites'
 import Link from "../../components/link"
+import Checkbox from "../../components/checkbox"
 import TruncatedWithCopy from "../../components/truncatedWithCopy"
 import glamorous from "glamorous"
 
@@ -142,7 +143,33 @@ class UsersPage extends Component {
     super()
 
     const cols = [...columns]
+    cols.unshift({
+      headerStyle,
+      Header: "Is Default",
+      id: "isdefault",
+      accessor: d => d,
+      width: 50,
+      sortable: true,
+      sortMethod: (a, b) => {
+        if (a.isDefault && !b.isDefault) {
+          return 1
+        }
+        if (!a.isDefault && b.isDefault) {
+          return -1
+        }
+        return 0
+      },
+      Cell: props => (
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <Checkbox
+            checked={props.value.isDefault}
+            onChange={e => {
+              this.props.setUserDefaultStatus(props.value.id, !props.value.isDefault)
+            }} />
+        </div>
 
+      )
+    })
     cols.push({
       headerStyle,
       Header: "",
@@ -245,6 +272,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+  setUserDefaultStatus,
   getUsers,
   getPreviewFeed,
   getPreviewInviteFeed,
