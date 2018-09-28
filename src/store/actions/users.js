@@ -19,8 +19,9 @@ export const getUsers = () => async (dispatch) => {
             }
             displayName
             profileImagePath
+            isDefault
             blocked
-            blacklisted
+            shadowbanned
             node {
               cardRankTableSize
             }
@@ -58,7 +59,7 @@ export const getUserInvites = () => async (dispatch) => {
             displayName
             profileImagePath
             blocked
-            blacklisted
+            shadowbanned
             node {
               cardRankTableSize
             }
@@ -96,38 +97,55 @@ export const blockUser = id => async (dispatch) => {
   }
 }
 
-export const blacklistUser = id => async (dispatch) => {
-  dispatch(create.blacklistUserRequest(id))
+export const setUserDefaultStatus = (id, status) => async (dispatch) => {
+  dispatch(create.setUserDefaultStatusRequest())
 
   try {
     await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
-          blacklistUser(id:"${id}")
+          setUserDefaultStatus(id:"${id}", status:${status})
         }
       `
     })
 
-    dispatch(create.blacklistUserSuccess(id))
+    dispatch(create.setUserDefaultStatusSuccess({id, status}))
   } catch (e) {
-    dispatch(create.blacklistUserError(e))
+    dispatch(create.setUserDefaultStatusError(e))
   }
 }
 
-export const removeUserFromBlacklist = id => async (dispatch) => {
-  dispatch(create.removeFromBlacklistRequest(id))
+export const shadowbanUser = id => async (dispatch) => {
+  dispatch(create.shadowbanUserRequest(id))
+
   try {
     await GraphQLClient.Client().mutate({
       mutation: gql`
         mutation {
-          unblacklistUser(id:"${id}")
+          shadowbanUser(id:"${id}")
+        }
+      `
+    })
+    dispatch(create.shadowbanUserSuccess(id))
+  } catch (e) {
+    dispatch(create.shadowbanUserError(e))
+  }
+}
+
+export const unshadowbanUser = id => async (dispatch) => {
+  dispatch(create.unshadowbanUserRequest(id))
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          unshadowbanUser(id:"${id}")
         }
       `
     })
 
-    dispatch(create.removeFromBlacklistSuccess(id))
+    dispatch(create.unshadowbanUserSuccess(id))
   } catch (e) {
-    dispatch(create.removeFromBlacklistError(e))
+    dispatch(create.unshadowbanUserError(e))
   }
 }
 
