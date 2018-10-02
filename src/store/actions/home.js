@@ -26,7 +26,7 @@ export function setSignupsFrozen(on) {
       errorPolicy: "ignore",
       variables: {
         settings: {
-          freezeSignups: on,
+          signupsFrozen: on,
         },
       },
       mutation: gql`
