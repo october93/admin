@@ -5,6 +5,7 @@ import AdminLayout from './components/AdminLayout'
 
 import LoginPage from './scenes/Login'
 import Announcements from './scenes/Announcements'
+import Actions from './scenes/Actions'
 import NotFoundPage from './scenes/NotFound'
 import UtilitiesPage from './scenes/RPCConsole'
 import GraphQLPage from './scenes/GraphQL'
@@ -53,6 +54,7 @@ const Routes = (props) => (
       <Route path="/admin" component={Home} />
       <Route path="/admin/users" component={UsersPage} />
       <Route path="/admin/channels" component={Channels} />
+      <Route path="/admin/actions" component={Actions} />
 			<Route path="/admin/users/engagement" component={Engagement} />
       <Route path="/admin/tags" component={Tags} />
       <Route path="/admin/featureswitches" component={FeatureSwitches} />
