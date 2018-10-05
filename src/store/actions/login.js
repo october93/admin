@@ -18,18 +18,21 @@ export const login = payload => async (dispatch) => {
 			APIClient.getInstance().updateAuthToken(data.session.id)
 			dispatch(create.loginSuccess({ ...data, username: data.user.username }))
 			localStorage.setItem("session", JSON.stringify(data.session))
+			localStorage.setItem("sessionuserid", JSON.stringify(data.user.nodeId))
       window.location.replace('/admin')
 		} else {
 			throw new Error("An error occurred!")
 		}
 	} catch (error) {
-		dispatch(create.loginError(error.error))
+		console.log(error)
+		dispatch(create.loginError(error))
 	}
 }
 
 export const resetApp = (dispatch, resolve) => {
 	dispatch(create.logout())
 	localStorage.removeItem("session")
+	localStorage.removeItem("sessionuserid")
 	window.location.replace('/admin/login')
 	APIClient.getInstance().updateAuthToken(null)
 	resolve()

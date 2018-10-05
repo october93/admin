@@ -8,8 +8,24 @@ import {
   NEW_CHANNEL_REQUEST,
   NEW_CHANNEL_SUCCESS,
   NEW_CHANNEL_ERROR,
+  GET_CHANNEL_INVITE_REQUEST,
+  GET_CHANNEL_INVITE_SUCCESS,
+  GET_CHANNEL_INVITE_ERROR,
 } from "./types"
 
+
+export const getChannelInviteRequest = channelID => ({
+  type: GET_CHANNEL_INVITE_REQUEST,
+})
+
+export const getChannelInviteSuccess = () => ({
+  type: GET_CHANNEL_INVITE_SUCCESS,
+})
+
+export const getChannelInviteError = error => ({
+  type: GET_CHANNEL_INVITE_ERROR,
+  error,
+})
 
 
 export const getChannelsRequest = () => ({

@@ -47,6 +47,26 @@ export const updateChannel = ({ id, name, isDefault, isPrivate }) => async (disp
   }
 }
 
+export const getChannelInvite = ({ channelID, inviterID }) => async (dispatch) => {
+  dispatch(create.getChannelInviteRequest(channelID))
+  try {
+    const resp = await GraphQLClient.Client().mutate({
+      mutation: gql`
+      mutation {
+        createChannelInvite(channelID:"${channelID}", inviterID:${inviterID}) {
+          token
+        }
+      }
+      `,
+    })
+    dispatch(create.getChannelInviteSuccess())
+    return resp.data.createChannelInvite.token
+  } catch (e) {
+    dispatch(create.getChannelInviteError(e))
+    return e
+  }
+}
+
 
 export const createChannel = ({ name, isDefault, isPrivate }) => async (dispatch) => {
   dispatch(create.newChannelRequest({ name, isDefault, isPrivate }))

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import ReactTable from 'react-table'
+import copy from 'copy-to-clipboard'
 
 import {
   FaHashtag,
@@ -12,10 +13,14 @@ import {
 import TextInput from "../../components/textinput"
 import Button from "../../components/button"
 import Checkbox from "../../components/checkbox"
+import TopBar from "../../components/topbar"
 
-import { getChannels, updateChannel, createChannel } from '../../store/actions/channels'
+import { getChannels, updateChannel, createChannel, getChannelInvite } from '../../store/actions/channels'
 
 const NoData = () => <div></div>
+
+const { REACT_APP_APP_HOST } = process.env
+
 
 class ChannelRow extends Component {
   constructor(props){
@@ -67,6 +72,10 @@ class ChannelRow extends Component {
               { this.props.isPrivate ? <span style={{color: "lightgray"}}>(Private)</span> : null }
               <div style={{ width: "10px" }} />
               <FaEdit onClick={()=> this.setState({ editing: true })} style={{color: "lightgray"}} />
+              <div style={{ width: "10px" }} />
+              <div style={{color: "#02A8F3", fontSize: "12px"}}onClick={() => this.props.getInvite()}>
+                Get Channel Invite
+              </div>
             </Fragment>
           )}
 
@@ -85,6 +94,8 @@ class FeatureSwitches extends Component {
     newChannelsError: "",
     newChannelIsDefault: false,
     newChannelIsPrivate: false,
+    showTopBar: false,
+    topbarInviteCode: "",
   }
 
   makeNewChannel = async() => {
@@ -97,12 +108,22 @@ class FeatureSwitches extends Component {
     }
   }
 
+  getChannelInvite = async(props) => {
+    const topbarInviteCode = await this.props.getChannelInvite(props)
+    this.setState({ showTopBar: true, topbarInviteCode})
+  }
+
+  copyCodeAndClose = () => {
+    copy(`${REACT_APP_APP_HOST}/qr/${this.state.topbarInviteCode}`)
+    this.setState({ showTopBar: false, topbarInviteCode: ""})
+  }
+
   columns = () => [{
       Header: 'Tag',
       id: "tag",
       accessor: v => v,
       Cell: v => (
-        <ChannelRow saveUpdate={newChan => this.props.updateChannel({id: v.value.id, ...newChan})} {...v.value}/>
+        <ChannelRow saveUpdate={newChan => this.props.updateChannel({id: v.value.id, ...newChan})} getInvite={() => this.getChannelInvite({ channelID: v.value.id, inviterID: this.props.loggedInUserID })} {...v.value}/>
       ),
       Footer: () => (
         <div style={{height: "40px", display: "flex", alignItems: "center"}}>
@@ -124,8 +145,14 @@ class FeatureSwitches extends Component {
 
   render() {
     const { channels } = this.props
+    const { showTopBar, topbarInviteCode } = this.state
     return (
       <div style={{ width: "100%"}}>
+        { showTopBar &&
+          <TopBar onClick={this.copyCodeAndClose}>
+            {`Generated Code ${topbarInviteCode}! (click to copy)`}
+          </TopBar>
+        }
         <ReactTable
          data={channels}
          columns={this.columns()}
@@ -140,12 +167,14 @@ class FeatureSwitches extends Component {
 
 const mapStateToProps = state => ({
     channels: state.channels,
+    loggedInUserID: state.loggedInUserID,
   })
 
 const mapDispatchToProps = {
   getChannels,
   updateChannel,
   createChannel,
+  getChannelInvite,
 }
 
 
