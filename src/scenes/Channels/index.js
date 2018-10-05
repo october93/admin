@@ -74,7 +74,7 @@ class ChannelRow extends Component {
               <FaEdit onClick={()=> this.setState({ editing: true })} style={{color: "lightgray"}} />
               <div style={{ width: "10px" }} />
               <div style={{color: "#02A8F3", fontSize: "12px"}}onClick={() => this.props.getInvite()}>
-                Get Channel Invite
+                Get Invite
               </div>
             </Fragment>
           )}
