@@ -25,12 +25,13 @@ class ChannelRow extends Component {
       editing: false,
       newName: props.name,
       newIsDefault: props.isDefault,
+      newIsPrivate: props.isPrivate,
       error: "",
     }
   }
 
   saveUpdate = async() => {
-    const error = await this.props.saveUpdate({ name: this.state.newName, isDefault: this.state.newIsDefault})
+    const error = await this.props.saveUpdate({ name: this.state.newName, isDefault: this.state.newIsDefault, isPrivate: this.state.newIsPrivate })
     if (error) {
       this.setState({ error: error.message })
     } else {
@@ -49,8 +50,10 @@ class ChannelRow extends Component {
               <div style={{ width: "10px" }} />
               <Checkbox  label="Default" checked={this.state.newIsDefault} onChange={e => this.setState({ newIsDefault: e.target.checked })} />
               <div style={{ width: "10px" }} />
+              <Checkbox  label="Private" checked={this.state.newIsPrivate} onChange={e => this.setState({ newIsPrivate: e.target.checked })} />
+              <div style={{ width: "10px" }} />
               <FaSave onClick={this.saveUpdate} style={{color: "lightgray"}}/>
-              <FaTimes onClick={() => this.setState({ editing: false, error: "", newName: this.props.name, newIsDefault: this.props.isDefault })} style={{color: "lightgray"}} />
+              <FaTimes onClick={() => this.setState({ editing: false, error: "", newName: this.props.name, newIsDefault: this.props.isDefault, newIsPrivate: this.props.isPrivate })} style={{color: "lightgray"}} />
               <div style={{ width: "10px" }} />
               <span style={{color: "red"}}>{this.state.error}</span>
             </Fragment>
@@ -60,6 +63,8 @@ class ChannelRow extends Component {
               <span>{this.props.name}</span>
               <div style={{ width: "3px" }} />
               { this.props.isDefault ? <span style={{color: "lightgray"}}>(Default)</span> : null }
+              <div style={{ width: "3px" }} />
+              { this.props.isPrivate ? <span style={{color: "lightgray"}}>(Private)</span> : null }
               <div style={{ width: "10px" }} />
               <FaEdit onClick={()=> this.setState({ editing: true })} style={{color: "lightgray"}} />
             </Fragment>
@@ -79,14 +84,16 @@ class FeatureSwitches extends Component {
     newChannelName: "",
     newChannelsError: "",
     newChannelIsDefault: false,
+    newChannelIsPrivate: false,
   }
 
   makeNewChannel = async() => {
-    const error = await this.props.createChannel({ name: this.state.newChannelName, isDefault: this.state.newChannelIsDefault })
+    const { newChannelName, newChannelIsDefault, newChannelIsPrivate } = this.state
+    const error = await this.props.createChannel({ name: newChannelName, isDefault: newChannelIsDefault, isPrivate: newChannelIsPrivate })
     if (error) {
       this.setState({ newChannelError: error.message })
     } else {
-      this.setState({ newChannelName: "", newChannelError: "", newChannelIsDefault: false })
+      this.setState({ newChannelName: "", newChannelError: "", newChannelIsDefault: false, newChannelIsPrivate: false })
     }
   }
 
@@ -103,6 +110,8 @@ class FeatureSwitches extends Component {
           <TextInput placeholder="Add a Channel" style={{ height: "30px"}} value={this.state.newChannelName} onChange={e => this.setState({newChannelName: e.target.value})}/>
           <div style={{ width: "10px" }} />
           <Checkbox label="Default" checked={this.state.newChannelIsDefault} onChange={e => this.setState({newChannelIsDefault: e.target.checked})}/>
+          <div style={{ width: "10px" }} />
+          <Checkbox label="Private" checked={this.state.newChannelIsPrivate} onChange={e => this.setState({newChannelIsPrivate: e.target.checked})}/>
           <div style={{ width: "10px" }} />
           <Button onClick={this.makeNewChannel}>Create</Button>
           <div style={{ width: "10px" }} />
