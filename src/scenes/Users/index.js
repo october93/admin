@@ -3,7 +3,7 @@ import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
-import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser, shadowbanUser, unshadowbanUser, setUserDefaultStatus } from '../../store/actions/users'
+import { getUsers, blockUser, unblockUser, shadowbanUser, unshadowbanUser, setUserDefaultStatus } from '../../store/actions/users'
 import { getConnections } from '../../store/actions/whoisonline'
 import { newInvite } from '../../store/actions/invites'
 import Link from "../../components/link"
@@ -178,9 +178,6 @@ class UsersPage extends Component {
       minWidth: 350,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", height: "100%" }}>
-          <ActionLink onClick={() => this.viewUserFeedInApp(props.value.username)}>Preview Feed</ActionLink>
-          <Sep />
-          <ActionLink onClick={() => this.viewUserInviteFeedInApp(props.value.username)}>Preview Invite Feed</ActionLink>
             { !props.value.shadowbanned ? (
               <React.Fragment>
                 <Sep />
@@ -215,16 +212,6 @@ class UsersPage extends Component {
   componentDidMount = async() => {
     await this.props.getUsers()
     await this.props.getConnections()
-  }
-
-  viewUserFeedInApp = async nodeID => {
-    const ids = await this.props.getPreviewFeed(nodeID)
-    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
-  }
-
-  viewUserInviteFeedInApp = async nodeID => {
-    const ids = await this.props.getPreviewInviteFeed(nodeID)
-    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
   newInviteForUser = async nodeID => {
@@ -272,8 +259,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setUserDefaultStatus,
   getUsers,
-  getPreviewFeed,
-  getPreviewInviteFeed,
   blockUser,
   unblockUser,
   newInvite,

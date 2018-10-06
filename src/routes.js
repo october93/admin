@@ -13,7 +13,6 @@ import ResetPassword from "./scenes/ResetPassword"
 import InvitesPage from "./scenes/Invites"
 import Home from './scenes/Home';
 import Tags from './scenes/Tags';
-import GraphExplorer from './scenes/GraphExplorer';
 import FeatureSwitches from './scenes/FeatureSwitches';
 import Moderation from './scenes/Moderation';
 import UsersPage from './scenes/Users';
@@ -60,7 +59,6 @@ const Routes = (props) => (
       <Route path="/admin/featureswitches" component={FeatureSwitches} />
       <Route path="/admin/invites" component={InvitesPage} />
       <Route path="/admin/moderation" component={Moderation} />
-      <Route path="/admin/graph" component={GraphExplorer} />
       <Route path="/admin/rpcconsole" component={UtilitiesPage} />
       <Route path="/admin/graphql" component={GraphQLPage} />
       <Route path="/admin/waitlist" component={Waitlist} />
