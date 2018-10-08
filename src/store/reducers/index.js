@@ -55,6 +55,7 @@ import {
 
 import {
   loginError,
+  loggedInUserID,
 } from './login'
 
 import {
@@ -132,6 +133,7 @@ export default combineReducers({
   users,
   usersLoading,
   sessions,
+  loggedInUserID,
   commandResponses,
 
   loginError,

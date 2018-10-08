@@ -11,14 +11,18 @@ export default function configureStore(graphQLHost, initialState) {
   GraphQLClient.init(REACT_APP_GRAPHQL_ENDPOINT)
 
   const session = localStorage.getItem("session")
-  
+  const loggedInUserID = localStorage.getItem("sessionuserid")
+
   APIClient.init({
 		sessionID: session ? session.id : null,
 	})
 
   return createStore(
     rootReducer,
-    initialState,
+    {
+      ...initialState,
+      loggedInUserID,
+    },
     applyMiddleware(thunk)
   )
 }

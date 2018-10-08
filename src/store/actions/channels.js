@@ -13,6 +13,7 @@ export const getChannels = () => async (dispatch) => {
           id
           name
           isDefault
+          isPrivate
         }
       }
       `
@@ -24,16 +25,17 @@ export const getChannels = () => async (dispatch) => {
 }
 
 
-export const updateChannel = ({ id, name, isDefault }) => async (dispatch) => {
-  dispatch(create.updateChannelRequest({ id, name, isDefault }))
+export const updateChannel = ({ id, name, isDefault, isPrivate }) => async (dispatch) => {
+  dispatch(create.updateChannelRequest({ id, name, isDefault, isPrivate }))
   try {
     await GraphQLClient.Client().mutate({
       mutation: gql`
       mutation {
-        updateChannel(id:"${id}", channel:{name:"${name}", isDefault:${isDefault}}) {
+        updateChannel(id:"${id}", channel:{name:"${name}", isDefault:${isDefault}, isPrivate:${isPrivate}}) {
           id
           name
           isDefault
+          isPrivate
         }
       }
       `,
@@ -45,17 +47,38 @@ export const updateChannel = ({ id, name, isDefault }) => async (dispatch) => {
   }
 }
 
-
-export const createChannel = ({ name, isDefault }) => async (dispatch) => {
-  dispatch(create.newChannelRequest({ name, isDefault }))
+export const getChannelInvite = ({ channelID, inviterID }) => async (dispatch) => {
+  dispatch(create.getChannelInviteRequest(channelID))
   try {
     const resp = await GraphQLClient.Client().mutate({
       mutation: gql`
       mutation {
-        createChannel(channel:{name:"${name}", isDefault:${isDefault}}) {
+        createChannelInvite(channelID:"${channelID}", inviterID:${inviterID}) {
+          token
+        }
+      }
+      `,
+    })
+    dispatch(create.getChannelInviteSuccess())
+    return resp.data.createChannelInvite.token
+  } catch (e) {
+    dispatch(create.getChannelInviteError(e))
+    return e
+  }
+}
+
+
+export const createChannel = ({ name, isDefault, isPrivate }) => async (dispatch) => {
+  dispatch(create.newChannelRequest({ name, isDefault, isPrivate }))
+  try {
+    const resp = await GraphQLClient.Client().mutate({
+      mutation: gql`
+      mutation {
+        createChannel(channel:{name:"${name}", isDefault:${isDefault}, isPrivate:${isPrivate}}) {
           id
           name
           isDefault
+          isPrivate
         }
       }
       `,

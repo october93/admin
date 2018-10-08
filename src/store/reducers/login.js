@@ -22,3 +22,14 @@ export const session = (state = null, action) => {
       return state
   }
 }
+
+
+export const loggedInUserID = (state = null, action) => {
+  switch (action.type) {
+    case LOGIN_SUCCESS:{
+      return action.user.nodeId
+    }
+    default:
+      return state
+  }
+}

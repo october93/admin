@@ -9,7 +9,7 @@ export const channels = (state = [], action) => {
 		case GET_CHANNELS_SUCCESS:
 			return action.channels
 		case UPDATE_CHANNEL_REQUEST:
-			return state.map(c => c.id === action.id ? {...c, name: action.name, isDefault: action.isDefault} : c)
+			return state.map(c => c.id === action.id ? {...c, name: action.name, isDefault: action.isDefault, isPrivate: action.isPrivate } : c)
 		case NEW_CHANNEL_SUCCESS:
 			return [...state, action.channel]
 		default:
