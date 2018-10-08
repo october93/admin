@@ -14,6 +14,8 @@ import TextInput from "../../components/textinput"
 import Button from "../../components/button"
 import Checkbox from "../../components/checkbox"
 import TopBar from "../../components/topbar"
+import TruncatedWithCopy from "../../components/truncatedWithCopy"
+
 
 import { getChannels, updateChannel, createChannel, getChannelInvite } from '../../store/actions/channels'
 
@@ -66,6 +68,11 @@ class ChannelRow extends Component {
           ): (
             <Fragment>
               <span>{this.props.name}</span>
+                <div style={{ width: "3px" }} />
+
+              (<TruncatedWithCopy id={this.props.id} />)
+              <div style={{ width: "3px" }} />
+
               <div style={{ width: "3px" }} />
               { this.props.isDefault ? <span style={{color: "lightgray"}}>(Default)</span> : null }
               <div style={{ width: "3px" }} />
