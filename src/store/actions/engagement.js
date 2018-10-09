@@ -13,15 +13,14 @@ export const getEngagement = (startDate, endDate) => async (dispatch) => {
 				{
 					users {
 						username
-						engagement(from: "${startDate.format('YYYY-MM-DD')}", to: "${endDate.format('YYYY-MM-DD')}") {
+						engagement(from: "${startDate.format()}", to: "${endDate.format()}") {
 							daysActive
 							postCount
 							commentCount
-							votedCount
-							receivedVotesCount
 							reactedCount
 							receivedReactionsCount
 							followedUsersCount
+			        followedCount
 							invitedCount
 			        score
 						}

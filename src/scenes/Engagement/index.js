@@ -46,6 +46,17 @@ class EngagementPage extends Component {
 		accessor: 'username',
 		width: 250,
 	},{
+		Header: 'Logged in Once',
+		accessor: 'engagement.daysActive',
+		Cell: props => {
+			if (props.value >= 1) {
+				return <CheckBox />
+			} else {
+				return <CrossBox />
+			}
+		},
+		width: 150,
+	},{
 		Header: 'Logged in Twice',
 		accessor: 'engagement.daysActive',
 		Cell: props => {
@@ -64,15 +75,6 @@ class EngagementPage extends Component {
 		Header: 'Commented',
 		accessor: 'engagement.commentCount',
 		Cell: AtLeastOnce
-	},{
-		Header: 'Voted',
-		accessor: 'engagement.votedCount',
-		Cell: AtLeastOnce
-	},{
-		Header: 'Received Votes',
-		accessor: 'engagement.receivedVotesCount',
-		Cell: AtLeastOnce,
-		width: 150,
 	},{
 		Header: 'Reacted',
 		accessor: 'engagement.reactedCount',
@@ -116,7 +118,7 @@ class EngagementPage extends Component {
 	}
 
   componentDidMount() {
-		this.props.getEngagement(this.state.startDate, this.state.endDate)
+		this.props.getEngagement(this.state.startDate.startOf('day'), this.state.endDate.endOf('day'))
 	}
 
 	onDatesChange({startDate, endDate}) {
