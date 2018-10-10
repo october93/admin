@@ -40,11 +40,45 @@ const AtLeastOnce = (props) => {
 	}
 }
 
+const { REACT_APP_APP_HOST } = process.env
+
 class EngagementPage extends Component {
+	cardColumns = [{
+		Header: 'Card',
+		accessor: 'id',
+		Cell: (props) => (
+			<div><a href={`${REACT_APP_APP_HOST}/post/${props.value}`}>{props.value}</a></div>
+		)
+	},
+	{
+		Header: 'Unique User Comments',
+		accessor: 'uniqueUserCommentCount',
+		id: 'uniqueUserComments'
+	},
+	{
+		Header: 'Total Comments',
+		accessor: 'totalReplyCount'
+	},
+	{
+		Header: 'Total Likes',
+		accessor: 'totalLikeCount'
+	}]
+
 	columns = [{
 		Header: 'User',
 		accessor: 'username',
 		width: 250,
+	},{
+		Header: 'Logged in Once',
+		accessor: 'engagement.daysActive',
+		Cell: props => {
+			if (props.value >= 1) {
+				return <CheckBox />
+			} else {
+				return <CrossBox />
+			}
+		},
+		width: 150,
 	},{
 		Header: 'Logged in Twice',
 		accessor: 'engagement.daysActive',
@@ -64,15 +98,6 @@ class EngagementPage extends Component {
 		Header: 'Commented',
 		accessor: 'engagement.commentCount',
 		Cell: AtLeastOnce
-	},{
-		Header: 'Voted',
-		accessor: 'engagement.votedCount',
-		Cell: AtLeastOnce
-	},{
-		Header: 'Received Votes',
-		accessor: 'engagement.receivedVotesCount',
-		Cell: AtLeastOnce,
-		width: 150,
 	},{
 		Header: 'Reacted',
 		accessor: 'engagement.reactedCount',
@@ -116,7 +141,7 @@ class EngagementPage extends Component {
 	}
 
   componentDidMount() {
-		this.props.getEngagement(this.state.startDate, this.state.endDate)
+		this.props.getEngagement(this.state.startDate.startOf('day'), this.state.endDate.endOf('day'))
 	}
 
 	onDatesChange({startDate, endDate}) {
@@ -136,6 +161,12 @@ class EngagementPage extends Component {
 					focusedInput={this.state.focusedInput}
 					onFocusChange={focusedInput => this.setState({ focusedInput })}
 					isOutsideRange={(props) => { return props.isBefore(moment("20180709", "YYYYMMDD")) }}
+				/>
+				<ReactTable
+					columns={this.cardColumns}
+					data={this.props.cardEngagement}
+					defaultPageSize={10}
+					defaultSorted={[{ id: "uniqueUserComments", desc: true }]}
 				/>
 				<ReactTable
 					columns={this.columns}
@@ -163,7 +194,8 @@ class EngagementPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	engagements: state.engagements
+	cardEngagement: state.engagements.cardEngagement,
+	engagements: state.engagements.users,
 })
 
 const mapDispatchToProps = {

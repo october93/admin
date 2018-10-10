@@ -13,23 +13,28 @@ export const getEngagement = (startDate, endDate) => async (dispatch) => {
 				{
 					users {
 						username
-						engagement(from: "${startDate.format('YYYY-MM-DD')}", to: "${endDate.format('YYYY-MM-DD')}") {
+						engagement(from: "${startDate.format()}", to: "${endDate.format()}") {
 							daysActive
 							postCount
 							commentCount
-							votedCount
-							receivedVotesCount
 							reactedCount
 							receivedReactionsCount
 							followedUsersCount
+			        followedCount
 							invitedCount
 			        score
 						}
 					}
+					cardEngagement(from: "${startDate.format()}", to: "${endDate.format()}") {
+			      id
+						uniqueUserCommentCount
+						totalLikeCount
+						totalReplyCount
+					}
 				}
       `
     })
-    dispatch(create.getEngagementSuccess(data.users))
+    dispatch(create.getEngagementSuccess(data))
   } catch (e) {
 		console.error(e)
     dispatch(create.getEngagementError(e))
