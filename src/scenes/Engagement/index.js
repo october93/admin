@@ -40,7 +40,30 @@ const AtLeastOnce = (props) => {
 	}
 }
 
+const { REACT_APP_APP_HOST } = process.env
+
 class EngagementPage extends Component {
+	cardColumns = [{
+		Header: 'Card',
+		accessor: 'id',
+		Cell: (props) => (
+			<div><a href={`${REACT_APP_APP_HOST}/post/${props.value}`}>{props.value}</a></div>
+		)
+	},
+	{
+		Header: 'Unique User Comments',
+		accessor: 'uniqueUserCommentCount',
+		id: 'uniqueUserComments'
+	},
+	{
+		Header: 'Total Comments',
+		accessor: 'totalReplyCount'
+	},
+	{
+		Header: 'Total Likes',
+		accessor: 'totalLikeCount'
+	}]
+
 	columns = [{
 		Header: 'User',
 		accessor: 'username',
@@ -140,6 +163,12 @@ class EngagementPage extends Component {
 					isOutsideRange={(props) => { return props.isBefore(moment("20180709", "YYYYMMDD")) }}
 				/>
 				<ReactTable
+					columns={this.cardColumns}
+					data={this.props.cardEngagement}
+					defaultPageSize={10}
+					defaultSorted={[{ id: "uniqueUserComments", desc: true }]}
+				/>
+				<ReactTable
 					columns={this.columns}
 					data={this.props.engagements}
 					defaultPageSize={50}
@@ -165,7 +194,8 @@ class EngagementPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	engagements: state.engagements
+	cardEngagement: state.engagements.cardEngagement,
+	engagements: state.engagements.users,
 })
 
 const mapDispatchToProps = {

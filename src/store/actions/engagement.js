@@ -25,10 +25,16 @@ export const getEngagement = (startDate, endDate) => async (dispatch) => {
 			        score
 						}
 					}
+					cardEngagement(from: "${startDate.format()}", to: "${endDate.format()}") {
+			      id
+						uniqueUserCommentCount
+						totalLikeCount
+						totalReplyCount
+					}
 				}
       `
     })
-    dispatch(create.getEngagementSuccess(data.users))
+    dispatch(create.getEngagementSuccess(data))
   } catch (e) {
 		console.error(e)
     dispatch(create.getEngagementError(e))
