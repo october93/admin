@@ -43,7 +43,6 @@ const menuItems = [
   {name: "Users", path: "/admin/users", Icon: FaUsers},
   {name: "Channels", path: "/admin/channels", Icon: FaHashtag},
   {name: "Engagement", path: "/admin/users/engagement", Icon: FaChartLine},
-  {name: "Graph", path: "/admin/graph", Icon: FaShareAlt},
   {name: "Invites", path: "/admin/invites", Icon: FaUserPlus},
   {Component: Separator},
   {name: "Console", path: "/admin/rpcconsole", Icon: FaTerminal},
