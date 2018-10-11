@@ -6,7 +6,6 @@ import {
   FaUsers,
   FaUserPlus,
   FaTerminal,
-  FaShareAlt,
   FaShieldAlt,
   FaSignOutAlt,
   FaListUl,
