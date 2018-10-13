@@ -20,7 +20,6 @@ export const getInvites = () => async (dispatch) => {
             }
             hideFromUser
             groupID
-            givesInvites
             remainingUses
           }
         }
