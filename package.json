@@ -86,7 +86,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "start-local": "yarn start -- .env.staging",
+    "start-staging": "yarn start -- .env.staging",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },

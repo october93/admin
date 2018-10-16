@@ -22,6 +22,8 @@ export const getUsers = () => async (dispatch) => {
             isDefault
             blocked
             shadowbanned
+            coinBalance
+            temporaryCoinBalance
             joinedFromInvite {
               issuer {
                 id
@@ -91,6 +93,24 @@ export const blockUser = id => async (dispatch) => {
     dispatch(create.blockUserSuccess(id))
   } catch (e) {
     dispatch(create.blockUserError(e))
+  }
+}
+
+export const updateCoinBalance = ({ userID, coins, tempCoins }) => async (dispatch) => {
+  dispatch(create.updateCoinsRequest())
+
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          updateCoinBalances(userID: "${userID}", coinBalance: ${coins}, temporaryCoinBalance: ${tempCoins})
+        }
+      `
+    })
+
+    dispatch(create.updateCoinsSuccess({userID, coins, tempCoins}))
+  } catch (e) {
+    dispatch(create.updateCoinsError(e))
   }
 }
 

@@ -8,6 +8,7 @@ import {
   SHADOWBAN_USER_SUCCESS,
   REMOVE_USER_FROM_SHADOWBAN_SUCCESS,
   SET_USER_DEFAULT_STATUS_SUCCESS,
+  UPDATE_COINS_SUCCESS,
 } from '../actions/creators/types'
 
 export const users = (state = [], action) => {
@@ -73,6 +74,17 @@ export const users = (state = [], action) => {
         }
         return usr
       })
+    }
+    case UPDATE_COINS_SUCCESS: {
+      const newState = [...state]
+      const idx = newState.findIndex(u => u.id === action.userID)
+      newState[idx] = {
+        ...newState[idx],
+        coinBalance: newState[idx].coinBalance + action.coins,
+        temporaryCoinBalance: newState[idx].temporaryCoinBalance + action.tempCoins,
+      }
+
+      return newState
     }
     default:
       return state
