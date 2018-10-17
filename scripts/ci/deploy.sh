@@ -18,7 +18,11 @@ if [ "$TRAVIS_BRANCH" == "development" ] && [ "$TRAVIS_PULL_REQUEST" == "false" 
   export REACT_APP_GRAPHQL_ENDPOINT=https://engine.development.october.news/graphql
   export REACT_APP_ALGOLIA_ENVIRONMENT=development_engine
 
-  ENV=engine.internal.development ./scripts/ci/deploy_to_env.sh
+  instances=( 34.222.10.70 34.219.213.219 engine.internal.development.october.news )
+  for i in "${instances[@]}"
+  do
+    ENV=$i ./scripts/ci/deploy_to_env.sh
+  done
 
   export REACT_APP_ENVIRONMENT=staging
   export REACT_APP_APP_HOST=https://staging.october.news

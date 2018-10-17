@@ -6,7 +6,6 @@
 set -euxo pipefail
 
 REMOTE_USER=engine
-HOST=${ENV:-latest}.october.news
 
 # Install dependencies
 yarn install
