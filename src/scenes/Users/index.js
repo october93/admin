@@ -3,13 +3,30 @@ import ReactTable from 'react-table'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import copy from 'copy-to-clipboard'
-import { getUsers, getPreviewFeed, getPreviewInviteFeed, blockUser, unblockUser, shadowbanUser, unshadowbanUser, setUserDefaultStatus } from '../../store/actions/users'
+import glamorous from "glamorous"
+
+import {
+  FaAngleUp,
+  FaAngleDoubleUp,
+  FaAngleDown,
+  FaAngleDoubleDown,
+} from 'react-icons/fa';
+
+import {
+  getUsers,
+  blockUser,
+  unblockUser,
+  shadowbanUser,
+  unshadowbanUser,
+  setUserDefaultStatus,
+  updateCoinBalance
+} from '../../store/actions/users'
+
 import { getConnections } from '../../store/actions/whoisonline'
 import { newInvite } from '../../store/actions/invites'
 import Link from "../../components/link"
 import Checkbox from "../../components/checkbox"
 import TruncatedWithCopy from "../../components/truncatedWithCopy"
-import glamorous from "glamorous"
 
 import "./tablestyles.css"
 
@@ -69,6 +86,44 @@ const CoppiedBar = glamorous.div({
   alignItems: "center",
   justifyContent: "center",
 })
+
+const coinColor = "#FFC303"
+const tmpCoinColor = "#08B8FB"
+
+const Coins = glamorous.div({
+  color: coinColor,
+  textAlign: "center",
+  width: "30px",
+  margin: "0px 3px",
+})
+
+const TempCoins = glamorous.div({
+  color: tmpCoinColor,
+  textAlign: "center",
+  width: "30px",
+  margin: "0px 3px",
+})
+
+
+const BalanceContainer = glamorous.div({
+  display: "flex",
+  flexDirection: "row",
+})
+/*
+const Coins = glamorous.div({
+
+})
+const Coins = glamorous.div({
+
+})
+const Coins = glamorous.div({
+
+})
+*/
+const buttonStyle = {
+  color: "#c1c1c1",
+  cursor: "pointer",
+}
 
 const columns = [{
   headerStyle,
@@ -170,17 +225,40 @@ class UsersPage extends Component {
 
       )
     })
+    cols.splice(2, 0, {
+      headerStyle,
+      Header: "",
+      id: "actions",
+      accessor: d => d,
+      minWidth: 50,
+      Cell: props => (
+        <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-between", alignItems: "center", height: "100%" }}>
+          <BalanceContainer>
+
+            <FaAngleDoubleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: -10, tempCoins: 0 })} />
+            <FaAngleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: -1, tempCoins: 0 })} />
+            <Coins>{props.value.coinBalance}</Coins>
+            <FaAngleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 1, tempCoins: 0 })} />
+            <FaAngleDoubleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 10, tempCoins: 0 })} />
+          </BalanceContainer>
+          <BalanceContainer>
+            <FaAngleDoubleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: -10 })} />
+            <FaAngleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: -1 })} />
+            <TempCoins>{props.value.temporaryCoinBalance}</TempCoins>
+            <FaAngleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: 1 })} />
+            <FaAngleDoubleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: 10 })} />
+          </BalanceContainer>
+        </div>)
+    })
+
     cols.push({
       headerStyle,
       Header: "",
       id: "actions",
       accessor: d => d,
-      minWidth: 350,
+      minWidth: 150,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", height: "100%" }}>
-          <ActionLink onClick={() => this.viewUserFeedInApp(props.value.username)}>Preview Feed</ActionLink>
-          <Sep />
-          <ActionLink onClick={() => this.viewUserInviteFeedInApp(props.value.username)}>Preview Invite Feed</ActionLink>
             { !props.value.shadowbanned ? (
               <React.Fragment>
                 <Sep />
@@ -209,22 +287,14 @@ class UsersPage extends Component {
         </div>)
     })
 
+
+
     this.cols = cols
   }
 
   componentDidMount = async() => {
     await this.props.getUsers()
     await this.props.getConnections()
-  }
-
-  viewUserFeedInApp = async nodeID => {
-    const ids = await this.props.getPreviewFeed(nodeID)
-    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
-  }
-
-  viewUserInviteFeedInApp = async nodeID => {
-    const ids = await this.props.getPreviewInviteFeed(nodeID)
-    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
 
   newInviteForUser = async nodeID => {
@@ -272,14 +342,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setUserDefaultStatus,
   getUsers,
-  getPreviewFeed,
-  getPreviewInviteFeed,
   blockUser,
   unblockUser,
   newInvite,
   getConnections,
   shadowbanUser,
   unshadowbanUser,
+  updateCoinBalance,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)

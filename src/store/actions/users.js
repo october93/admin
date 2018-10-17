@@ -22,9 +22,8 @@ export const getUsers = () => async (dispatch) => {
             isDefault
             blocked
             shadowbanned
-            node {
-              cardRankTableSize
-            }
+            coinBalance
+            temporaryCoinBalance
             joinedFromInvite {
               issuer {
                 id
@@ -97,6 +96,24 @@ export const blockUser = id => async (dispatch) => {
   }
 }
 
+export const updateCoinBalance = ({ userID, coins, tempCoins }) => async (dispatch) => {
+  dispatch(create.updateCoinsRequest())
+
+  try {
+    await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          updateCoinBalances(userID: "${userID}", coinBalance: ${coins}, temporaryCoinBalance: ${tempCoins})
+        }
+      `
+    })
+
+    dispatch(create.updateCoinsSuccess({userID, coins, tempCoins}))
+  } catch (e) {
+    dispatch(create.updateCoinsError(e))
+  }
+}
+
 export const setUserDefaultStatus = (id, status) => async (dispatch) => {
   dispatch(create.setUserDefaultStatusRequest())
 
@@ -166,56 +183,4 @@ export const unblockUser = id => async (dispatch) => {
   } catch (e) {
     dispatch(create.unblockUserError(e))
   }
-}
-
-export const getPreviewFeed = username => async (dispatch) => {
-    try {
-      const response = await GraphQLClient.Client().query({
-        errorPolicy: "ignore",
-        query: gql`
-        query {
-          users(usernames:["${username}"]) {
-            feed {
-              cardID
-            }
-          }
-        }
-        `
-      })
-
-      const feedIDs = []
-      if (response.data.users.length)
-      response.data.users[0].feed.forEach(item => {
-        feedIDs.push(item.cardID)
-      })
-
-      return feedIDs
-    } catch (e) {
-      console.log("Failed to get preview feed")
-      console.log(e)
-    }
-}
-
-export const getPreviewInviteFeed = username => async (dispatch) => {
-    try {
-      const response = await GraphQLClient.Client().query({
-        query: gql`
-        query {
-          users(usernames:["${username}"]) {
-            inviteFeed {
-              cardID
-            }
-          }
-        }
-        `
-      })
-
-      if (response.data.users[0].inviteFeed && response.data.users[0].inviteFeed.length > 0) {
-        return response.data.users[0].inviteFeed.map(v => v.cardID)
-      }
-
-    } catch (e) {
-      console.log("Failed to get invite preview feed")
-      console.log(e)
-    }
 }

@@ -20,8 +20,27 @@ import {
   SET_USER_DEFAULT_STATUS_REQUEST,
   SET_USER_DEFAULT_STATUS_SUCCESS,
   SET_USER_DEFAULT_STATUS_ERROR,
+  UPDATE_COINS_REQUEST,
+  UPDATE_COINS_SUCCESS,
+  UPDATE_COINS_ERROR,
 } from "./types"
 
+
+export const updateCoinsRequest = () => ({
+  type: UPDATE_COINS_REQUEST,
+})
+
+export const updateCoinsSuccess = ({ userID, coins, tempCoins }) => ({
+  type: UPDATE_COINS_SUCCESS,
+  userID,
+  coins,
+  tempCoins,
+})
+
+export const updateCoinsError = error => ({
+  type: UPDATE_COINS_ERROR,
+  error,
+})
 
 export const setUserDefaultStatusRequest = () => ({
   type: SET_USER_DEFAULT_STATUS_REQUEST,
