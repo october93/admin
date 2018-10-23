@@ -5,7 +5,13 @@ if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; th
   export REACT_APP_API_ENDPOINT=wss://engine.october.news/deck_endpoint/
   export REACT_APP_GRAPHQL_ENDPOINT=https://engine.october.news/graphql
   export REACT_APP_ALGOLIA_ENVIRONMENT=engine
-  HOST=engine.internal.october.news ./scripts/ci/deploy_to_env.sh
+
+  instances=( 54.201.138.198 54.202.240.163 )
+  for i in "${instances[@]}"
+  do
+    HOST=$i ./scripts/ci/deploy_to_env.sh
+  done
+
   # JIRA webhook to update fix version
   curl -X POST -H 'Content-type: application/json' https://automation.codebarrel.io/pro/hooks/94eb42c6037b088d3ff9c0cbd8f1229380670937
 
@@ -18,7 +24,7 @@ if [ "$TRAVIS_BRANCH" == "development" ] && [ "$TRAVIS_PULL_REQUEST" == "false" 
   export REACT_APP_GRAPHQL_ENDPOINT=https://engine.development.october.news/graphql
   export REACT_APP_ALGOLIA_ENVIRONMENT=development_engine
 
-  instances=( 34.222.10.70 34.219.213.219 engine.internal.development.october.news )
+  instances=( 34.222.10.70 34.219.213.219 )
   for i in "${instances[@]}"
   do
     HOST=$i ./scripts/ci/deploy_to_env.sh
