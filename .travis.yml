@@ -5,8 +5,10 @@ node_js:
 
 addons:
   ssh_known_hosts:
-  - engine.internal.october.news
-  - engine.internal.development.october.news
+  - 54.201.138.198
+  - 54.202.240.163
+  - 34.222.10.70
+  - 34.219.213.219
   - engine.internal.staging.october.news
 
 notifications:
