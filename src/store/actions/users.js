@@ -167,6 +167,27 @@ export const unshadowbanUser = id => async (dispatch) => {
 }
 
 
+export const previewUserFeed = id => async(dispatch) => {
+  // dispatch(create.unshadowbanUserRequest(id))
+  try {
+    const resp = await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          previewUserFeed(userID:"${id}")
+        }
+      `
+    })
+
+    return resp.data.previewUserFeed
+    //dispatch(create.unshadowbanUserSuccess(id))
+  } catch (e) {
+    console.log(e)
+    return null
+    //dispatch(create.unshadowbanUserError(e))
+  }
+}
+
+
 export const unblockUser = id => async (dispatch) => {
   dispatch(create.unblockUserRequest(id))
 
