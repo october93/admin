@@ -283,14 +283,30 @@ class UsersPage extends Component {
 
   viewUserFeedInApp = async nodeID => {
     const ids = await this.props.previewUserFeed(nodeID)
-    console.log(ids)
     window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids.map(id => ({ id }))))}`, "_blank")
   }
 
   viewUserPoolInApp = async nodeID => {
     const ids = await this.props.getUserPool(nodeID)
-    console.log(ids)
-    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
+    const stringIDs = JSON.stringify(ids)
+
+    if (ids.length > 50) {
+      const data = await fetch('https://file.io/', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `text=${stringIDs}`
+      })
+      const json = await data.json()
+
+      if (json.success && json.key) {
+        window.open(`${REACT_APP_APP_HOST}/test-feed?uploadkey=${json.key}`, "_blank")
+      }
+    } else {
+      window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(stringIDs)}`, "_blank")
+    }
+
   }
 
   componentDidMount = async() => {
