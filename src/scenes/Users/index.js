@@ -21,6 +21,7 @@ import {
   setUserDefaultStatus,
   updateCoinBalance,
   previewUserFeed,
+  getUserPool,
 } from '../../store/actions/users'
 
 import { getConnections } from '../../store/actions/whoisonline'
@@ -245,6 +246,8 @@ class UsersPage extends Component {
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", height: "100%" }}>
           <ActionLink onClick={() => this.viewUserFeedInApp(props.value.id)}>Preview Feed</ActionLink>
+            <Sep />
+            <ActionLink onClick={() => this.viewUserPoolInApp(props.value.id)}>See Card Pool Data</ActionLink>
             { !props.value.shadowbanned ? (
               <React.Fragment>
                 <Sep />
@@ -280,6 +283,12 @@ class UsersPage extends Component {
 
   viewUserFeedInApp = async nodeID => {
     const ids = await this.props.previewUserFeed(nodeID)
+    console.log(ids)
+    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids.map(id => ({ id }))))}`, "_blank")
+  }
+
+  viewUserPoolInApp = async nodeID => {
+    const ids = await this.props.getUserPool(nodeID)
     console.log(ids)
     window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids))}`, "_blank")
   }
@@ -342,6 +351,7 @@ const mapDispatchToProps = {
   unshadowbanUser,
   updateCoinBalance,
   previewUserFeed,
+  getUserPool,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)

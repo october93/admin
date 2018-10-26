@@ -187,6 +187,36 @@ export const previewUserFeed = id => async(dispatch) => {
   }
 }
 
+export const getUserPool = id => async(dispatch) => {
+  // dispatch(create.unshadowbanUserRequest(id))
+  try {
+    const resp = await GraphQLClient.Client().mutate({
+      mutation: gql`
+        mutation {
+          getCardConfidenceData(userID:"${id}") {
+            id
+            upvoteCount
+            downvoteCount
+            commentCount
+            viewCount
+            goodness
+            engagementScore
+            confidence
+            probabilitySurfaced
+          }
+        }
+      `
+    })
+
+    return resp.data.getCardConfidenceData
+    //dispatch(create.unshadowbanUserSuccess(id))
+  } catch (e) {
+    console.log(e)
+    return null
+    //dispatch(create.unshadowbanUserError(e))
+  }
+}
+
 
 export const unblockUser = id => async (dispatch) => {
   dispatch(create.unblockUserRequest(id))
