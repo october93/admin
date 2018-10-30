@@ -290,7 +290,7 @@ class UsersPage extends Component {
     const ids = await this.props.getUserPool(nodeID)
     const stringIDs = JSON.stringify(ids)
 
-    if (ids.length > 50) {
+    if (ids.length > 20) {
       const data = await fetch('https://file.io/', {
         method: 'POST',
         headers: {
