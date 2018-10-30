@@ -203,6 +203,7 @@ export const getUserPool = id => async(dispatch) => {
             engagementScore
             confidence
             probabilitySurfaced
+            rank
           }
         }
       `
