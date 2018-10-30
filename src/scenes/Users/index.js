@@ -19,7 +19,9 @@ import {
   shadowbanUser,
   unshadowbanUser,
   setUserDefaultStatus,
-  updateCoinBalance
+  updateCoinBalance,
+  previewUserFeed,
+  getUserPool,
 } from '../../store/actions/users'
 
 import { getConnections } from '../../store/actions/whoisonline'
@@ -88,17 +90,9 @@ const CoppiedBar = glamorous.div({
 })
 
 const coinColor = "#FFC303"
-const tmpCoinColor = "#08B8FB"
 
 const Coins = glamorous.div({
   color: coinColor,
-  textAlign: "center",
-  width: "30px",
-  margin: "0px 3px",
-})
-
-const TempCoins = glamorous.div({
-  color: tmpCoinColor,
   textAlign: "center",
   width: "30px",
   margin: "0px 3px",
@@ -234,19 +228,11 @@ class UsersPage extends Component {
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "column", justifyContent:"space-between", alignItems: "center", height: "100%" }}>
           <BalanceContainer>
-
             <FaAngleDoubleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: -10, tempCoins: 0 })} />
             <FaAngleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: -1, tempCoins: 0 })} />
             <Coins>{props.value.coinBalance}</Coins>
             <FaAngleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 1, tempCoins: 0 })} />
             <FaAngleDoubleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 10, tempCoins: 0 })} />
-          </BalanceContainer>
-          <BalanceContainer>
-            <FaAngleDoubleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: -10 })} />
-            <FaAngleDown style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: -1 })} />
-            <TempCoins>{props.value.temporaryCoinBalance}</TempCoins>
-            <FaAngleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: 1 })} />
-            <FaAngleDoubleUp style={buttonStyle} onClick={() => this.props.updateCoinBalance({ userID: props.value.id, coins: 0, tempCoins: 10 })} />
           </BalanceContainer>
         </div>)
     })
@@ -259,6 +245,9 @@ class UsersPage extends Component {
       minWidth: 150,
       Cell: props => (
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", height: "100%" }}>
+          <ActionLink onClick={() => this.viewUserFeedInApp(props.value.id)}>Preview Feed</ActionLink>
+            <Sep />
+            <ActionLink onClick={() => this.viewUserPoolInApp(props.value.id)}>See Card Pool Data</ActionLink>
             { !props.value.shadowbanned ? (
               <React.Fragment>
                 <Sep />
@@ -290,6 +279,34 @@ class UsersPage extends Component {
 
 
     this.cols = cols
+  }
+
+  viewUserFeedInApp = async nodeID => {
+    const ids = await this.props.previewUserFeed(nodeID)
+    window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(JSON.stringify(ids.map(id => ({ id }))))}`, "_blank")
+  }
+
+  viewUserPoolInApp = async nodeID => {
+    const ids = await this.props.getUserPool(nodeID)
+    const stringIDs = JSON.stringify(ids)
+
+    if (ids.length > 50) {
+      const data = await fetch('https://file.io/', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `text=${stringIDs}`
+      })
+      const json = await data.json()
+
+      if (json.success && json.key) {
+        window.open(`${REACT_APP_APP_HOST}/test-feed?uploadkey=${json.key}`, "_blank")
+      }
+    } else {
+      window.open(`${REACT_APP_APP_HOST}/test-feed?test=${encodeURIComponent(stringIDs)}`, "_blank")
+    }
+
   }
 
   componentDidMount = async() => {
@@ -349,6 +366,8 @@ const mapDispatchToProps = {
   shadowbanUser,
   unshadowbanUser,
   updateCoinBalance,
+  previewUserFeed,
+  getUserPool,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersPage)
