@@ -29,8 +29,15 @@ export const getEngagement = (startDate, endDate) => async (dispatch) => {
 			      id
 						uniqueUserCommentCount
 						totalLikeCount
-						totalReplyCount
+            totalReplyCount
+            totalDislikeCount
 					}
+          
+          cards {
+            id
+            ownerID
+            content
+          }
 				}
       `
     })
