@@ -51,6 +51,11 @@ class EngagementPage extends Component {
 		)
 	},
 	{
+		Header: 'OwnerID',
+		accessor: 'ownerID',
+		filterable: true,
+		sortable: true,
+	},{
 		Header: 'Unique User Comments',
 		accessor: 'uniqueUserCommentCount',
 		id: 'uniqueUserComments'
@@ -62,6 +67,9 @@ class EngagementPage extends Component {
 	{
 		Header: 'Total Likes',
 		accessor: 'totalLikeCount'
+	},{
+		Header: 'Total Dislikes',
+		accessor: 'totalDislikeCount'
 	}]
 
 	columns = [{

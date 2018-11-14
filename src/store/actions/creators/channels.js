@@ -32,9 +32,10 @@ export const getChannelsRequest = () => ({
   type: GET_CHANNELS_REQUEST,
 })
 
-export const getChannelsSuccess = ({ channels }) => ({
+export const getChannelsSuccess = ({ channels, channelEngagements }) => ({
   type: GET_CHANNELS_SUCCESS,
   channels,
+  channelEngagements,
 })
 
 export const getChannelsError = error => ({

@@ -128,6 +128,7 @@ class FeatureSwitches extends Component {
   columns = () => [{
       Header: 'Tag',
       id: "tag",
+      minWidth: 400,
       accessor: v => v,
       Cell: v => (
         <ChannelRow saveUpdate={newChan => this.props.updateChannel({id: v.value.id, ...newChan})} getInvite={() => this.getChannelInvite({ channelID: v.value.id, inviterID: this.props.loggedInUserID })} {...v.value}/>
@@ -146,6 +147,31 @@ class FeatureSwitches extends Component {
           <span style={{color: "red"}}>{this.state.newChannelError}</span>
         </div>
       )
+    },{
+      Header: 'Posts',
+      sortable: true,
+      accessor: 'totalPosts',
+      width: 100,
+    },{
+      Header: 'Comments',
+      sortable: true,
+      accessor: 'totalComments',
+      width: 100,
+    },{
+      Header: 'Unique Commenters',
+      sortable: true,
+      accessor: 'totalCommenters',
+      width: 100,
+    },{
+      Header: 'Likes',
+      sortable: true,
+      accessor: 'totalLikes',
+      width: 100,
+    },{
+      Header: 'Dislikes',
+      sortable: true,
+      accessor: 'totalDislikes',
+      width: 100,
     },
   ]
 

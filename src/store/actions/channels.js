@@ -15,6 +15,15 @@ export const getChannels = () => async (dispatch) => {
           isDefault
           isPrivate
         }
+
+        channelEngagements {
+          channelID
+          totalPosts
+          totalLikes
+          totalDislikes
+          totalComments
+          totalCommenters
+        }
       }
       `
     })
