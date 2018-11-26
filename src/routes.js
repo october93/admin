@@ -1,6 +1,5 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import { Router, Route, Redirect } from 'react-router'
-
 
 import LoginPage from './scenes/Login'
 import ResetPassword from "./scenes/ResetPassword"
