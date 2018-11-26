@@ -7,7 +7,7 @@ addons:
   ssh_known_hosts:
   - 54.201.138.198
   - 54.202.240.163
-  - 34.222.10.70
+  - 54.191.235.10
   - 34.219.213.219
   - engine.internal.staging.october.news
 
