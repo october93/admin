@@ -197,6 +197,7 @@ export const getUserPool = id => async(dispatch) => {
             id
             upvoteCount
             downvoteCount
+            scoreMod
             commentCount
             viewCount
             goodness
