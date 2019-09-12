@@ -1,0 +1,21 @@
+@import "../node_modules/foundation-sites/scss/foundation.scss";
+@import "../node_modules/react-tippy/dist/tippy.css";
+@import "../node_modules/react-tabs/style/react-tabs.css";
+@import "../node_modules/rc-tooltip/assets/bootstrap_white.css";
+@import "../node_modules/rc-switch/assets/index.css";
+
+@include foundation-flex-grid;
+@include foundation-flex-classes;
+@include foundation-table;
+
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
